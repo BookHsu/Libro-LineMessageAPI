@@ -1,0 +1,37 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release-build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Restore packages
+        run: nuget restore LineMessageApiSDK.sln
+
+      - name: Build Release
+        run: msbuild LineMessageApiSDK.sln /p:Configuration=Release
+
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: LineMessageApiSDK-Release
+          path: |
+            src/LineMessageApiSDK/bin/Release/**
