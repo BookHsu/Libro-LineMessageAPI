@@ -26,7 +26,7 @@
 ## CI/CD
 
 - CI：在 Push/PR 時進行建置與測試。
-- CD：在建立 tag (`v*`) 時執行打包並產出 Release Artifact。
+- CD：在建立 tag (`v*`) 時執行 NuGet 打包（含符號檔）並自動發佈，並產出 Release Artifact。
 
 詳細流程請參考 [docs/ci-cd.md](docs/ci-cd.md)。
 
