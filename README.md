@@ -34,7 +34,7 @@
 
 ```bash
 # 建置
-msbuild LineMessageApiSDK.sln /p:Configuration=Release
+dotnet build LineMessageApiSDK.sln -c Release
 
 # 執行測試
 dotnet test tests/LineMessageApiSDK.Tests/LineMessageApiSDK.Tests.csproj

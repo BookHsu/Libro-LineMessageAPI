@@ -18,6 +18,7 @@
 - 抽出 JSON 序列化介面與實作，並以 DI 注入至 API 呼叫流程。
 - 依據最新 LINE Messaging API 規格，整理 API 端點並將內容下載改為 api-data 網域。
 - 更新專案版本至 2.0.1，並補上 MIT 授權資訊。
+- README 建置指令改用 dotnet build 以避免依賴 msbuild。
 
 ## 後續建議
 
