@@ -21,6 +21,7 @@
 - README 建置指令改用 dotnet build 以避免依賴 msbuild。
 - 新增 LINE Messaging API 2.0 規格速覽與快速上手文件，並在 README 加入入口連結。
 - 補充 LINE Messaging API 2.0 設定方式與 SDK 初始化範例。
+- CD 在建立版本標籤時自動打包並發佈 NuGet 套件。
 
 ## 後續建議
 
