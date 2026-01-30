@@ -1,15 +1,22 @@
 ﻿using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.SendMessage;
-using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace LineMessageApiSDK.Method
 {
     internal class MessageApi
     {
+        private static readonly JsonSerializerOptions SerializerOptions = new()
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+        };
+
         /// <summary>取得使用者傳送的 圖片 影片 聲音 檔案</summary>
         /// <param name="ChannelAccessToken"></param> 
         /// <param name="message_id"></param>
@@ -59,7 +66,7 @@ namespace LineMessageApiSDK.Method
             {
                 string strUrl = string.Format("https://api.line.me/v2/bot/profile/{0}", userid);
                 var result = client.GetStringAsync(strUrl).Result;
-                return JsonConvert.DeserializeObject<UserProfile>(result);
+                return JsonSerializer.Deserialize<UserProfile>(result, SerializerOptions);
             }
             finally
             {
@@ -78,7 +85,7 @@ namespace LineMessageApiSDK.Method
             {
                 string strUrl = string.Format("https://api.line.me/v2/bot/profile/{0}", userid);
                 var result = await client.GetStringAsync(strUrl);
-                return  JsonConvert.DeserializeObject<UserProfile>(result);
+                return JsonSerializer.Deserialize<UserProfile>(result, SerializerOptions);
             }
             finally
             {
@@ -100,7 +107,7 @@ namespace LineMessageApiSDK.Method
 
                 string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/member/{2}", type.ToString(), groupId, userId);
                 var result = client.GetStringAsync(strUrl).Result;
-                return JsonConvert.DeserializeObject<UserProfile>(result);
+                return JsonSerializer.Deserialize<UserProfile>(result, SerializerOptions);
             }
             finally
             {
@@ -122,7 +129,7 @@ namespace LineMessageApiSDK.Method
 
                 string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/member/{2}", type.ToString(), groupId, userId);
                 var result = await client.GetStringAsync(strUrl);
-                return JsonConvert.DeserializeObject<UserProfile>(result);
+                return JsonSerializer.Deserialize<UserProfile>(result, SerializerOptions);
             }
             finally
             {
@@ -202,7 +209,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
             {
-                var sJosn = JsonConvert.SerializeObject(message);
+                var sJosn = JsonSerializer.Serialize(message, SerializerOptions);
                 var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
                 var s = client.PostAsync(strUrl, content).Result.Content.ReadAsStringAsync().Result;
                 if (s == "{}")
@@ -211,7 +218,7 @@ namespace LineMessageApiSDK.Method
                 }
                 else
                 {
-                    LineErrorResponse err = JsonConvert.DeserializeObject<LineErrorResponse>(s);
+                    LineErrorResponse err = JsonSerializer.Deserialize<LineErrorResponse>(s, SerializerOptions);
                     throw new Exception(err.message);
                 }
             }
@@ -247,7 +254,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
             {
-                var sJosn = JsonConvert.SerializeObject(message);
+                var sJosn = JsonSerializer.Serialize(message, SerializerOptions);
                 var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
                 var s = await client.PostAsync(strUrl, content).Result.Content.ReadAsStringAsync();
                 if (s == "{}")
@@ -256,7 +263,7 @@ namespace LineMessageApiSDK.Method
                 }
                 else
                 {
-                    LineErrorResponse err = JsonConvert.DeserializeObject<LineErrorResponse>(s);
+                    LineErrorResponse err = JsonSerializer.Deserialize<LineErrorResponse>(s, SerializerOptions);
                     throw new Exception(err.message);
                 }
             }
