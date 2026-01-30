@@ -17,8 +17,9 @@
 - 移除 Newtonsoft.Json 依賴，改用 System.Text.Json 並補上序列化測試。
 - 抽出 JSON 序列化介面與實作，並以 DI 注入至 API 呼叫流程。
 - 依據最新 LINE Messaging API 規格，整理 API 端點並將內容下載改為 api-data 網域。
+- 更新專案版本至 2.0.1，並補上 MIT 授權資訊。
 
 ## 後續建議
 
-- 補上 LICENSE 與使用範例。
+- 補充使用範例。
 - 擴充測試案例以提升覆蓋率。

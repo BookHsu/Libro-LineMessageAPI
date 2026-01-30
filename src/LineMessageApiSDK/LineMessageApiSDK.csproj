@@ -4,6 +4,8 @@
     <RootNamespace>LineMessageApiSDK</RootNamespace>
     <AssemblyName>LineMessageApiSDK</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>2.0.1</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup />
