@@ -34,7 +34,7 @@
 
 ```bash
 # 建置
-msbuild LineMessageApiSDK.sln /p:Configuration=Release
+dotnet build LineMessageApiSDK.sln -c Release
 
 # 執行測試
 dotnet test tests/LineMessageApiSDK.Tests/LineMessageApiSDK.Tests.csproj
@@ -42,4 +42,4 @@ dotnet test tests/LineMessageApiSDK.Tests/LineMessageApiSDK.Tests.csproj
 
 ## 授權
 
-請參考專案內授權文件（若尚未提供，建議補上 LICENSE）。
+本專案採用 MIT License，詳見 [LICENSE](LICENSE)。

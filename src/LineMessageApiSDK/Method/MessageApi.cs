@@ -26,7 +26,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
             {
-                string strUrl = string.Format("https://api.line.me/v2/bot/message/{0}/content", message_id);
+                string strUrl = LineApiEndpoints.BuildMessageContent(message_id);
                 var result = client.GetByteArrayAsync(strUrl).Result;
                 return result;
             }
@@ -45,7 +45,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
             {
-                string strUrl = string.Format("https://api.line.me/v2/bot/message/{0}/content", message_id);
+                string strUrl = LineApiEndpoints.BuildMessageContent(message_id);
                 var result = await client.GetByteArrayAsync(strUrl);
                 return result;
             }
@@ -64,7 +64,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(channelAccessToken);
             try
             {
-                string strUrl = string.Format("https://api.line.me/v2/bot/profile/{0}", userid);
+                string strUrl = LineApiEndpoints.BuildUserProfile(userid);
                 var result = client.GetStringAsync(strUrl).Result;
                 return serializer.Deserialize<UserProfile>(result);
             }
@@ -83,7 +83,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(channelAccessToken);
             try
             {
-                string strUrl = string.Format("https://api.line.me/v2/bot/profile/{0}", userid);
+                string strUrl = LineApiEndpoints.BuildUserProfile(userid);
                 var result = await client.GetStringAsync(strUrl);
                 return serializer.Deserialize<UserProfile>(result);
             }
@@ -105,7 +105,7 @@ namespace LineMessageApiSDK.Method
             try
             {
 
-                string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/member/{2}", type.ToString(), groupId, userId);
+                string strUrl = LineApiEndpoints.BuildGroupMemberProfile(type, groupId, userId);
                 var result = client.GetStringAsync(strUrl).Result;
                 return serializer.Deserialize<UserProfile>(result);
             }
@@ -127,7 +127,7 @@ namespace LineMessageApiSDK.Method
             try
             {
 
-                string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/member/{2}", type.ToString(), groupId, userId);
+                string strUrl = LineApiEndpoints.BuildGroupMemberProfile(type, groupId, userId);
                 var result = await client.GetStringAsync(strUrl);
                 return serializer.Deserialize<UserProfile>(result);
             }
@@ -145,7 +145,7 @@ namespace LineMessageApiSDK.Method
         /// <returns></returns>
         internal bool Leave_Room_Group(string ChannelAccessToken, string id, SourceType type)
         {
-            string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/leave", type.ToString(), id);
+            string strUrl = LineApiEndpoints.BuildLeaveGroupOrRoom(type, id);
             bool flag = false;
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
@@ -167,7 +167,7 @@ namespace LineMessageApiSDK.Method
         /// <returns></returns>
         internal async Task<bool> Leave_Room_GroupAsync(string ChannelAccessToken, string id, SourceType type)
         {
-            string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/leave", type.ToString(), id);
+            string strUrl = LineApiEndpoints.BuildLeaveGroupOrRoom(type, id);
             bool flag = false;
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
@@ -194,15 +194,15 @@ namespace LineMessageApiSDK.Method
             switch (type)
             {
                 case PostMessageType.Reply:
-                    strUrl = "https://api.line.me/v2/bot/message/reply";
+                    strUrl = LineApiEndpoints.BuildReplyMessage();
                     break;
 
                 case PostMessageType.Push:
-                    strUrl = "https://api.line.me/v2/bot/message/push";
+                    strUrl = LineApiEndpoints.BuildPushMessage();
                     break;
 
                 case PostMessageType.Multicast:
-                    strUrl = "https://api.line.me/v2/bot/message/multicast";
+                    strUrl = LineApiEndpoints.BuildMulticastMessage();
                     break;
             }
 
@@ -239,15 +239,15 @@ namespace LineMessageApiSDK.Method
             switch (type)
             {
                 case PostMessageType.Reply:
-                    strUrl = "https://api.line.me/v2/bot/message/reply";
+                    strUrl = LineApiEndpoints.BuildReplyMessage();
                     break;
 
                 case PostMessageType.Push:
-                    strUrl = "https://api.line.me/v2/bot/message/push";
+                    strUrl = LineApiEndpoints.BuildPushMessage();
                     break;
 
                 case PostMessageType.Multicast:
-                    strUrl = "https://api.line.me/v2/bot/message/multicast";
+                    strUrl = LineApiEndpoints.BuildMulticastMessage();
                     break;
             }
 
