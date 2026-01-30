@@ -40,6 +40,11 @@ dotnet build LineMessageApiSDK.sln -c Release
 dotnet test tests/LineMessageApiSDK.Tests/LineMessageApiSDK.Tests.csproj
 ```
 
+## LINE Messaging API 2.0 快速使用
+
+請先閱讀「LINE Messaging API 2.0 規格速覽與快速上手」，內含支援端點與最短上手流程。  
+[docs/line-message-api-2.0.md](docs/line-message-api-2.0.md)
+
 ## 授權
 
 本專案採用 MIT License，詳見 [LICENSE](LICENSE)。

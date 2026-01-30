@@ -19,6 +19,8 @@
 - 依據最新 LINE Messaging API 規格，整理 API 端點並將內容下載改為 api-data 網域。
 - 更新專案版本至 2.0.1，並補上 MIT 授權資訊。
 - README 建置指令改用 dotnet build 以避免依賴 msbuild。
+- 新增 LINE Messaging API 2.0 規格速覽與快速上手文件，並在 README 加入入口連結。
+- 補充 LINE Messaging API 2.0 設定方式與 SDK 初始化範例。
 
 ## 後續建議
 
