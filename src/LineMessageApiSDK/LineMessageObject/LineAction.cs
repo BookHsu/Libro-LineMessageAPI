@@ -1,4 +1,6 @@
-﻿namespace LineMessageApiSDK.LineMessageObject
+﻿using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.LineMessageObject
 {
     /// <summary>用於imagempa 與 template物件</summary>
     public class LineAction
@@ -32,14 +34,14 @@
         public string text { get; set; }
 
         /// <summary></summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ActionType type { get; set; }
 
         /// <summary>Template</summary>
         public string uri { get; set; }
 
         /// <summary>Datetime Picker</summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public DateTimePickerType mode { get; set; }
 
         /// <summary>

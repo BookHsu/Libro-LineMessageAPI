@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace LineMessageApiSDK.LineMessageObject
@@ -37,7 +36,7 @@ namespace LineMessageApiSDK.LineMessageObject
         public string title { get; set; }
 
         /// <summary>樣板訊息類型</summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TemplateType type { get; set; }
     }
 }

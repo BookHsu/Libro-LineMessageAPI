@@ -1,6 +1,6 @@
 ﻿using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.SendMessage;
-using Newtonsoft.Json;
+using LineMessageApiSDK.Serialization;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -10,11 +10,18 @@ namespace LineMessageApiSDK.Method
 {
     internal class MessageApi
     {
+        private readonly IJsonSerializer serializer;
+
+        internal MessageApi(IJsonSerializer serializer)
+        {
+            this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+        }
+
         /// <summary>取得使用者傳送的 圖片 影片 聲音 檔案</summary>
         /// <param name="ChannelAccessToken"></param> 
         /// <param name="message_id"></param>
         /// <returns></returns>
-        internal static byte[] Get_User_Upload_Data(string ChannelAccessToken, string message_id)
+        internal byte[] Get_User_Upload_Data(string ChannelAccessToken, string message_id)
         {
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
@@ -33,7 +40,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="ChannelAccessToken"></param>
         /// <param name="message_id"></param>
         /// <returns></returns>
-        internal static async Task<byte[]> Get_User_Upload_DataAsync(string ChannelAccessToken, string message_id)
+        internal async Task<byte[]> Get_User_Upload_DataAsync(string ChannelAccessToken, string message_id)
         {
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
@@ -52,14 +59,14 @@ namespace LineMessageApiSDK.Method
         /// <param name="channelAccessToken"></param>
         /// <param name="userid"></param>
         /// <returns></returns>
-        internal static UserProfile GetUserProfile(string channelAccessToken, string userid)
+        internal UserProfile GetUserProfile(string channelAccessToken, string userid)
         {
             HttpClient client = GetClientDefault(channelAccessToken);
             try
             {
                 string strUrl = string.Format("https://api.line.me/v2/bot/profile/{0}", userid);
                 var result = client.GetStringAsync(strUrl).Result;
-                return JsonConvert.DeserializeObject<UserProfile>(result);
+                return serializer.Deserialize<UserProfile>(result);
             }
             finally
             {
@@ -71,14 +78,14 @@ namespace LineMessageApiSDK.Method
         /// <param name="channelAccessToken"></param>
         /// <param name="userid"></param>
         /// <returns></returns>
-        internal static async Task<UserProfile> GetUserProfileAsync(string channelAccessToken, string userid)
+        internal async Task<UserProfile> GetUserProfileAsync(string channelAccessToken, string userid)
         {
             HttpClient client = GetClientDefault(channelAccessToken);
             try
             {
                 string strUrl = string.Format("https://api.line.me/v2/bot/profile/{0}", userid);
                 var result = await client.GetStringAsync(strUrl);
-                return  JsonConvert.DeserializeObject<UserProfile>(result);
+                return serializer.Deserialize<UserProfile>(result);
             }
             finally
             {
@@ -92,7 +99,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="userId"></param>
         /// <param name="groupId"></param>
         /// <returns></returns>
-        internal static UserProfile Get_Group_UserProfile(string channelAccessToken, string userId, string groupId, SourceType type)
+        internal UserProfile Get_Group_UserProfile(string channelAccessToken, string userId, string groupId, SourceType type)
         {
             HttpClient client = GetClientDefault(channelAccessToken);
             try
@@ -100,7 +107,7 @@ namespace LineMessageApiSDK.Method
 
                 string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/member/{2}", type.ToString(), groupId, userId);
                 var result = client.GetStringAsync(strUrl).Result;
-                return JsonConvert.DeserializeObject<UserProfile>(result);
+                return serializer.Deserialize<UserProfile>(result);
             }
             finally
             {
@@ -114,7 +121,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="userId"></param>
         /// <param name="groupId"></param>
         /// <returns></returns>
-        internal async static Task<UserProfile> Get_Group_UserProfileAsync(string channelAccessToken, string userId, string groupId, SourceType type)
+        internal async Task<UserProfile> Get_Group_UserProfileAsync(string channelAccessToken, string userId, string groupId, SourceType type)
         {
             HttpClient client = GetClientDefault(channelAccessToken);
             try
@@ -122,7 +129,7 @@ namespace LineMessageApiSDK.Method
 
                 string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/member/{2}", type.ToString(), groupId, userId);
                 var result = await client.GetStringAsync(strUrl);
-                return JsonConvert.DeserializeObject<UserProfile>(result);
+                return serializer.Deserialize<UserProfile>(result);
             }
             finally
             {
@@ -136,7 +143,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal static bool Leave_Room_Group(string ChannelAccessToken, string id, SourceType type)
+        internal bool Leave_Room_Group(string ChannelAccessToken, string id, SourceType type)
         {
             string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/leave", type.ToString(), id);
             bool flag = false;
@@ -158,7 +165,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal static async Task<bool> Leave_Room_GroupAsync(string ChannelAccessToken, string id, SourceType type)
+        internal async Task<bool> Leave_Room_GroupAsync(string ChannelAccessToken, string id, SourceType type)
         {
             string strUrl = string.Format("https://api.line.me/v2/bot/{0}/{1}/leave", type.ToString(), id);
             bool flag = false;
@@ -181,7 +188,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="type"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        internal static string SendMessageAction(string ChannelAccessToken, PostMessageType type, SendLineMessage message)
+        internal string SendMessageAction(string ChannelAccessToken, PostMessageType type, SendLineMessage message)
         {
             string strUrl = string.Empty;
             switch (type)
@@ -202,7 +209,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
             {
-                var sJosn = JsonConvert.SerializeObject(message);
+                var sJosn = serializer.Serialize(message);
                 var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
                 var s = client.PostAsync(strUrl, content).Result.Content.ReadAsStringAsync().Result;
                 if (s == "{}")
@@ -211,7 +218,7 @@ namespace LineMessageApiSDK.Method
                 }
                 else
                 {
-                    LineErrorResponse err = JsonConvert.DeserializeObject<LineErrorResponse>(s);
+                    LineErrorResponse err = serializer.Deserialize<LineErrorResponse>(s);
                     throw new Exception(err.message);
                 }
             }
@@ -226,7 +233,7 @@ namespace LineMessageApiSDK.Method
         /// <param name="type"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        internal static async Task<string> SendMessageActionAsync(string ChannelAccessToken, PostMessageType type, SendLineMessage message)
+        internal async Task<string> SendMessageActionAsync(string ChannelAccessToken, PostMessageType type, SendLineMessage message)
         {
             string strUrl = string.Empty;
             switch (type)
@@ -247,7 +254,7 @@ namespace LineMessageApiSDK.Method
             HttpClient client = GetClientDefault(ChannelAccessToken);
             try
             {
-                var sJosn = JsonConvert.SerializeObject(message);
+                var sJosn = serializer.Serialize(message);
                 var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
                 var s = await client.PostAsync(strUrl, content).Result.Content.ReadAsStringAsync();
                 if (s == "{}")
@@ -256,7 +263,7 @@ namespace LineMessageApiSDK.Method
                 }
                 else
                 {
-                    LineErrorResponse err = JsonConvert.DeserializeObject<LineErrorResponse>(s);
+                    LineErrorResponse err = serializer.Deserialize<LineErrorResponse>(s);
                     throw new Exception(err.message);
                 }
             }

@@ -1,4 +1,6 @@
-﻿namespace LineMessageApiSDK.LineReceivedObject
+﻿using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.LineReceivedObject
 {
     /// <summary>Line Message Api EventObject</summary>
     public class LineEvents
@@ -22,7 +24,7 @@
         public long timestamp { get; set; }
 
         /// <summary>事件類型</summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public EventType type { get; set; }
     }
 }

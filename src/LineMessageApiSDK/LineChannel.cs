@@ -1,6 +1,7 @@
 ﻿using LineMessageApiSDK.LineMessageObject;
 using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.Method;
+using LineMessageApiSDK.Serialization;
 using LineMessageApiSDK.SendMessage;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace LineMessageApiSDK
     /// <summary>主動調用Line物件</summary>
     public class LineChannel
     {
+        private readonly MessageApi messageApi;
+
         /// <summary>驗證是否為Line伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
         /// <param name="ChannelSecret">ChannelSecret</param>
@@ -32,8 +35,15 @@ namespace LineMessageApiSDK
 
         /// <summary>傳入api中的ChannelAccessToken</summary>
         public LineChannel(string ChannelAccessToken)
+            : this(ChannelAccessToken, new SystemTextJsonSerializer())
+        {
+        }
+
+        /// <summary>傳入api中的ChannelAccessToken</summary>
+        public LineChannel(string ChannelAccessToken, IJsonSerializer serializer)
         {
             channelAccessToken = ChannelAccessToken;
+            messageApi = new MessageApi(serializer);
         }
 
         /// <summary>channelAccessToken</summary>
@@ -53,7 +63,7 @@ namespace LineMessageApiSDK
             }
             else
             {
-                return MessageApi.Leave_Room_Group(this.channelAccessToken, sourceId, type);
+                return messageApi.Leave_Room_Group(this.channelAccessToken, sourceId, type);
             }
         }
         /// <summary>
@@ -70,7 +80,7 @@ namespace LineMessageApiSDK
             }
             else
             {
-                return MessageApi.Leave_Room_GroupAsync(this.channelAccessToken, sourceId, type);
+                return messageApi.Leave_Room_GroupAsync(this.channelAccessToken, sourceId, type);
             }
 
         }
@@ -80,14 +90,14 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public UserProfile Get_User_Data(string userid)
         {
-            return MessageApi.GetUserProfile(this.channelAccessToken, userid);
+            return messageApi.GetUserProfile(this.channelAccessToken, userid);
         }
         /// <summary>取得使用者檔案</summary>
         /// <param name="userid"></param>
         /// <returns></returns>
         public Task<UserProfile> Get_User_DataAsync(string userid)
         {
-            return MessageApi.GetUserProfileAsync(this.channelAccessToken, userid);
+            return messageApi.GetUserProfileAsync(this.channelAccessToken, userid);
         }
         /// <summary>取得大量使用者檔案</summary>
         /// <param name="userids"></param>
@@ -97,7 +107,7 @@ namespace LineMessageApiSDK
             List<UserProfile> oModel = new List<UserProfile>();
             foreach (var userid in userids)
             {
-                oModel.Add(MessageApi.GetUserProfile(this.channelAccessToken, userid));
+                oModel.Add(messageApi.GetUserProfile(this.channelAccessToken, userid));
             }
             return oModel;
         }
@@ -115,7 +125,7 @@ namespace LineMessageApiSDK
             {
                 throw new NotSupportedException("無法使用Source = User");
             }
-            return MessageApi.Get_Group_UserProfile(this.channelAccessToken, userid, GroupidOrRoomId, type);
+            return messageApi.Get_Group_UserProfile(this.channelAccessToken, userid, GroupidOrRoomId, type);
         }
         /// <summary>
         /// 取得群組內指定使用者資料
@@ -130,7 +140,7 @@ namespace LineMessageApiSDK
             {
                 throw new NotSupportedException("無法使用Source = User");
             }
-            return MessageApi.Get_Group_UserProfileAsync(this.channelAccessToken, userid, GroupidOrRoomId, type);
+            return messageApi.Get_Group_UserProfileAsync(this.channelAccessToken, userid, GroupidOrRoomId, type);
         }
 
         /// <summary>取得大量使用者檔案</summary>
@@ -141,7 +151,7 @@ namespace LineMessageApiSDK
             List<UserProfile> oModel = new List<UserProfile>();
             foreach (var userid in userids)
             {
-                oModel.Add(await MessageApi.GetUserProfileAsync(this.channelAccessToken, userid));
+                oModel.Add(await messageApi.GetUserProfileAsync(this.channelAccessToken, userid));
             }
             return oModel;
         }
@@ -153,7 +163,7 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public byte[] Get_User_Upload_To_Bot(string message_id)
         {
-            return MessageApi.Get_User_Upload_Data(this.channelAccessToken, message_id);
+            return messageApi.Get_User_Upload_Data(this.channelAccessToken, message_id);
         }
 
         /// <summary>取得使用者上傳的檔案</summary>
@@ -161,7 +171,7 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public Task<byte[]> Get_User_Upload_To_BotAsync(string message_id)
         {
-            return MessageApi.Get_User_Upload_DataAsync(this.channelAccessToken, message_id);
+            return messageApi.Get_User_Upload_DataAsync(this.channelAccessToken, message_id);
         }
 
 
@@ -178,7 +188,7 @@ namespace LineMessageApiSDK
             };
             oModel.messages.AddRange(message);
 
-            return MessageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Multicast, oModel);
+            return messageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Multicast, oModel);
         }
 
         /// <summary>傳送訊息給多位使用者</summary>
@@ -193,7 +203,7 @@ namespace LineMessageApiSDK
             };
             oModel.messages.AddRange(message);
 
-            return MessageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Multicast, oModel);
+            return messageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Multicast, oModel);
         }
 
 
@@ -205,7 +215,7 @@ namespace LineMessageApiSDK
         {
             PushMessage oModel = new PushMessage(ToId, message);
 
-            return MessageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Push, oModel);
+            return messageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Push, oModel);
         }
 
 
@@ -218,7 +228,7 @@ namespace LineMessageApiSDK
         {
             PushMessage oModel = new PushMessage(ToId, message);
 
-            return MessageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Push, oModel);
+            return messageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Push, oModel);
         }
 
 
@@ -229,7 +239,7 @@ namespace LineMessageApiSDK
         public string SendReplyMessage(string replyToken, params Message[] message)
         {
             ReplyMessage oModel = new ReplyMessage(replyToken, message);
-            return MessageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Reply, oModel);
+            return messageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Reply, oModel);
         }
 
 
@@ -240,7 +250,7 @@ namespace LineMessageApiSDK
         public Task<string> SendReplyMessageAsync(string replyToken, params Message[] message)
         {
             ReplyMessage oModel = new ReplyMessage(replyToken, message);
-            return MessageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Reply, oModel);
+            return messageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Reply, oModel);
         }
 
 

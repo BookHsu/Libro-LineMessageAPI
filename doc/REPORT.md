@@ -14,6 +14,8 @@
 - 補充既有專案初始化 Git Flow 與建立 `develop` 分支的說明。
 - 升級 SDK 與測試專案至 .NET 10，並改用 SDK-style 專案格式。
 - 更新方案檔案版本與測試套件至最新版本。
+- 移除 Newtonsoft.Json 依賴，改用 System.Text.Json 並補上序列化測試。
+- 抽出 JSON 序列化介面與實作，並以 DI 注入至 API 呼叫流程。
 
 ## 後續建議
 
