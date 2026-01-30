@@ -1,5 +1,6 @@
-using System.Text.Json;
 using LineMessageApiSDK.LineMessageObject;
+using LineMessageApiSDK.LineReceivedObject;
+using LineMessageApiSDK.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LineMessageApiSDK.Tests
@@ -15,7 +16,9 @@ namespace LineMessageApiSDK.Tests
                 text = "hello"
             };
 
-            var json = JsonSerializer.Serialize(template);
+            var serializer = new SystemTextJsonSerializer();
+
+            var json = serializer.Serialize(template);
 
             StringAssert.Contains(json, "\"type\":\"buttons\"");
         }
@@ -28,9 +31,25 @@ namespace LineMessageApiSDK.Tests
                 mode = DateTimePickerType.date
             };
 
-            var json = JsonSerializer.Serialize(action);
+            var serializer = new SystemTextJsonSerializer();
+
+            var json = serializer.Serialize(action);
 
             StringAssert.Contains(json, "\"mode\":\"date\"");
+        }
+
+        [TestMethod]
+        public void Deserialize_UserProfile_Should_Be_Case_Insensitive()
+        {
+            var serializer = new SystemTextJsonSerializer();
+            var json = "{\"DisplayName\":\"Line User\",\"pictureUrl\":\"url\",\"statusMessage\":\"hello\",\"userId\":\"id\"}";
+
+            var profile = serializer.Deserialize<UserProfile>(json);
+
+            Assert.AreEqual("Line User", profile.displayName);
+            Assert.AreEqual("url", profile.pictureUrl);
+            Assert.AreEqual("hello", profile.statusMessage);
+            Assert.AreEqual("id", profile.userId);
         }
     }
 }
