@@ -24,6 +24,18 @@
    - 從 `main` 建立 `hotfix/<name>`
    - 完成後合併回 `main` 與 `develop`
 
+## 既有專案初始化（補齊 develop 分支）
+
+若專案一開始未使用 Git Flow，可能會因為不存在 `develop` 分支而導致「結束 release/hotfix 無法合併到 develop」的情況。請先建立並推送 `develop` 分支，再初始化 Git Flow：
+
+```bash
+git checkout -b develop main
+git push -u origin develop
+git flow init -d
+```
+
+> 提示：本專案已提供 `.gitflow` 設定檔，可直接套用分支命名與前綴規範。
+
 ## 版本標記
 
 - 在 `main` 上建立標籤：`v<major>.<minor>.<patch>`

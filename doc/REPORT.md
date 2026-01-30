@@ -11,6 +11,7 @@
 - 原始碼移至 `src/LineMessageApiSDK`。
 - 新增 Git Flow 與 CI/CD 文件。
 - 新增單元測試專案並納入 CI。
+- 補充既有專案初始化 Git Flow 與建立 `develop` 分支的說明。
 
 ## 後續建議
 
