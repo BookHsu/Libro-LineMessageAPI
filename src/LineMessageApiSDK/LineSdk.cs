@@ -18,6 +18,11 @@ namespace LineMessageApiSDK
         public IWebhookEndpointService WebhookEndpoints { get; }
 
         /// <summary>
+        /// Bot 與群組/對話資訊模組（未啟用時為 null）
+        /// </summary>
+        public IBotService Bot { get; }
+
+        /// <summary>
         /// 訊息模組（未啟用時為 null）
         /// </summary>
         public IMessageService Messages { get; }
@@ -43,6 +48,7 @@ namespace LineMessageApiSDK
         internal LineSdk(
             IWebhookService webhook,
             IWebhookEndpointService webhookEndpoints,
+            IBotService bot,
             IMessageService messages,
             IProfileService profiles,
             IGroupService groups)
@@ -50,6 +56,7 @@ namespace LineMessageApiSDK
             // 指定啟用的模組
             Webhook = webhook;
             WebhookEndpoints = webhookEndpoints;
+            Bot = bot;
             Messages = messages;
             Profiles = profiles;
             Groups = groups;

@@ -19,6 +19,7 @@ namespace LineMessageApiSDK
         private readonly IGroupService groupService;
         private readonly IWebhookService webhookService;
         private readonly IWebhookEndpointService webhookEndpointService;
+        private readonly IBotService botService;
 
         /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
@@ -81,6 +82,94 @@ namespace LineMessageApiSDK
             return webhookEndpointService.TestWebhookEndpointAsync();
         }
 
+        /// <summary>取得 Bot 基本資訊</summary>
+        /// <returns>Bot 資訊</returns>
+        public Types.BotInfo GetBotInfo()
+        {
+            // 透過 Bot 服務取得基本資訊
+            return botService.GetBotInfo();
+        }
+
+        /// <summary>取得 Bot 基本資訊（非同步）</summary>
+        /// <returns>Bot 資訊</returns>
+        public Task<Types.BotInfo> GetBotInfoAsync()
+        {
+            // 透過 Bot 服務取得基本資訊（非同步）
+            return botService.GetBotInfoAsync();
+        }
+
+        /// <summary>取得群組摘要</summary>
+        public Types.GroupSummary GetGroupSummary(string groupId)
+        {
+            return botService.GetGroupSummary(groupId);
+        }
+
+        /// <summary>取得群組摘要（非同步）</summary>
+        public Task<Types.GroupSummary> GetGroupSummaryAsync(string groupId)
+        {
+            return botService.GetGroupSummaryAsync(groupId);
+        }
+
+        /// <summary>取得多人對話摘要</summary>
+        public Types.RoomSummary GetRoomSummary(string roomId)
+        {
+            return botService.GetRoomSummary(roomId);
+        }
+
+        /// <summary>取得多人對話摘要（非同步）</summary>
+        public Task<Types.RoomSummary> GetRoomSummaryAsync(string roomId)
+        {
+            return botService.GetRoomSummaryAsync(roomId);
+        }
+
+        /// <summary>取得群組成員 ID 清單</summary>
+        public Types.MemberIdsResponse GetGroupMemberIds(string groupId)
+        {
+            return botService.GetGroupMemberIds(groupId);
+        }
+
+        /// <summary>取得群組成員 ID 清單（非同步）</summary>
+        public Task<Types.MemberIdsResponse> GetGroupMemberIdsAsync(string groupId)
+        {
+            return botService.GetGroupMemberIdsAsync(groupId);
+        }
+
+        /// <summary>取得多人對話成員 ID 清單</summary>
+        public Types.MemberIdsResponse GetRoomMemberIds(string roomId)
+        {
+            return botService.GetRoomMemberIds(roomId);
+        }
+
+        /// <summary>取得多人對話成員 ID 清單（非同步）</summary>
+        public Task<Types.MemberIdsResponse> GetRoomMemberIdsAsync(string roomId)
+        {
+            return botService.GetRoomMemberIdsAsync(roomId);
+        }
+
+        /// <summary>取得群組成員數量</summary>
+        public Types.MemberCountResponse GetGroupMemberCount(string groupId)
+        {
+            return botService.GetGroupMemberCount(groupId);
+        }
+
+        /// <summary>取得群組成員數量（非同步）</summary>
+        public Task<Types.MemberCountResponse> GetGroupMemberCountAsync(string groupId)
+        {
+            return botService.GetGroupMemberCountAsync(groupId);
+        }
+
+        /// <summary>取得多人對話成員數量</summary>
+        public Types.MemberCountResponse GetRoomMemberCount(string roomId)
+        {
+            return botService.GetRoomMemberCount(roomId);
+        }
+
+        /// <summary>取得多人對話成員數量（非同步）</summary>
+        public Task<Types.MemberCountResponse> GetRoomMemberCountAsync(string roomId)
+        {
+            return botService.GetRoomMemberCountAsync(roomId);
+        }
+
         /// <summary>傳入 api 中的 ChannelAccessToken</summary>
         public LineChannel(string ChannelAccessToken)
             : this(ChannelAccessToken, new SystemTextJsonSerializer(), null, null)
@@ -111,6 +200,7 @@ namespace LineMessageApiSDK
             groupService = new GroupService(context);
             webhookService = new WebhookService();
             webhookEndpointService = new WebhookEndpointService(context);
+            botService = new BotService(context);
         }
 
         /// <summary>channelAccessToken</summary>
