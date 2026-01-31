@@ -23,6 +23,9 @@ namespace LineMessageApiSDK
         private readonly IBroadcastService broadcastService;
         private readonly IMessageValidationService messageValidationService;
         private readonly IRichMenuService richMenuService;
+        private readonly IInsightService insightService;
+        private readonly IAudienceService audienceService;
+        private readonly IAccountLinkService accountLinkService;
 
         /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
@@ -207,6 +210,9 @@ namespace LineMessageApiSDK
             broadcastService = new BroadcastService(context);
             messageValidationService = new MessageValidationService(context);
             richMenuService = new RichMenuService(context);
+            insightService = new InsightService(context);
+            audienceService = new AudienceService(context);
+            accountLinkService = new AccountLinkService(context);
         }
 
         /// <summary>channelAccessToken</summary>
@@ -707,6 +713,102 @@ namespace LineMessageApiSDK
         public Task<bool> DeleteRichMenuAliasAsync(string aliasId)
         {
             return richMenuService.DeleteRichMenuAliasAsync(aliasId);
+        }
+
+        /// <summary>取得訊息投遞統計</summary>
+        public Types.MessageDeliveryInsightResponse GetMessageDeliveryInsight(string date)
+        {
+            return insightService.GetMessageDelivery(date);
+        }
+
+        /// <summary>取得訊息投遞統計（非同步）</summary>
+        public Task<Types.MessageDeliveryInsightResponse> GetMessageDeliveryInsightAsync(string date)
+        {
+            return insightService.GetMessageDeliveryAsync(date);
+        }
+
+        /// <summary>取得追蹤者統計</summary>
+        public Types.FollowerInsightResponse GetFollowerInsight()
+        {
+            return insightService.GetFollowers();
+        }
+
+        /// <summary>取得追蹤者統計（非同步）</summary>
+        public Task<Types.FollowerInsightResponse> GetFollowerInsightAsync()
+        {
+            return insightService.GetFollowersAsync();
+        }
+
+        /// <summary>取得人口統計</summary>
+        public Types.DemographicInsightResponse GetDemographicInsight()
+        {
+            return insightService.GetDemographic();
+        }
+
+        /// <summary>取得人口統計（非同步）</summary>
+        public Task<Types.DemographicInsightResponse> GetDemographicInsightAsync()
+        {
+            return insightService.GetDemographicAsync();
+        }
+
+        /// <summary>上傳 Audience 群組</summary>
+        public Types.AudienceGroupUploadResponse UploadAudienceGroup(object request)
+        {
+            return audienceService.UploadAudienceGroup(request);
+        }
+
+        /// <summary>上傳 Audience 群組（非同步）</summary>
+        public Task<Types.AudienceGroupUploadResponse> UploadAudienceGroupAsync(object request)
+        {
+            return audienceService.UploadAudienceGroupAsync(request);
+        }
+
+        /// <summary>取得 Audience 群組狀態</summary>
+        public Types.AudienceGroupStatusResponse GetAudienceGroupStatus(long audienceGroupId)
+        {
+            return audienceService.GetAudienceGroupStatus(audienceGroupId);
+        }
+
+        /// <summary>取得 Audience 群組狀態（非同步）</summary>
+        public Task<Types.AudienceGroupStatusResponse> GetAudienceGroupStatusAsync(long audienceGroupId)
+        {
+            return audienceService.GetAudienceGroupStatusAsync(audienceGroupId);
+        }
+
+        /// <summary>刪除 Audience 群組</summary>
+        public bool DeleteAudienceGroup(long audienceGroupId)
+        {
+            return audienceService.DeleteAudienceGroup(audienceGroupId);
+        }
+
+        /// <summary>刪除 Audience 群組（非同步）</summary>
+        public Task<bool> DeleteAudienceGroupAsync(long audienceGroupId)
+        {
+            return audienceService.DeleteAudienceGroupAsync(audienceGroupId);
+        }
+
+        /// <summary>取得 Audience 群組清單</summary>
+        public Types.AudienceGroupListResponse GetAudienceGroupList()
+        {
+            return audienceService.GetAudienceGroupList();
+        }
+
+        /// <summary>取得 Audience 群組清單（非同步）</summary>
+        public Task<Types.AudienceGroupListResponse> GetAudienceGroupListAsync()
+        {
+            return audienceService.GetAudienceGroupListAsync();
+        }
+
+        /// <summary>取得 Account Link Token</summary>
+        public Types.LinkTokenResponse IssueLinkToken(string userId)
+        {
+            return accountLinkService.IssueLinkToken(userId);
+        }
+
+        /// <summary>取得 Account Link Token（非同步）</summary>
+        public Task<Types.LinkTokenResponse> IssueLinkTokenAsync(string userId)
+        {
+            return accountLinkService.IssueLinkTokenAsync(userId);
         }
 
         /// <summary>離開對話或群組（已過時，請改用 LeaveRoomOrGroup）</summary>

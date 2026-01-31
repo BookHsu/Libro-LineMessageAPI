@@ -38,6 +38,21 @@ namespace LineMessageApiSDK
         public IRichMenuService RichMenu { get; }
 
         /// <summary>
+        /// Insights 模組（未啟用時為 null）
+        /// </summary>
+        public IInsightService Insight { get; }
+
+        /// <summary>
+        /// Audience 模組（未啟用時為 null）
+        /// </summary>
+        public IAudienceService Audience { get; }
+
+        /// <summary>
+        /// Account Link 模組（未啟用時為 null）
+        /// </summary>
+        public IAccountLinkService AccountLink { get; }
+
+        /// <summary>
         /// 訊息模組（未啟用時為 null）
         /// </summary>
         public IMessageService Messages { get; }
@@ -67,6 +82,9 @@ namespace LineMessageApiSDK
             IBroadcastService broadcast,
             IMessageValidationService messageValidation,
             IRichMenuService richMenu,
+            IInsightService insight,
+            IAudienceService audience,
+            IAccountLinkService accountLink,
             IMessageService messages,
             IProfileService profiles,
             IGroupService groups)
@@ -78,6 +96,9 @@ namespace LineMessageApiSDK
             Broadcast = broadcast;
             MessageValidation = messageValidation;
             RichMenu = richMenu;
+            Insight = insight;
+            Audience = audience;
+            AccountLink = accountLink;
             Messages = messages;
             Profiles = profiles;
             Groups = groups;

@@ -1,0 +1,18 @@
+﻿namespace LineMessageApiSDK.Types
+{
+    /// <summary>
+    /// Audience 上傳回應
+    /// </summary>
+    public class AudienceGroupUploadResponse
+    {
+        /// <summary>
+        /// Audience Group ID
+        /// </summary>
+        public long? audienceGroupId { get; set; }
+
+        /// <summary>
+        /// 上傳 ID
+        /// </summary>
+        public string uploadId { get; set; }
+    }
+}

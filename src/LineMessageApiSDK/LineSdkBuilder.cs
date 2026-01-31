@@ -20,6 +20,9 @@ namespace LineMessageApiSDK
         private bool useBroadcast;
         private bool useMessageValidation;
         private bool useRichMenu;
+        private bool useInsight;
+        private bool useAudience;
+        private bool useAccountLink;
         private bool useMessages;
         private bool useProfiles;
         private bool useGroups;
@@ -148,6 +151,39 @@ namespace LineMessageApiSDK
         }
 
         /// <summary>
+        /// 啟用 Insights 模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseInsight()
+        {
+            // 啟用 Insights 功能
+            useInsight = true;
+            return this;
+        }
+
+        /// <summary>
+        /// 啟用 Audience 模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseAudience()
+        {
+            // 啟用 Audience 功能
+            useAudience = true;
+            return this;
+        }
+
+        /// <summary>
+        /// 啟用 Account Link 模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseAccountLink()
+        {
+            // 啟用 Account Link 功能
+            useAccountLink = true;
+            return this;
+        }
+
+        /// <summary>
         /// 啟用訊息模組
         /// </summary>
         /// <returns>Builder</returns>
@@ -200,11 +236,14 @@ namespace LineMessageApiSDK
             IBroadcastService broadcast = useBroadcast ? new BroadcastService(context) : null;
             IMessageValidationService messageValidation = useMessageValidation ? new MessageValidationService(context) : null;
             IRichMenuService richMenu = useRichMenu ? new RichMenuService(context) : null;
+            IInsightService insight = useInsight ? new InsightService(context) : null;
+            IAudienceService audience = useAudience ? new AudienceService(context) : null;
+            IAccountLinkService accountLink = useAccountLink ? new AccountLinkService(context) : null;
             IMessageService messages = useMessages ? new MessageService(context) : null;
             IProfileService profiles = useProfiles ? new ProfileService(context) : null;
             IGroupService groups = useGroups ? new GroupService(context) : null;
 
-            return new LineSdk(webhook, webhookEndpoints, bot, broadcast, messageValidation, richMenu, messages, profiles, groups);
+            return new LineSdk(webhook, webhookEndpoints, bot, broadcast, messageValidation, richMenu, insight, audience, accountLink, messages, profiles, groups);
         }
     }
 }
