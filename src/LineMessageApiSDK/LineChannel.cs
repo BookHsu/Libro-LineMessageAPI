@@ -1,56 +1,64 @@
-﻿using LineMessageApiSDK.LineMessageObject;
+﻿using LineMessageApiSDK.Http;
+using LineMessageApiSDK.LineMessageObject;
 using LineMessageApiSDK.LineReceivedObject;
-using LineMessageApiSDK.Method;
 using LineMessageApiSDK.Serialization;
+using LineMessageApiSDK.Services;
 using LineMessageApiSDK.SendMessage;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LineMessageApiSDK
 {
-    /// <summary>主動調用Line物件</summary>
+    /// <summary>主動調用 Line 物件</summary>
     public class LineChannel
     {
-        private readonly MessageApi messageApi;
+        private readonly IMessageService messageService;
+        private readonly IProfileService profileService;
+        private readonly IGroupService groupService;
+        private readonly IWebhookService webhookService;
 
-        /// <summary>驗證是否為Line伺服器傳來的訊息</summary>
+        /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
         /// <param name="ChannelSecret">ChannelSecret</param>
         /// <returns></returns>
         public static bool VaridateSignature(HttpRequestMessage request, string ChannelSecret)
         {
-            var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(ChannelSecret));
-            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Content.ReadAsStringAsync().Result));
-            var contentHash = Convert.ToBase64String(computeHash);
-            var headerHash = request.Headers.GetValues("X-Line-Signature").First();
-            return contentHash == headerHash;
+            // 交由 Webhook 服務執行驗證
+            IWebhookService service = new WebhookService();
+            return service.ValidateSignature(request, ChannelSecret);
         }
 
-
-
-        /// <summary>傳入api中的ChannelAccessToken</summary>
+        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
         public LineChannel(string ChannelAccessToken)
-            : this(ChannelAccessToken, new SystemTextJsonSerializer(), null)
+            : this(ChannelAccessToken, new SystemTextJsonSerializer(), null, null)
         {
         }
 
-        /// <summary>傳入api中的ChannelAccessToken</summary>
+        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
         public LineChannel(string ChannelAccessToken, IJsonSerializer serializer)
-            : this(ChannelAccessToken, serializer, null)
+            : this(ChannelAccessToken, serializer, null, null)
         {
         }
 
-        /// <summary>傳入api中的ChannelAccessToken</summary>
+        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
         public LineChannel(string ChannelAccessToken, IJsonSerializer serializer, HttpClient httpClient)
+            : this(ChannelAccessToken, serializer, httpClient, null)
+        {
+        }
+
+        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        public LineChannel(string ChannelAccessToken, IJsonSerializer serializer, HttpClient httpClient, IHttpClientProvider httpClientProvider)
         {
             channelAccessToken = ChannelAccessToken;
-            // 使用外部注入的序列化器與 HttpClient（未提供則使用預設）
-            messageApi = new MessageApi(serializer, httpClient);
+            // 建立共用 Context
+            var context = new LineApiContext(ChannelAccessToken, serializer, httpClient, httpClientProvider);
+            // 建立各模組服務
+            messageService = new MessageService(context);
+            profileService = new ProfileService(context);
+            groupService = new GroupService(context);
+            webhookService = new WebhookService();
         }
 
         /// <summary>channelAccessToken</summary>
@@ -70,8 +78,8 @@ namespace LineMessageApiSDK
             }
             else
             {
-                // 透過內部 API 執行離開群組或多人對話
-                return messageApi.LeaveRoomOrGroup(this.channelAccessToken, sourceId, type);
+                // 透過群組服務執行離開群組或多人對話
+                return groupService.LeaveRoomOrGroup(sourceId, type);
             }
         }
         /// <summary>
@@ -88,8 +96,8 @@ namespace LineMessageApiSDK
             }
             else
             {
-                // 透過內部 API 執行離開群組或多人對話
-                return messageApi.LeaveRoomOrGroupAsync(this.channelAccessToken, sourceId, type);
+                // 透過群組服務執行離開群組或多人對話
+                return groupService.LeaveRoomOrGroupAsync(sourceId, type);
             }
 
         }
@@ -100,7 +108,7 @@ namespace LineMessageApiSDK
         public UserProfile GetUserProfile(string userId)
         {
             // 取得使用者檔案
-            return messageApi.GetUserProfile(this.channelAccessToken, userId);
+            return profileService.GetUserProfile(userId);
         }
         /// <summary>取得使用者檔案</summary>
         /// <param name="userid"></param>
@@ -108,7 +116,7 @@ namespace LineMessageApiSDK
         public Task<UserProfile> GetUserProfileAsync(string userId)
         {
             // 取得使用者檔案（非同步）
-            return messageApi.GetUserProfileAsync(this.channelAccessToken, userId);
+            return profileService.GetUserProfileAsync(userId);
         }
         /// <summary>取得大量使用者檔案</summary>
         /// <param name="userids"></param>
@@ -118,7 +126,7 @@ namespace LineMessageApiSDK
             List<UserProfile> oModel = new List<UserProfile>();
             foreach (var userId in userIds)
             {
-                oModel.Add(messageApi.GetUserProfile(this.channelAccessToken, userId));
+                oModel.Add(profileService.GetUserProfile(userId));
             }
             return oModel;
         }
@@ -137,7 +145,7 @@ namespace LineMessageApiSDK
                 throw new NotSupportedException("無法使用Source = User");
             }
             // 取得群組或多人對話內成員檔案
-            return messageApi.GetGroupMemberProfile(this.channelAccessToken, userId, groupIdOrRoomId, type);
+            return profileService.GetGroupMemberProfile(userId, groupIdOrRoomId, type);
         }
         /// <summary>
         /// 取得群組內指定使用者資料
@@ -153,7 +161,7 @@ namespace LineMessageApiSDK
                 throw new NotSupportedException("無法使用Source = User");
             }
             // 取得群組或多人對話內成員檔案（非同步）
-            return messageApi.GetGroupMemberProfileAsync(this.channelAccessToken, userId, groupIdOrRoomId, type);
+            return profileService.GetGroupMemberProfileAsync(userId, groupIdOrRoomId, type);
         }
 
         /// <summary>取得大量使用者檔案</summary>
@@ -164,12 +172,10 @@ namespace LineMessageApiSDK
             List<UserProfile> oModel = new List<UserProfile>();
             foreach (var userId in userIds)
             {
-                oModel.Add(await messageApi.GetUserProfileAsync(this.channelAccessToken, userId));
+                oModel.Add(await profileService.GetUserProfileAsync(userId));
             }
             return oModel;
         }
-
-
 
         /// <summary>取得使用者上傳的檔案</summary>
         /// <param name="message_id"></param>
@@ -177,7 +183,7 @@ namespace LineMessageApiSDK
         public byte[] GetUserUploadContent(string messageId)
         {
             // 取得使用者上傳的檔案
-            return messageApi.GetUserUploadData(this.channelAccessToken, messageId);
+            return messageService.GetMessageContent(messageId);
         }
 
         /// <summary>取得使用者上傳的檔案</summary>
@@ -186,10 +192,8 @@ namespace LineMessageApiSDK
         public Task<byte[]> GetUserUploadContentAsync(string messageId)
         {
             // 取得使用者上傳的檔案（非同步）
-            return messageApi.GetUserUploadDataAsync(this.channelAccessToken, messageId);
+            return messageService.GetMessageContentAsync(messageId);
         }
-
-
 
         /// <summary>傳送訊息給多位使用者</summary>
         /// <param name="ToId"></param>
@@ -197,13 +201,7 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public string SendMulticastMessage(List<string> toIds, params Message[] message)
         {
-            MulticastMessage oModel = new MulticastMessage()
-            {
-                to = toIds
-            };
-            oModel.messages.AddRange(message);
-
-            return messageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Multicast, oModel);
+            return messageService.SendMulticastMessage(toIds, message);
         }
 
         /// <summary>傳送訊息給多位使用者</summary>
@@ -212,15 +210,8 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public Task<string> SendMulticastMessageAsync(List<string> toIds, params Message[] message)
         {
-            MulticastMessage oModel = new MulticastMessage()
-            {
-                to = toIds
-            };
-            oModel.messages.AddRange(message);
-
-            return messageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Multicast, oModel);
+            return messageService.SendMulticastMessageAsync(toIds, message);
         }
-
 
         /// <summary>主動傳送訊息</summary>
         /// <param name="ToId">id</param>
@@ -228,12 +219,8 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public string SendPushMessage(string ToId, params Message[] message)
         {
-            PushMessage oModel = new PushMessage(ToId, message);
-
-            return messageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Push, oModel);
+            return messageService.SendPushMessage(ToId, message);
         }
-
-
 
         /// <summary>主動傳送訊息</summary>
         /// <param name="ToId">id</param>
@@ -241,11 +228,8 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public Task<string> SendPushMessageAsync(string ToId, params Message[] message)
         {
-            PushMessage oModel = new PushMessage(ToId, message);
-
-            return messageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Push, oModel);
+            return messageService.SendPushMessageAsync(ToId, message);
         }
-
 
         /// <summary>被動回復訊息</summary>
         /// <param name="replyToken"></param>
@@ -253,10 +237,8 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public string SendReplyMessage(string replyToken, params Message[] message)
         {
-            ReplyMessage oModel = new ReplyMessage(replyToken, message);
-            return messageApi.SendMessageAction(this.channelAccessToken, PostMessageType.Reply, oModel);
+            return messageService.SendReplyMessage(replyToken, message);
         }
-
 
         /// <summary>被動回復訊息</summary>
         /// <param name="replyToken"></param>
@@ -264,8 +246,7 @@ namespace LineMessageApiSDK
         /// <returns></returns>
         public Task<string> SendReplyMessageAsync(string replyToken, params Message[] message)
         {
-            ReplyMessage oModel = new ReplyMessage(replyToken, message);
-            return messageApi.SendMessageActionAsync(this.channelAccessToken, PostMessageType.Reply, oModel);
+            return messageService.SendReplyMessageAsync(replyToken, message);
         }
 
         /// <summary>離開對話或群組（已過時，請改用 LeaveRoomOrGroup）</summary>
@@ -395,7 +376,5 @@ namespace LineMessageApiSDK
             // 保留舊版方法以避免破壞性變更
             return SendMulticastMessageAsync(ToId, message);
         }
-
-
     }
 }
