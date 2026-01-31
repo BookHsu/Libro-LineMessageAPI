@@ -23,6 +23,16 @@ namespace LineMessageApiSDK
         public IBotService Bot { get; }
 
         /// <summary>
+        /// Broadcast / Narrowcast 模組（未啟用時為 null）
+        /// </summary>
+        public IBroadcastService Broadcast { get; }
+
+        /// <summary>
+        /// 訊息驗證模組（未啟用時為 null）
+        /// </summary>
+        public IMessageValidationService MessageValidation { get; }
+
+        /// <summary>
         /// 訊息模組（未啟用時為 null）
         /// </summary>
         public IMessageService Messages { get; }
@@ -49,6 +59,8 @@ namespace LineMessageApiSDK
             IWebhookService webhook,
             IWebhookEndpointService webhookEndpoints,
             IBotService bot,
+            IBroadcastService broadcast,
+            IMessageValidationService messageValidation,
             IMessageService messages,
             IProfileService profiles,
             IGroupService groups)
@@ -57,6 +69,8 @@ namespace LineMessageApiSDK
             Webhook = webhook;
             WebhookEndpoints = webhookEndpoints;
             Bot = bot;
+            Broadcast = broadcast;
+            MessageValidation = messageValidation;
             Messages = messages;
             Profiles = profiles;
             Groups = groups;

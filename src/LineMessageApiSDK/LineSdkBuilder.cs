@@ -17,6 +17,8 @@ namespace LineMessageApiSDK
         private bool useWebhook = true;
         private bool useWebhookEndpoints;
         private bool useBot;
+        private bool useBroadcast;
+        private bool useMessageValidation;
         private bool useMessages;
         private bool useProfiles;
         private bool useGroups;
@@ -112,6 +114,28 @@ namespace LineMessageApiSDK
         }
 
         /// <summary>
+        /// 啟用 Broadcast / Narrowcast 模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseBroadcast()
+        {
+            // 啟用 Broadcast / Narrowcast 功能
+            useBroadcast = true;
+            return this;
+        }
+
+        /// <summary>
+        /// 啟用訊息驗證模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseMessageValidation()
+        {
+            // 啟用訊息驗證功能
+            useMessageValidation = true;
+            return this;
+        }
+
+        /// <summary>
         /// 啟用訊息模組
         /// </summary>
         /// <returns>Builder</returns>
@@ -161,11 +185,13 @@ namespace LineMessageApiSDK
             IWebhookService webhook = useWebhook ? new WebhookService() : null;
             IWebhookEndpointService webhookEndpoints = useWebhookEndpoints ? new WebhookEndpointService(context) : null;
             IBotService bot = useBot ? new BotService(context) : null;
+            IBroadcastService broadcast = useBroadcast ? new BroadcastService(context) : null;
+            IMessageValidationService messageValidation = useMessageValidation ? new MessageValidationService(context) : null;
             IMessageService messages = useMessages ? new MessageService(context) : null;
             IProfileService profiles = useProfiles ? new ProfileService(context) : null;
             IGroupService groups = useGroups ? new GroupService(context) : null;
 
-            return new LineSdk(webhook, webhookEndpoints, bot, messages, profiles, groups);
+            return new LineSdk(webhook, webhookEndpoints, bot, broadcast, messageValidation, messages, profiles, groups);
         }
     }
 }

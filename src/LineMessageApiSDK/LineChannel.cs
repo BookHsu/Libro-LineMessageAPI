@@ -20,6 +20,8 @@ namespace LineMessageApiSDK
         private readonly IWebhookService webhookService;
         private readonly IWebhookEndpointService webhookEndpointService;
         private readonly IBotService botService;
+        private readonly IBroadcastService broadcastService;
+        private readonly IMessageValidationService messageValidationService;
 
         /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
@@ -201,6 +203,8 @@ namespace LineMessageApiSDK
             webhookService = new WebhookService();
             webhookEndpointService = new WebhookEndpointService(context);
             botService = new BotService(context);
+            broadcastService = new BroadcastService(context);
+            messageValidationService = new MessageValidationService(context);
         }
 
         /// <summary>channelAccessToken</summary>
@@ -389,6 +393,102 @@ namespace LineMessageApiSDK
         public Task<string> SendReplyMessageAsync(string replyToken, params Message[] message)
         {
             return messageService.SendReplyMessageAsync(replyToken, message);
+        }
+
+        /// <summary>發送 Broadcast 訊息</summary>
+        public bool SendBroadcastMessage(BroadcastMessage message)
+        {
+            return broadcastService.SendBroadcast(message);
+        }
+
+        /// <summary>發送 Broadcast 訊息（非同步）</summary>
+        public Task<bool> SendBroadcastMessageAsync(BroadcastMessage message)
+        {
+            return broadcastService.SendBroadcastAsync(message);
+        }
+
+        /// <summary>發送 Narrowcast 訊息</summary>
+        public bool SendNarrowcastMessage(NarrowcastMessage message)
+        {
+            return broadcastService.SendNarrowcast(message);
+        }
+
+        /// <summary>發送 Narrowcast 訊息（非同步）</summary>
+        public Task<bool> SendNarrowcastMessageAsync(NarrowcastMessage message)
+        {
+            return broadcastService.SendNarrowcastAsync(message);
+        }
+
+        /// <summary>取得 Narrowcast 進度</summary>
+        public Types.NarrowcastProgressResponse GetNarrowcastProgress(string requestId)
+        {
+            return broadcastService.GetNarrowcastProgress(requestId);
+        }
+
+        /// <summary>取得 Narrowcast 進度（非同步）</summary>
+        public Task<Types.NarrowcastProgressResponse> GetNarrowcastProgressAsync(string requestId)
+        {
+            return broadcastService.GetNarrowcastProgressAsync(requestId);
+        }
+
+        /// <summary>驗證 Reply 訊息</summary>
+        public bool ValidateReplyMessage(ReplyMessage message)
+        {
+            return messageValidationService.ValidateReply(message);
+        }
+
+        /// <summary>驗證 Reply 訊息（非同步）</summary>
+        public Task<bool> ValidateReplyMessageAsync(ReplyMessage message)
+        {
+            return messageValidationService.ValidateReplyAsync(message);
+        }
+
+        /// <summary>驗證 Push 訊息</summary>
+        public bool ValidatePushMessage(PushMessage message)
+        {
+            return messageValidationService.ValidatePush(message);
+        }
+
+        /// <summary>驗證 Push 訊息（非同步）</summary>
+        public Task<bool> ValidatePushMessageAsync(PushMessage message)
+        {
+            return messageValidationService.ValidatePushAsync(message);
+        }
+
+        /// <summary>驗證 Multicast 訊息</summary>
+        public bool ValidateMulticastMessage(MulticastMessage message)
+        {
+            return messageValidationService.ValidateMulticast(message);
+        }
+
+        /// <summary>驗證 Multicast 訊息（非同步）</summary>
+        public Task<bool> ValidateMulticastMessageAsync(MulticastMessage message)
+        {
+            return messageValidationService.ValidateMulticastAsync(message);
+        }
+
+        /// <summary>驗證 Broadcast 訊息</summary>
+        public bool ValidateBroadcastMessage(BroadcastMessage message)
+        {
+            return messageValidationService.ValidateBroadcast(message);
+        }
+
+        /// <summary>驗證 Broadcast 訊息（非同步）</summary>
+        public Task<bool> ValidateBroadcastMessageAsync(BroadcastMessage message)
+        {
+            return messageValidationService.ValidateBroadcastAsync(message);
+        }
+
+        /// <summary>驗證 Narrowcast 訊息</summary>
+        public bool ValidateNarrowcastMessage(NarrowcastMessage message)
+        {
+            return messageValidationService.ValidateNarrowcast(message);
+        }
+
+        /// <summary>驗證 Narrowcast 訊息（非同步）</summary>
+        public Task<bool> ValidateNarrowcastMessageAsync(NarrowcastMessage message)
+        {
+            return messageValidationService.ValidateNarrowcastAsync(message);
         }
 
         /// <summary>離開對話或群組（已過時，請改用 LeaveRoomOrGroup）</summary>
