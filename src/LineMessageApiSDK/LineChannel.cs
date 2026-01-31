@@ -18,6 +18,7 @@ namespace LineMessageApiSDK
         private readonly IProfileService profileService;
         private readonly IGroupService groupService;
         private readonly IWebhookService webhookService;
+        private readonly IWebhookEndpointService webhookEndpointService;
 
         /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
@@ -28,6 +29,56 @@ namespace LineMessageApiSDK
             // 交由 Webhook 服務執行驗證
             IWebhookService service = new WebhookService();
             return service.ValidateSignature(request, ChannelSecret);
+        }
+
+        /// <summary>取得 Webhook Endpoint</summary>
+        /// <returns>Webhook Endpoint 設定</returns>
+        public Types.WebhookEndpointResponse GetWebhookEndpoint()
+        {
+            // 透過 Webhook Endpoint 服務取得設定
+            return webhookEndpointService.GetWebhookEndpoint();
+        }
+
+        /// <summary>取得 Webhook Endpoint（非同步）</summary>
+        /// <returns>Webhook Endpoint 設定</returns>
+        public Task<Types.WebhookEndpointResponse> GetWebhookEndpointAsync()
+        {
+            // 透過 Webhook Endpoint 服務取得設定（非同步）
+            return webhookEndpointService.GetWebhookEndpointAsync();
+        }
+
+        /// <summary>更新 Webhook Endpoint</summary>
+        /// <param name="request">Webhook 設定</param>
+        /// <returns>是否成功</returns>
+        public bool SetWebhookEndpoint(Types.WebhookEndpointRequest request)
+        {
+            // 透過 Webhook Endpoint 服務更新設定
+            return webhookEndpointService.SetWebhookEndpoint(request);
+        }
+
+        /// <summary>更新 Webhook Endpoint（非同步）</summary>
+        /// <param name="request">Webhook 設定</param>
+        /// <returns>是否成功</returns>
+        public Task<bool> SetWebhookEndpointAsync(Types.WebhookEndpointRequest request)
+        {
+            // 透過 Webhook Endpoint 服務更新設定（非同步）
+            return webhookEndpointService.SetWebhookEndpointAsync(request);
+        }
+
+        /// <summary>測試 Webhook Endpoint</summary>
+        /// <returns>測試結果</returns>
+        public Types.WebhookTestResponse TestWebhookEndpoint()
+        {
+            // 透過 Webhook Endpoint 服務測試設定
+            return webhookEndpointService.TestWebhookEndpoint();
+        }
+
+        /// <summary>測試 Webhook Endpoint（非同步）</summary>
+        /// <returns>測試結果</returns>
+        public Task<Types.WebhookTestResponse> TestWebhookEndpointAsync()
+        {
+            // 透過 Webhook Endpoint 服務測試設定（非同步）
+            return webhookEndpointService.TestWebhookEndpointAsync();
         }
 
         /// <summary>傳入 api 中的 ChannelAccessToken</summary>
@@ -59,6 +110,7 @@ namespace LineMessageApiSDK
             profileService = new ProfileService(context);
             groupService = new GroupService(context);
             webhookService = new WebhookService();
+            webhookEndpointService = new WebhookEndpointService(context);
         }
 
         /// <summary>channelAccessToken</summary>

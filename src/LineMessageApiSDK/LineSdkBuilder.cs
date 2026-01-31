@@ -15,6 +15,7 @@ namespace LineMessageApiSDK
         private HttpClient httpClient;
         private IHttpClientProvider httpClientProvider;
         private bool useWebhook = true;
+        private bool useWebhookEndpoints;
         private bool useMessages;
         private bool useProfiles;
         private bool useGroups;
@@ -88,6 +89,17 @@ namespace LineMessageApiSDK
         }
 
         /// <summary>
+        /// 啟用 Webhook Endpoint 模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseWebhookEndpoints()
+        {
+            // 啟用 Webhook Endpoint 管理功能
+            useWebhookEndpoints = true;
+            return this;
+        }
+
+        /// <summary>
         /// 啟用訊息模組
         /// </summary>
         /// <returns>Builder</returns>
@@ -135,11 +147,12 @@ namespace LineMessageApiSDK
 
             // 依需求載入模組
             IWebhookService webhook = useWebhook ? new WebhookService() : null;
+            IWebhookEndpointService webhookEndpoints = useWebhookEndpoints ? new WebhookEndpointService(context) : null;
             IMessageService messages = useMessages ? new MessageService(context) : null;
             IProfileService profiles = useProfiles ? new ProfileService(context) : null;
             IGroupService groups = useGroups ? new GroupService(context) : null;
 
-            return new LineSdk(webhook, messages, profiles, groups);
+            return new LineSdk(webhook, webhookEndpoints, messages, profiles, groups);
         }
     }
 }

@@ -1,4 +1,4 @@
-using LineMessageApiSDK.Services;
+﻿using LineMessageApiSDK.Services;
 
 namespace LineMessageApiSDK
 {
@@ -11,6 +11,11 @@ namespace LineMessageApiSDK
         /// Webhook 驗證模組（未啟用時為 null）
         /// </summary>
         public IWebhookService Webhook { get; }
+
+        /// <summary>
+        /// Webhook Endpoint 管理模組（未啟用時為 null）
+        /// </summary>
+        public IWebhookEndpointService WebhookEndpoints { get; }
 
         /// <summary>
         /// 訊息模組（未啟用時為 null）
@@ -31,17 +36,20 @@ namespace LineMessageApiSDK
         /// 建立 LineSdk
         /// </summary>
         /// <param name="webhook">Webhook 模組</param>
+        /// <param name="webhookEndpoints">Webhook Endpoint 模組</param>
         /// <param name="messages">訊息模組</param>
         /// <param name="profiles">檔案模組</param>
         /// <param name="groups">群組模組</param>
         internal LineSdk(
             IWebhookService webhook,
+            IWebhookEndpointService webhookEndpoints,
             IMessageService messages,
             IProfileService profiles,
             IGroupService groups)
         {
             // 指定啟用的模組
             Webhook = webhook;
+            WebhookEndpoints = webhookEndpoints;
             Messages = messages;
             Profiles = profiles;
             Groups = groups;
