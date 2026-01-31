@@ -10,7 +10,7 @@ namespace LineMessageApiSDK.Services
     internal class GroupService : IGroupService
     {
         private readonly LineApiContext context;
-        private readonly MessageApi messageApi;
+        private readonly GroupApi groupApi;
 
         /// <summary>
         /// 建立群組服務
@@ -20,8 +20,8 @@ namespace LineMessageApiSDK.Services
         {
             // 保存 Context 以使用 Token/序列化器/HttpClient
             this.context = context;
-            // 建立內部 API（支援 HttpClient DI）
-            messageApi = new MessageApi(context.Serializer, context.HttpClient);
+            // 建立群組 API（支援 HttpClient DI）
+            groupApi = new GroupApi(context.HttpClient);
         }
 
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace LineMessageApiSDK.Services
                 throw new NotSupportedException("無法使用 SourceType = User");
             }
 
-            return messageApi.LeaveRoomOrGroup(context.ChannelAccessToken, sourceId, type);
+            return groupApi.LeaveRoomOrGroup(context.ChannelAccessToken, sourceId, type);
         }
 
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace LineMessageApiSDK.Services
                 throw new NotSupportedException("無法使用 SourceType = User");
             }
 
-            return messageApi.LeaveRoomOrGroupAsync(context.ChannelAccessToken, sourceId, type);
+            return groupApi.LeaveRoomOrGroupAsync(context.ChannelAccessToken, sourceId, type);
         }
     }
 }

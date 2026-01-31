@@ -12,7 +12,8 @@ namespace LineMessageApiSDK.Services
     internal class MessageService : IMessageService
     {
         private readonly LineApiContext context;
-        private readonly MessageApi messageApi;
+        private readonly MessageContentApi messageContentApi;
+        private readonly MessageSendApi messageSendApi;
 
         /// <summary>
         /// 建立訊息服務
@@ -22,22 +23,24 @@ namespace LineMessageApiSDK.Services
         {
             // 保存 Context 以使用 Token/序列化器/HttpClient
             this.context = context;
-            // 建立內部 API（支援 HttpClient DI）
-            messageApi = new MessageApi(context.Serializer, context.HttpClient);
+            // 建立訊息內容 API（支援 HttpClient DI）
+            messageContentApi = new MessageContentApi(context.HttpClient);
+            // 建立訊息發送 API（支援 HttpClient DI）
+            messageSendApi = new MessageSendApi(context.Serializer, context.HttpClient);
         }
 
         /// <inheritdoc />
         public byte[] GetMessageContent(string messageId)
         {
             // 取得使用者上傳的檔案
-            return messageApi.GetUserUploadData(context.ChannelAccessToken, messageId);
+            return messageContentApi.GetUserUploadData(context.ChannelAccessToken, messageId);
         }
 
         /// <inheritdoc />
         public Task<byte[]> GetMessageContentAsync(string messageId)
         {
             // 取得使用者上傳的檔案（非同步）
-            return messageApi.GetUserUploadDataAsync(context.ChannelAccessToken, messageId);
+            return messageContentApi.GetUserUploadDataAsync(context.ChannelAccessToken, messageId);
         }
 
         /// <inheritdoc />
@@ -45,7 +48,7 @@ namespace LineMessageApiSDK.Services
         {
             // 組合 Reply 訊息
             ReplyMessage model = new ReplyMessage(replyToken, message);
-            return messageApi.SendMessageAction(context.ChannelAccessToken, PostMessageType.Reply, model);
+            return messageSendApi.SendMessageAction(context.ChannelAccessToken, PostMessageType.Reply, model);
         }
 
         /// <inheritdoc />
@@ -53,7 +56,7 @@ namespace LineMessageApiSDK.Services
         {
             // 組合 Reply 訊息（非同步）
             ReplyMessage model = new ReplyMessage(replyToken, message);
-            return messageApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Reply, model);
+            return messageSendApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Reply, model);
         }
 
         /// <inheritdoc />
@@ -61,7 +64,7 @@ namespace LineMessageApiSDK.Services
         {
             // 組合 Push 訊息
             PushMessage model = new PushMessage(toId, message);
-            return messageApi.SendMessageAction(context.ChannelAccessToken, PostMessageType.Push, model);
+            return messageSendApi.SendMessageAction(context.ChannelAccessToken, PostMessageType.Push, model);
         }
 
         /// <inheritdoc />
@@ -69,7 +72,7 @@ namespace LineMessageApiSDK.Services
         {
             // 組合 Push 訊息（非同步）
             PushMessage model = new PushMessage(toId, message);
-            return messageApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Push, model);
+            return messageSendApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Push, model);
         }
 
         /// <inheritdoc />
@@ -81,7 +84,7 @@ namespace LineMessageApiSDK.Services
                 to = toIds
             };
             model.messages.AddRange(message);
-            return messageApi.SendMessageAction(context.ChannelAccessToken, PostMessageType.Multicast, model);
+            return messageSendApi.SendMessageAction(context.ChannelAccessToken, PostMessageType.Multicast, model);
         }
 
         /// <inheritdoc />
@@ -93,7 +96,7 @@ namespace LineMessageApiSDK.Services
                 to = toIds
             };
             model.messages.AddRange(message);
-            return messageApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Multicast, model);
+            return messageSendApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Multicast, model);
         }
     }
 }
