@@ -1,0 +1,55 @@
+using LineMessageApiSDK.LineReceivedObject;
+using LineMessageApiSDK.Method;
+using System.Threading.Tasks;
+
+namespace LineMessageApiSDK.Services
+{
+    /// <summary>
+    /// 使用者與成員檔案服務
+    /// </summary>
+    internal class ProfileService : IProfileService
+    {
+        private readonly LineApiContext context;
+        private readonly MessageApi messageApi;
+
+        /// <summary>
+        /// 建立檔案服務
+        /// </summary>
+        /// <param name="context">API Context</param>
+        internal ProfileService(LineApiContext context)
+        {
+            // 保存 Context 以使用 Token/序列化器/HttpClient
+            this.context = context;
+            // 建立內部 API（支援 HttpClient DI）
+            messageApi = new MessageApi(context.Serializer, context.HttpClient);
+        }
+
+        /// <inheritdoc />
+        public UserProfile GetUserProfile(string userId)
+        {
+            // 取得使用者檔案
+            return messageApi.GetUserProfile(context.ChannelAccessToken, userId);
+        }
+
+        /// <inheritdoc />
+        public Task<UserProfile> GetUserProfileAsync(string userId)
+        {
+            // 取得使用者檔案（非同步）
+            return messageApi.GetUserProfileAsync(context.ChannelAccessToken, userId);
+        }
+
+        /// <inheritdoc />
+        public UserProfile GetGroupMemberProfile(string userId, string groupIdOrRoomId, SourceType type)
+        {
+            // 取得群組或多人對話成員檔案
+            return messageApi.GetGroupMemberProfile(context.ChannelAccessToken, userId, groupIdOrRoomId, type);
+        }
+
+        /// <inheritdoc />
+        public Task<UserProfile> GetGroupMemberProfileAsync(string userId, string groupIdOrRoomId, SourceType type)
+        {
+            // 取得群組或多人對話成員檔案（非同步）
+            return messageApi.GetGroupMemberProfileAsync(context.ChannelAccessToken, userId, groupIdOrRoomId, type);
+        }
+    }
+}
