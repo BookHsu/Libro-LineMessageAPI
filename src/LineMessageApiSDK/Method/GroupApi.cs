@@ -16,9 +16,18 @@ namespace LineMessageApiSDK.Method
         /// </summary>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal GroupApi(HttpClient httpClient = null)
+            : this(new DefaultHttpClientProvider(httpClient))
+        {
+        }
+
+        /// <summary>
+        /// 建立群組 API
+        /// </summary>
+        /// <param name="httpClientProvider">HttpClient 提供者</param>
+        internal GroupApi(IHttpClientProvider httpClientProvider)
         {
             // 建立 HttpClient 提供者
-            httpClientProvider = new DefaultHttpClientProvider(httpClient);
+            this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
         }
 
         /// <summary>

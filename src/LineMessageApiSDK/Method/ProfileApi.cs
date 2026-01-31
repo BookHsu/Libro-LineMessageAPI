@@ -20,11 +20,21 @@ namespace LineMessageApiSDK.Method
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal ProfileApi(IJsonSerializer serializer, HttpClient httpClient = null)
+            : this(serializer, new DefaultHttpClientProvider(httpClient))
+        {
+        }
+
+        /// <summary>
+        /// 建立檔案 API
+        /// </summary>
+        /// <param name="serializer">JSON 序列化器</param>
+        /// <param name="httpClientProvider">HttpClient 提供者</param>
+        internal ProfileApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? throw new System.ArgumentNullException(nameof(serializer));
             // 建立 HttpClient 提供者
-            httpClientProvider = new DefaultHttpClientProvider(httpClient);
+            this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
         }
 
         /// <summary>

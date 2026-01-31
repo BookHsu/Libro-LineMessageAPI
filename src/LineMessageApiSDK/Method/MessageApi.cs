@@ -1,3 +1,4 @@
+﻿using LineMessageApiSDK.Http;
 using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.SendMessage;
 using LineMessageApiSDK.Serialization;
@@ -16,13 +17,15 @@ namespace LineMessageApiSDK.Method
         private readonly GroupApi groupApi;
         private readonly MessageSendApi messageSendApi;
 
-        internal MessageApi(IJsonSerializer serializer, HttpClient httpClient = null)
+        internal MessageApi(IJsonSerializer serializer, HttpClient httpClient = null, IHttpClientProvider httpClientProvider = null)
         {
+            // 建立 HttpClient 提供者（若外部未提供則使用預設）
+            IHttpClientProvider provider = httpClientProvider ?? new DefaultHttpClientProvider(httpClient);
             // 將責任拆分為多個模組 API
-            messageContentApi = new MessageContentApi(httpClient);
-            profileApi = new ProfileApi(serializer, httpClient);
-            groupApi = new GroupApi(httpClient);
-            messageSendApi = new MessageSendApi(serializer, httpClient);
+            messageContentApi = new MessageContentApi(provider);
+            profileApi = new ProfileApi(serializer, provider);
+            groupApi = new GroupApi(provider);
+            messageSendApi = new MessageSendApi(serializer, provider);
         }
 
         /// <summary>取得使用者傳送的圖片、影片、聲音、檔案</summary>

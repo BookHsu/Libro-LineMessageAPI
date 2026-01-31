@@ -1,3 +1,4 @@
+﻿using LineMessageApiSDK.Http;
 using LineMessageApiSDK.Serialization;
 using System.Net.Http;
 
@@ -19,9 +20,14 @@ namespace LineMessageApiSDK.Services
         internal IJsonSerializer Serializer { get; }
 
         /// <summary>
-        /// HttpClient
+        /// HttpClient（保留以維持相容）
         /// </summary>
         internal HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// HttpClient 提供者
+        /// </summary>
+        internal IHttpClientProvider HttpClientProvider { get; }
 
         /// <summary>
         /// 建立 API Context
@@ -29,14 +35,17 @@ namespace LineMessageApiSDK.Services
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="serializer">序列化器</param>
         /// <param name="httpClient">HttpClient</param>
-        internal LineApiContext(string channelAccessToken, IJsonSerializer serializer, HttpClient httpClient)
+        /// <param name="httpClientProvider">HttpClient 提供者</param>
+        internal LineApiContext(string channelAccessToken, IJsonSerializer serializer, HttpClient httpClient, IHttpClientProvider httpClientProvider = null)
         {
             // 設定必要的 Token
             ChannelAccessToken = channelAccessToken;
             // 若未提供序列化器，使用預設 System.Text.Json
             Serializer = serializer ?? new SystemTextJsonSerializer();
-            // HttpClient 可透過 DI 注入
+            // 保留 HttpClient 以兼容既有建構方式
             HttpClient = httpClient;
+            // 若提供 HttpClientProvider，優先使用
+            HttpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(httpClient);
         }
     }
 }

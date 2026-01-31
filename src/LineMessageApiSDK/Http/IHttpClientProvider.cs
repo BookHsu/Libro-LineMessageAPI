@@ -5,7 +5,7 @@ namespace LineMessageApiSDK.Http
     /// <summary>
     /// HttpClient 提供者介面
     /// </summary>
-    internal interface IHttpClientProvider
+    public interface IHttpClientProvider
     {
         /// <summary>
         /// 取得已設定完成的 HttpClient

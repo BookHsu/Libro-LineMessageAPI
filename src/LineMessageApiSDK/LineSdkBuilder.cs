@@ -1,3 +1,4 @@
+﻿using LineMessageApiSDK.Http;
 using LineMessageApiSDK.Serialization;
 using LineMessageApiSDK.Services;
 using System.Net.Http;
@@ -12,6 +13,7 @@ namespace LineMessageApiSDK
         private readonly string channelAccessToken;
         private IJsonSerializer serializer;
         private HttpClient httpClient;
+        private IHttpClientProvider httpClientProvider;
         private bool useWebhook = true;
         private bool useMessages;
         private bool useProfiles;
@@ -48,6 +50,18 @@ namespace LineMessageApiSDK
         {
             // 設定外部注入的 HttpClient
             this.httpClient = httpClient;
+            return this;
+        }
+
+        /// <summary>
+        /// 指定 HttpClient 提供者
+        /// </summary>
+        /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder WithHttpClientProvider(IHttpClientProvider httpClientProvider)
+        {
+            // 設定外部注入的 HttpClient 提供者
+            this.httpClientProvider = httpClientProvider;
             return this;
         }
 
@@ -113,7 +127,11 @@ namespace LineMessageApiSDK
         public LineSdk Build()
         {
             // 建立共用 Context（序列化器預設為 System.Text.Json）
-            var context = new LineApiContext(channelAccessToken, serializer ?? new SystemTextJsonSerializer(), httpClient);
+            var context = new LineApiContext(
+                channelAccessToken,
+                serializer ?? new SystemTextJsonSerializer(),
+                httpClient,
+                httpClientProvider);
 
             // 依需求載入模組
             IWebhookService webhook = useWebhook ? new WebhookService() : null;
