@@ -22,6 +22,7 @@ namespace LineMessageApiSDK
         private readonly IBotService botService;
         private readonly IBroadcastService broadcastService;
         private readonly IMessageValidationService messageValidationService;
+        private readonly IRichMenuService richMenuService;
 
         /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
@@ -205,6 +206,7 @@ namespace LineMessageApiSDK
             botService = new BotService(context);
             broadcastService = new BroadcastService(context);
             messageValidationService = new MessageValidationService(context);
+            richMenuService = new RichMenuService(context);
         }
 
         /// <summary>channelAccessToken</summary>
@@ -489,6 +491,222 @@ namespace LineMessageApiSDK
         public Task<bool> ValidateNarrowcastMessageAsync(NarrowcastMessage message)
         {
             return messageValidationService.ValidateNarrowcastAsync(message);
+        }
+
+        /// <summary>建立 Rich Menu</summary>
+        public Types.RichMenuIdResponse CreateRichMenu(object richMenu)
+        {
+            return richMenuService.CreateRichMenu(richMenu);
+        }
+
+        /// <summary>建立 Rich Menu（非同步）</summary>
+        public Task<Types.RichMenuIdResponse> CreateRichMenuAsync(object richMenu)
+        {
+            return richMenuService.CreateRichMenuAsync(richMenu);
+        }
+
+        /// <summary>取得 Rich Menu</summary>
+        public Types.RichMenuResponse GetRichMenu(string richMenuId)
+        {
+            return richMenuService.GetRichMenu(richMenuId);
+        }
+
+        /// <summary>取得 Rich Menu（非同步）</summary>
+        public Task<Types.RichMenuResponse> GetRichMenuAsync(string richMenuId)
+        {
+            return richMenuService.GetRichMenuAsync(richMenuId);
+        }
+
+        /// <summary>刪除 Rich Menu</summary>
+        public bool DeleteRichMenu(string richMenuId)
+        {
+            return richMenuService.DeleteRichMenu(richMenuId);
+        }
+
+        /// <summary>刪除 Rich Menu（非同步）</summary>
+        public Task<bool> DeleteRichMenuAsync(string richMenuId)
+        {
+            return richMenuService.DeleteRichMenuAsync(richMenuId);
+        }
+
+        /// <summary>取得 Rich Menu 清單</summary>
+        public Types.RichMenuListResponse GetRichMenuList()
+        {
+            return richMenuService.GetRichMenuList();
+        }
+
+        /// <summary>取得 Rich Menu 清單（非同步）</summary>
+        public Task<Types.RichMenuListResponse> GetRichMenuListAsync()
+        {
+            return richMenuService.GetRichMenuListAsync();
+        }
+
+        /// <summary>上傳 Rich Menu 圖片</summary>
+        public bool UploadRichMenuImage(string richMenuId, string contentType, byte[] content)
+        {
+            return richMenuService.UploadRichMenuImage(richMenuId, contentType, content);
+        }
+
+        /// <summary>上傳 Rich Menu 圖片（非同步）</summary>
+        public Task<bool> UploadRichMenuImageAsync(string richMenuId, string contentType, byte[] content)
+        {
+            return richMenuService.UploadRichMenuImageAsync(richMenuId, contentType, content);
+        }
+
+        /// <summary>下載 Rich Menu 圖片</summary>
+        public byte[] DownloadRichMenuImage(string richMenuId)
+        {
+            return richMenuService.DownloadRichMenuImage(richMenuId);
+        }
+
+        /// <summary>下載 Rich Menu 圖片（非同步）</summary>
+        public Task<byte[]> DownloadRichMenuImageAsync(string richMenuId)
+        {
+            return richMenuService.DownloadRichMenuImageAsync(richMenuId);
+        }
+
+        /// <summary>設定預設 Rich Menu</summary>
+        public bool SetDefaultRichMenu(string richMenuId)
+        {
+            return richMenuService.SetDefaultRichMenu(richMenuId);
+        }
+
+        /// <summary>設定預設 Rich Menu（非同步）</summary>
+        public Task<bool> SetDefaultRichMenuAsync(string richMenuId)
+        {
+            return richMenuService.SetDefaultRichMenuAsync(richMenuId);
+        }
+
+        /// <summary>取得預設 Rich Menu ID</summary>
+        public Types.RichMenuIdResponse GetDefaultRichMenuId()
+        {
+            return richMenuService.GetDefaultRichMenuId();
+        }
+
+        /// <summary>取得預設 Rich Menu ID（非同步）</summary>
+        public Task<Types.RichMenuIdResponse> GetDefaultRichMenuIdAsync()
+        {
+            return richMenuService.GetDefaultRichMenuIdAsync();
+        }
+
+        /// <summary>取消預設 Rich Menu</summary>
+        public bool CancelDefaultRichMenu()
+        {
+            return richMenuService.CancelDefaultRichMenu();
+        }
+
+        /// <summary>取消預設 Rich Menu（非同步）</summary>
+        public Task<bool> CancelDefaultRichMenuAsync()
+        {
+            return richMenuService.CancelDefaultRichMenuAsync();
+        }
+
+        /// <summary>綁定使用者 Rich Menu</summary>
+        public bool LinkUserRichMenu(string userId, string richMenuId)
+        {
+            return richMenuService.LinkUserRichMenu(userId, richMenuId);
+        }
+
+        /// <summary>綁定使用者 Rich Menu（非同步）</summary>
+        public Task<bool> LinkUserRichMenuAsync(string userId, string richMenuId)
+        {
+            return richMenuService.LinkUserRichMenuAsync(userId, richMenuId);
+        }
+
+        /// <summary>解除使用者 Rich Menu</summary>
+        public bool UnlinkUserRichMenu(string userId)
+        {
+            return richMenuService.UnlinkUserRichMenu(userId);
+        }
+
+        /// <summary>解除使用者 Rich Menu（非同步）</summary>
+        public Task<bool> UnlinkUserRichMenuAsync(string userId)
+        {
+            return richMenuService.UnlinkUserRichMenuAsync(userId);
+        }
+
+        /// <summary>批次綁定 Rich Menu</summary>
+        public bool BulkLinkRichMenu(Types.RichMenuBulkLinkRequest request)
+        {
+            return richMenuService.BulkLinkRichMenu(request);
+        }
+
+        /// <summary>批次綁定 Rich Menu（非同步）</summary>
+        public Task<bool> BulkLinkRichMenuAsync(Types.RichMenuBulkLinkRequest request)
+        {
+            return richMenuService.BulkLinkRichMenuAsync(request);
+        }
+
+        /// <summary>批次解除綁定 Rich Menu</summary>
+        public bool BulkUnlinkRichMenu(Types.RichMenuBulkUnlinkRequest request)
+        {
+            return richMenuService.BulkUnlinkRichMenu(request);
+        }
+
+        /// <summary>批次解除綁定 Rich Menu（非同步）</summary>
+        public Task<bool> BulkUnlinkRichMenuAsync(Types.RichMenuBulkUnlinkRequest request)
+        {
+            return richMenuService.BulkUnlinkRichMenuAsync(request);
+        }
+
+        /// <summary>建立 Rich Menu Alias</summary>
+        public bool CreateRichMenuAlias(Types.RichMenuAliasRequest request)
+        {
+            return richMenuService.CreateRichMenuAlias(request);
+        }
+
+        /// <summary>建立 Rich Menu Alias（非同步）</summary>
+        public Task<bool> CreateRichMenuAliasAsync(Types.RichMenuAliasRequest request)
+        {
+            return richMenuService.CreateRichMenuAliasAsync(request);
+        }
+
+        /// <summary>更新 Rich Menu Alias</summary>
+        public bool UpdateRichMenuAlias(string aliasId, Types.RichMenuAliasRequest request)
+        {
+            return richMenuService.UpdateRichMenuAlias(aliasId, request);
+        }
+
+        /// <summary>更新 Rich Menu Alias（非同步）</summary>
+        public Task<bool> UpdateRichMenuAliasAsync(string aliasId, Types.RichMenuAliasRequest request)
+        {
+            return richMenuService.UpdateRichMenuAliasAsync(aliasId, request);
+        }
+
+        /// <summary>取得 Rich Menu Alias</summary>
+        public Types.RichMenuAliasResponse GetRichMenuAlias(string aliasId)
+        {
+            return richMenuService.GetRichMenuAlias(aliasId);
+        }
+
+        /// <summary>取得 Rich Menu Alias（非同步）</summary>
+        public Task<Types.RichMenuAliasResponse> GetRichMenuAliasAsync(string aliasId)
+        {
+            return richMenuService.GetRichMenuAliasAsync(aliasId);
+        }
+
+        /// <summary>取得 Rich Menu Alias 清單</summary>
+        public Types.RichMenuAliasListResponse GetRichMenuAliasList()
+        {
+            return richMenuService.GetRichMenuAliasList();
+        }
+
+        /// <summary>取得 Rich Menu Alias 清單（非同步）</summary>
+        public Task<Types.RichMenuAliasListResponse> GetRichMenuAliasListAsync()
+        {
+            return richMenuService.GetRichMenuAliasListAsync();
+        }
+
+        /// <summary>刪除 Rich Menu Alias</summary>
+        public bool DeleteRichMenuAlias(string aliasId)
+        {
+            return richMenuService.DeleteRichMenuAlias(aliasId);
+        }
+
+        /// <summary>刪除 Rich Menu Alias（非同步）</summary>
+        public Task<bool> DeleteRichMenuAliasAsync(string aliasId)
+        {
+            return richMenuService.DeleteRichMenuAliasAsync(aliasId);
         }
 
         /// <summary>離開對話或群組（已過時，請改用 LeaveRoomOrGroup）</summary>

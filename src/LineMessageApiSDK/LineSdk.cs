@@ -33,6 +33,11 @@ namespace LineMessageApiSDK
         public IMessageValidationService MessageValidation { get; }
 
         /// <summary>
+        /// Rich Menu 模組（未啟用時為 null）
+        /// </summary>
+        public IRichMenuService RichMenu { get; }
+
+        /// <summary>
         /// 訊息模組（未啟用時為 null）
         /// </summary>
         public IMessageService Messages { get; }
@@ -61,6 +66,7 @@ namespace LineMessageApiSDK
             IBotService bot,
             IBroadcastService broadcast,
             IMessageValidationService messageValidation,
+            IRichMenuService richMenu,
             IMessageService messages,
             IProfileService profiles,
             IGroupService groups)
@@ -71,6 +77,7 @@ namespace LineMessageApiSDK
             Bot = bot;
             Broadcast = broadcast;
             MessageValidation = messageValidation;
+            RichMenu = richMenu;
             Messages = messages;
             Profiles = profiles;
             Groups = groups;

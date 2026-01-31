@@ -19,6 +19,7 @@ namespace LineMessageApiSDK
         private bool useBot;
         private bool useBroadcast;
         private bool useMessageValidation;
+        private bool useRichMenu;
         private bool useMessages;
         private bool useProfiles;
         private bool useGroups;
@@ -136,6 +137,17 @@ namespace LineMessageApiSDK
         }
 
         /// <summary>
+        /// 啟用 Rich Menu 模組
+        /// </summary>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder UseRichMenu()
+        {
+            // 啟用 Rich Menu 功能
+            useRichMenu = true;
+            return this;
+        }
+
+        /// <summary>
         /// 啟用訊息模組
         /// </summary>
         /// <returns>Builder</returns>
@@ -187,11 +199,12 @@ namespace LineMessageApiSDK
             IBotService bot = useBot ? new BotService(context) : null;
             IBroadcastService broadcast = useBroadcast ? new BroadcastService(context) : null;
             IMessageValidationService messageValidation = useMessageValidation ? new MessageValidationService(context) : null;
+            IRichMenuService richMenu = useRichMenu ? new RichMenuService(context) : null;
             IMessageService messages = useMessages ? new MessageService(context) : null;
             IProfileService profiles = useProfiles ? new ProfileService(context) : null;
             IGroupService groups = useGroups ? new GroupService(context) : null;
 
-            return new LineSdk(webhook, webhookEndpoints, bot, broadcast, messageValidation, messages, profiles, groups);
+            return new LineSdk(webhook, webhookEndpoints, bot, broadcast, messageValidation, richMenu, messages, profiles, groups);
         }
     }
 }
