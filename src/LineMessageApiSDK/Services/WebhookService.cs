@@ -1,4 +1,8 @@
+﻿using System;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LineMessageApiSDK.Services
 {
@@ -15,8 +19,25 @@ namespace LineMessageApiSDK.Services
         /// <returns>是否通過驗證</returns>
         public bool ValidateSignature(HttpRequestMessage request, string channelSecret)
         {
-            // 使用既有的驗證邏輯以維持一致性
-            return LineChannel.VaridateSignature(request, channelSecret);
+            if (request == null)
+            {
+                // 避免空參數造成例外
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            if (string.IsNullOrWhiteSpace(channelSecret))
+            {
+                // Channel Secret 不可為空
+                throw new ArgumentException("Channel Secret 不可為空", nameof(channelSecret));
+            }
+
+            // 讀取請求內容並計算簽章
+            var body = request.Content?.ReadAsStringAsync().Result ?? string.Empty;
+            var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(channelSecret));
+            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(body));
+            var contentHash = Convert.ToBase64String(computeHash);
+            var headerHash = request.Headers.GetValues("X-Line-Signature").First();
+            return contentHash == headerHash;
         }
     }
 }
