@@ -62,7 +62,7 @@ namespace LineMessageApiSDK
         }
 
         /// <summary>channelAccessToken</summary>
-        public string channelAccessToken { get; set; }
+        public string channelAccessToken { get; private set; }
 
         /// <summary>
         /// 離開對話或群組
