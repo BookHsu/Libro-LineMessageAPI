@@ -1,3 +1,4 @@
+﻿using LineMessageApiSDK.Http;
 using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.Serialization;
 using System.Net.Http;
@@ -11,7 +12,7 @@ namespace LineMessageApiSDK.Method
     internal class ProfileApi
     {
         private readonly IJsonSerializer serializer;
-        private readonly HttpClient httpClient;
+        private readonly IHttpClientProvider httpClientProvider;
 
         /// <summary>
         /// 建立檔案 API
@@ -22,8 +23,8 @@ namespace LineMessageApiSDK.Method
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? throw new System.ArgumentNullException(nameof(serializer));
-            // 保存 HttpClient（可透過 DI 注入）
-            this.httpClient = httpClient;
+            // 建立 HttpClient 提供者
+            httpClientProvider = new DefaultHttpClientProvider(httpClient);
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace LineMessageApiSDK.Method
         internal UserProfile GetUserProfile(string channelAccessToken, string userId)
         {
             bool shouldDispose;
-            HttpClient client = GetClientDefault(channelAccessToken, out shouldDispose);
+            HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
                 string strUrl = LineApiEndpoints.BuildUserProfile(userId);
@@ -61,7 +62,7 @@ namespace LineMessageApiSDK.Method
         internal async Task<UserProfile> GetUserProfileAsync(string channelAccessToken, string userId)
         {
             bool shouldDispose;
-            HttpClient client = GetClientDefault(channelAccessToken, out shouldDispose);
+            HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
                 string strUrl = LineApiEndpoints.BuildUserProfile(userId);
@@ -89,7 +90,7 @@ namespace LineMessageApiSDK.Method
         internal UserProfile GetGroupMemberProfile(string channelAccessToken, string userId, string groupId, SourceType type)
         {
             bool shouldDispose;
-            HttpClient client = GetClientDefault(channelAccessToken, out shouldDispose);
+            HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
                 string strUrl = LineApiEndpoints.BuildGroupMemberProfile(type, groupId, userId);
@@ -117,7 +118,7 @@ namespace LineMessageApiSDK.Method
         internal async Task<UserProfile> GetGroupMemberProfileAsync(string channelAccessToken, string userId, string groupId, SourceType type)
         {
             bool shouldDispose;
-            HttpClient client = GetClientDefault(channelAccessToken, out shouldDispose);
+            HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
                 string strUrl = LineApiEndpoints.BuildGroupMemberProfile(type, groupId, userId);
@@ -132,24 +133,6 @@ namespace LineMessageApiSDK.Method
                     client.Dispose();
                 }
             }
-        }
-
-        private HttpClient GetClientDefault(string channelAccessToken, out bool shouldDispose)
-        {
-            if (httpClient != null)
-            {
-                // 使用外部注入的 HttpClient
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", channelAccessToken);
-                shouldDispose = false;
-                return httpClient;
-            }
-
-            // 未注入時，維持舊行為：每次建立新的 HttpClient
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", channelAccessToken);
-            shouldDispose = true;
-            return client;
         }
     }
 }

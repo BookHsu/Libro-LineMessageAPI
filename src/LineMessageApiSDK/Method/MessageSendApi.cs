@@ -1,3 +1,4 @@
+﻿using LineMessageApiSDK.Http;
 using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.SendMessage;
 using LineMessageApiSDK.Serialization;
@@ -14,7 +15,7 @@ namespace LineMessageApiSDK.Method
     internal class MessageSendApi
     {
         private readonly IJsonSerializer serializer;
-        private readonly HttpClient httpClient;
+        private readonly IHttpClientProvider httpClientProvider;
 
         /// <summary>
         /// 建立訊息發送 API
@@ -25,8 +26,8 @@ namespace LineMessageApiSDK.Method
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            // 保存 HttpClient（可透過 DI 注入）
-            this.httpClient = httpClient;
+            // 建立 HttpClient 提供者
+            httpClientProvider = new DefaultHttpClientProvider(httpClient);
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace LineMessageApiSDK.Method
             string strUrl = BuildMessageUrl(type);
 
             bool shouldDispose;
-            HttpClient client = GetClientDefault(channelAccessToken, out shouldDispose);
+            HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
                 var sJosn = serializer.Serialize(message);
@@ -79,7 +80,7 @@ namespace LineMessageApiSDK.Method
             string strUrl = BuildMessageUrl(type);
 
             bool shouldDispose;
-            HttpClient client = GetClientDefault(channelAccessToken, out shouldDispose);
+            HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
                 var sJosn = serializer.Serialize(message);
@@ -119,24 +120,6 @@ namespace LineMessageApiSDK.Method
             }
 
             return string.Empty;
-        }
-
-        private HttpClient GetClientDefault(string channelAccessToken, out bool shouldDispose)
-        {
-            if (httpClient != null)
-            {
-                // 使用外部注入的 HttpClient
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", channelAccessToken);
-                shouldDispose = false;
-                return httpClient;
-            }
-
-            // 未注入時，維持舊行為：每次建立新的 HttpClient
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", channelAccessToken);
-            shouldDispose = true;
-            return client;
         }
     }
 }
