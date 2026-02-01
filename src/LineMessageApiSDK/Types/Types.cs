@@ -25,7 +25,10 @@
         leave,
 
         /// <summary></summary>
-        banner
+        banner,
+
+        /// <summary></summary>
+        stay
     }
 
     /// <summary>line 主動推播 事件類型</summary>
@@ -46,11 +49,29 @@
         /// <summary>離開群組或多方對話</summary>
         leave,
 
+        /// <summary>群組或多方對話成員加入</summary>
+        memberJoined,
+
+        /// <summary>群組或多方對話成員離開</summary>
+        memberLeft,
+
         /// <summary>發送樣板訊息後使用者動作推播，可以使用reply message回復</summary>
         postback,
 
+        /// <summary>影片播放完成事件</summary>
+        videoPlayComplete,
+
         /// <summary>使用者點選廣告Banner後推播訊息，可以使用reply message回復</summary>
         beacon,
+
+        /// <summary>帳號連結事件</summary>
+        accountLink,
+
+        /// <summary>LINE Things 事件</summary>
+        things,
+
+        /// <summary>使用者收回訊息事件</summary>
+        unsend,
     }
 
     /// <summary>訊息類型</summary>
@@ -162,5 +183,25 @@
         /// datetime mode
         /// </summary>
         datetime
+    }
+
+    /// <summary>Bot 聊天模式</summary>
+    public enum ChatMode
+    {
+        /// <summary>聊天模式</summary>
+        chat,
+
+        /// <summary>Bot 模式</summary>
+        bot
+    }
+
+    /// <summary>已讀模式</summary>
+    public enum MarkAsReadMode
+    {
+        /// <summary>自動已讀</summary>
+        auto,
+
+        /// <summary>手動已讀</summary>
+        manual
     }
 }

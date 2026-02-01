@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LineMessageApiSDK.Types
 {
@@ -10,6 +11,7 @@ namespace LineMessageApiSDK.Types
         /// <summary>
         /// Alias 清單
         /// </summary>
+        [JsonPropertyName("aliases")]
         public List<RichMenuAliasResponse> aliases { get; set; }
     }
 }

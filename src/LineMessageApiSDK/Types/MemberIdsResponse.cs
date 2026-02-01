@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LineMessageApiSDK.Types
 {
@@ -10,11 +11,13 @@ namespace LineMessageApiSDK.Types
         /// <summary>
         /// 成員 ID 清單
         /// </summary>
+        [JsonPropertyName("memberIds")]
         public List<string> memberIds { get; set; }
 
         /// <summary>
         /// 下一頁 Token
         /// </summary>
+        [JsonPropertyName("next")]
         public string next { get; set; }
     }
 }

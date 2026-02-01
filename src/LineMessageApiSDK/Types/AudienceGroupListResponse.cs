@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LineMessageApiSDK.Types
 {
@@ -10,6 +11,19 @@ namespace LineMessageApiSDK.Types
         /// <summary>
         /// Audience 清單
         /// </summary>
-        public List<object> audienceGroups { get; set; }
+        [JsonPropertyName("audienceGroups")]
+        public List<AudienceGroup> audienceGroups { get; set; }
+
+        /// <summary>
+        /// 是否有下一頁
+        /// </summary>
+        [JsonPropertyName("hasNextPage")]
+        public bool hasNextPage { get; set; }
+
+        /// <summary>
+        /// 總筆數
+        /// </summary>
+        [JsonPropertyName("totalCount")]
+        public int? totalCount { get; set; }
     }
 }

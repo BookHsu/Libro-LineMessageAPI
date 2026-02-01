@@ -1,4 +1,6 @@
-﻿namespace LineMessageApiSDK.Types
+using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.Types
 {
     /// <summary>
     /// Bot 基本資訊
@@ -8,26 +10,45 @@
         /// <summary>
         /// 使用者 ID
         /// </summary>
+        [JsonPropertyName("userId")]
         public string userId { get; set; }
+
+        /// <summary>
+        /// LINE 基本 ID
+        /// </summary>
+        [JsonPropertyName("basicId")]
+        public string basicId { get; set; }
+
+        /// <summary>
+        /// LINE Premium ID
+        /// </summary>
+        [JsonPropertyName("premiumId")]
+        public string premiumId { get; set; }
 
         /// <summary>
         /// 顯示名稱
         /// </summary>
+        [JsonPropertyName("displayName")]
         public string displayName { get; set; }
 
         /// <summary>
         /// 大頭貼
         /// </summary>
+        [JsonPropertyName("pictureUrl")]
         public string pictureUrl { get; set; }
 
         /// <summary>
         /// Chat 模式
         /// </summary>
-        public string chatMode { get; set; }
+        [JsonPropertyName("chatMode")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public ChatMode chatMode { get; set; }
 
         /// <summary>
-        /// 標記功能
+        /// 已讀模式
         /// </summary>
-        public bool markAsReadMode { get; set; }
+        [JsonPropertyName("markAsReadMode")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public MarkAsReadMode markAsReadMode { get; set; }
     }
 }

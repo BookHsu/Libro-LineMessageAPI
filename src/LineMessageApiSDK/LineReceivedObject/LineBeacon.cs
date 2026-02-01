@@ -1,15 +1,21 @@
-﻿namespace LineMessageApiSDK.LineReceivedObject
+using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.LineReceivedObject
 {
-    /// <summary></summary>
+    /// <summary>Beacon 事件</summary>
     public class LineBeacon
     {
-        /// <summary></summary>
+        /// <summary>Device message</summary>
+        [JsonPropertyName("dm")]
         public string dm { get; set; }
 
-        /// <summary></summary>
+        /// <summary>Hardware ID</summary>
+        [JsonPropertyName("hwid")]
         public string hwid { get; set; }
 
-        /// <summary></summary> 
+        /// <summary>Beacon 類型</summary>
+        [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public BeaconType type { get; set; }
     }
 }

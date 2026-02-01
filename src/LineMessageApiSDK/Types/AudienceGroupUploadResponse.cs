@@ -1,4 +1,6 @@
-﻿namespace LineMessageApiSDK.Types
+using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.Types
 {
     /// <summary>
     /// Audience 上傳回應
@@ -8,11 +10,13 @@
         /// <summary>
         /// Audience Group ID
         /// </summary>
+        [JsonPropertyName("audienceGroupId")]
         public long? audienceGroupId { get; set; }
 
         /// <summary>
         /// 上傳 ID
         /// </summary>
+        [JsonPropertyName("uploadId")]
         public string uploadId { get; set; }
     }
 }
