@@ -5,11 +5,6 @@ Accept: application/json
 
 ###
 
-GET {{LineMessageApi.ExampleApi_HostAddress}}/line/bot-info
-Accept: application/json
-
-###
-
 POST {{LineMessageApi.ExampleApi_HostAddress}}/line/webhook
 Content-Type: application/json
 X-Line-Signature: TODO
