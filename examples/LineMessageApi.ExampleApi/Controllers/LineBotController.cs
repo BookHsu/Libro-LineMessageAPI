@@ -4,17 +4,28 @@ using Microsoft.Extensions.Options;
 
 namespace LineMessageApi.ExampleApi.Controllers;
 
+/// <summary>
+/// Line Bot 相關範例 API
+/// </summary>
 [ApiController]
 [Route("line")]
 public sealed class LineBotController : ControllerBase
 {
     private readonly LineChannelOptions options;
+    private readonly LineSdk sdk;
 
-    public LineBotController(IOptions<LineChannelOptions> options)
+    /// <summary>
+    /// 建立 Line Bot Controller
+    /// </summary>
+    public LineBotController(IOptions<LineChannelOptions> options, LineSdk sdk)
     {
         this.options = options.Value;
+        this.sdk = sdk;
     }
 
+    /// <summary>
+    /// 取得 Bot 基本資訊
+    /// </summary>
     [HttpGet("bot-info")]
     public async Task<IActionResult> GetBotInfo()
     {
@@ -26,10 +37,6 @@ public sealed class LineBotController : ControllerBase
                 error = "LineChannel:ChannelAccessToken is not configured."
             });
         }
-
-        var sdk = new LineSdkBuilder(token)
-            .UseBot()
-            .Build();
 
         var info = await sdk.Bot!.GetBotInfoAsync();
         return Ok(info);
