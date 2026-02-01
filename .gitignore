@@ -262,3 +262,13 @@ __pycache__/
 
 # Repository agent guidelines
 AGENTS.md
+.vscode/settings.json
+examples/LineMessageApi.ExampleApi/Properties/PublishProfiles/
+examples/LineMessageApi.ExampleApi/Properties/ServiceDependencies/
+examples/LineMessageApi.ExampleApi/dotnet-tools.json
+examples/LineMessageApi.ExampleApi/Properties/launchSettings.json
+.vscode/settings.json
+examples/LineMessageApi.ExampleApi/Properties/PublishProfiles/
+examples/LineMessageApi.ExampleApi/Properties/ServiceDependencies/
+examples/LineMessageApi.ExampleApi/dotnet-tools.json
+examples/LineMessageApi.ExampleApi/Properties/launchSettings.json
