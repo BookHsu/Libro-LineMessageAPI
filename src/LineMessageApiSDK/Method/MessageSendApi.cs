@@ -56,7 +56,8 @@ namespace LineMessageApiSDK.Method
             HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
-                var sJosn = serializer.Serialize(message);
+                var payload = NormalizeMessagePayload(message);
+                var sJosn = serializer.Serialize(payload);
                 var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
                 var s = client.PostAsync(strUrl, content).Result.Content.ReadAsStringAsync().Result;
                 if (s == "{}")
@@ -66,7 +67,7 @@ namespace LineMessageApiSDK.Method
                 else
                 {
                     LineErrorResponse err = serializer.Deserialize<LineErrorResponse>(s);
-                    throw new Exception(BuildErrorMessage(err));
+                    throw new Exception($"{BuildErrorMessage(err)} | request={sJosn}");
                 }
             }
             finally
@@ -94,7 +95,8 @@ namespace LineMessageApiSDK.Method
             HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
-                var sJosn = serializer.Serialize(message);
+                var payload = NormalizeMessagePayload(message);
+                var sJosn = serializer.Serialize(payload);
                 var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(strUrl, content);
                 var s = await response.Content.ReadAsStringAsync();
@@ -105,7 +107,7 @@ namespace LineMessageApiSDK.Method
                 else
                 {
                     LineErrorResponse err = serializer.Deserialize<LineErrorResponse>(s);
-                    throw new Exception(BuildErrorMessage(err));
+                    throw new Exception($"{BuildErrorMessage(err)} | request={sJosn}");
                 }
             }
             finally
@@ -131,6 +133,53 @@ namespace LineMessageApiSDK.Method
             }
 
             return string.Empty;
+        }
+
+        private static object NormalizeMessagePayload(SendLineMessage message)
+        {
+            if (message == null)
+            {
+                return null;
+            }
+
+            var messageList = message.messages?.Select(m => (object)m).ToList();
+
+            switch (message)
+            {
+                case ReplyMessage reply:
+                    return new
+                    {
+                        replyToken = reply.replyToken,
+                        messages = messageList
+                    };
+                case PushMessage push:
+                    return new
+                    {
+                        to = push.to,
+                        messages = messageList
+                    };
+                case MulticastMessage multicast:
+                    return new
+                    {
+                        to = multicast.to,
+                        messages = messageList
+                    };
+                case BroadcastMessage broadcast:
+                    return new
+                    {
+                        messages = messageList,
+                        notificationDisabled = broadcast.notificationDisabled
+                    };
+                case NarrowcastMessage narrowcast:
+                    return new
+                    {
+                        recipient = narrowcast.recipient,
+                        messages = messageList,
+                        notificationDisabled = narrowcast.notificationDisabled
+                    };
+                default:
+                    return message;
+            }
         }
 
         private static string BuildErrorMessage(LineErrorResponse err)
