@@ -1,22 +1,26 @@
-﻿using System;
+using System.Text.Json.Serialization;
+
 namespace LineMessageApiSDK.LineReceivedObject
 {
+    /// <summary>Postback 參數</summary>
     public class LineParams
     {
         /// <summary>
-        /// 只有在Datetime模式下出現
-        /// 格式： yyyy-MM-ddTHH:mm
+        /// Datetime 模式（yyyy-MM-ddTHH:mm）
         /// </summary>
-        public DateTime? datetime { get; set; }
+        [JsonPropertyName("datetime")]
+        public string datetime { get; set; }
+
         /// <summary>
-        /// 只有在date模式下出現
-        /// 格式： yyyy-MM-dd
+        /// Date 模式（yyyy-MM-dd）
         /// </summary>
-        public DateTime? date { get; set; }
+        [JsonPropertyName("date")]
+        public string date { get; set; }
+
         /// <summary>
-        /// 只有在時間模式下出現
-        /// 格式： HH:mm
+        /// Time 模式（HH:mm）
         /// </summary>
+        [JsonPropertyName("time")]
         public string time { get; set; }
     }
 }

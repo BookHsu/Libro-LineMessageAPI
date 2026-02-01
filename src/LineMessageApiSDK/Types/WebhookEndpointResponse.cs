@@ -1,0 +1,22 @@
+using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.Types
+{
+    /// <summary>
+    /// Webhook Endpoint 回應
+    /// </summary>
+    public class WebhookEndpointResponse
+    {
+        /// <summary>
+        /// Webhook Endpoint
+        /// </summary>
+        [JsonPropertyName("endpoint")]
+        public string endpoint { get; set; }
+
+        /// <summary>
+        /// 是否啟用
+        /// </summary>
+        [JsonPropertyName("active")]
+        public bool active { get; set; }
+    }
+}

@@ -1,12 +1,16 @@
-﻿namespace LineMessageApiSDK.LineReceivedObject
+using System.Text.Json.Serialization;
+
+namespace LineMessageApiSDK.LineReceivedObject
 {
-    /// <summary>Line回傳錯誤訊息</summary>
+    /// <summary>Line 回傳錯誤訊息</summary>
     public class ErrorDetail
     {
-        /// <summary></summary>
+        /// <summary>錯誤訊息</summary>
+        [JsonPropertyName("message")]
         public string message { get; set; }
 
-        /// <summary></summary>
-        public string property { get; set; } 
+        /// <summary>對應欄位</summary>
+        [JsonPropertyName("property")]
+        public string property { get; set; }
     }
 }

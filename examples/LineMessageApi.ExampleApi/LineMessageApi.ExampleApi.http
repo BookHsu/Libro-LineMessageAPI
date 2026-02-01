@@ -1,0 +1,16 @@
+@LineMessageApi.ExampleApi_HostAddress = http://localhost:5175
+
+GET {{LineMessageApi.ExampleApi_HostAddress}}/health
+Accept: application/json
+
+###
+
+POST {{LineMessageApi.ExampleApi_HostAddress}}/line/webhook
+Content-Type: application/json
+X-Line-Signature: TODO
+
+{
+  "events": []
+}
+
+###
