@@ -9,7 +9,11 @@ namespace LineMessageApiSDK.Serialization
         private static readonly JsonSerializerOptions SerializerOptions = new()
         {
             PropertyNameCaseInsensitive = true,
-            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+            Converters =
+            {
+                new FlexibleBoolConverter(),
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
         };
 
         /// <inheritdoc />

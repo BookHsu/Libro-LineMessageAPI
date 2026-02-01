@@ -3,6 +3,7 @@ using LineMessageApiSDK.LineReceivedObject;
 using LineMessageApiSDK.SendMessage;
 using LineMessageApiSDK.Serialization;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +66,7 @@ namespace LineMessageApiSDK.Method
                 else
                 {
                     LineErrorResponse err = serializer.Deserialize<LineErrorResponse>(s);
-                    throw new Exception(err.message);
+                    throw new Exception(BuildErrorMessage(err));
                 }
             }
             finally
@@ -104,7 +105,7 @@ namespace LineMessageApiSDK.Method
                 else
                 {
                     LineErrorResponse err = serializer.Deserialize<LineErrorResponse>(s);
-                    throw new Exception(err.message);
+                    throw new Exception(BuildErrorMessage(err));
                 }
             }
             finally
@@ -130,6 +131,24 @@ namespace LineMessageApiSDK.Method
             }
 
             return string.Empty;
+        }
+
+        private static string BuildErrorMessage(LineErrorResponse err)
+        {
+            if (err == null)
+            {
+                return "Unknown error.";
+            }
+
+            if (err.details == null || err.details.Count == 0)
+            {
+                return err.message ?? "Unknown error.";
+            }
+
+            var detailMessages = string.Join("; ", err.details.Select(d =>
+                $"{d.property}: {d.message}"));
+
+            return $"{err.message} ({detailMessages})";
         }
     }
 }
