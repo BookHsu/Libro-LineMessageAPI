@@ -1,22 +1,22 @@
 # LINE Messaging API 2.0 規格速覽與快速上手
 
-本文件整理 SDK 目前支援的 LINE Messaging API 2.0 功能，並提供最快速的上手流程與範例程式碼，方便直接套用到專案中。
+本文件彙整 SDK 支援的 LINE Messaging API 2.0 功能，提供標準化的設定流程與可直接套用的範例程式碼，便於快速導入與維護。
 
-## 1. 快速上手流程（最短路徑）
+## 1. 快速上手流程
 
 1. **建立 LINE Channel**
-   - 在 LINE Developers 建立 Provider 與 Messaging API Channel。
+   - 於 LINE Developers 建立 Provider 與 Messaging API Channel。
    - 取得 **Channel Secret** 與 **Channel Access Token**。
-2. **Webhook 設定**
-   - 於 LINE Developers 後台設定 webhook URL（HTTPS）。
-   - 開啟 `Use webhook`。
-3. **在專案中使用 SDK**
-   - 建議透過方案參考或 NuGet 套件引用（依你的部署方式）。
-4. **驗證簽章並解析事件**
+2. **設定 Webhook**
+   - 在 LINE Developers 後台設定 HTTPS Webhook URL。
+   - 啟用 `Use webhook`。
+3. **導入 SDK**
+   - 以 NuGet 套件或方案參考方式導入（依部署方式選擇）。
+4. **驗證簽章與解析事件**
    - 使用 `LineChannel.VaridateSignature` 驗證 `X-Line-Signature`。
    - 將 webhook body 反序列化為 `LineReceivedMsg`。
-5. **使用 Reply Token 回覆訊息**
-   - `LineChannel.SendReplyMessage` 直接回覆事件訊息。
+5. **使用 Reply Token 回覆**
+   - 以 `LineSdkBuilder(...).UseMessages()` 建立後呼叫 `SendReplyMessage`/`SendReplyMessageAsync`。
 
 ## 2. 設定方式（必要參數與環境）
 
@@ -37,7 +37,7 @@
 - **設定檔**（可選）
   - 以 `appsettings.json` 或秘密管理服務保存，避免硬編碼。
 
-### 2.3 SDK 初始化範例
+### 2.3 SDK 初始化範例（直接建立實例）
 
 ```csharp
 using LineMessageApiSDK;
@@ -50,7 +50,33 @@ if (string.IsNullOrWhiteSpace(channelSecret) || string.IsNullOrWhiteSpace(channe
     throw new InvalidOperationException("缺少 LINE Channel 設定資訊。");
 }
 
-var channel = new LineChannel(channelAccessToken);
+var sdk = new LineSdkBuilder(channelAccessToken)
+    .UseMessages()
+    .Build();
+```
+
+### 2.4 SDK 初始化範例（DI 注入）
+
+```csharp
+using LineMessageApiSDK;
+using Microsoft.Extensions.DependencyInjection;
+
+var services = new ServiceCollection();
+services.AddSingleton(sp =>
+{
+    var channelAccessToken = Environment.GetEnvironmentVariable("LINE_CHANNEL_ACCESS_TOKEN");
+    if (string.IsNullOrWhiteSpace(channelAccessToken))
+    {
+        throw new InvalidOperationException("缺少 LINE_CHANNEL_ACCESS_TOKEN");
+    }
+
+    return new LineSdkBuilder(channelAccessToken)
+        .UseMessages()
+        .Build();
+});
+
+var serviceProvider = services.BuildServiceProvider();
+var sdk = serviceProvider.GetRequiredService<LineSdk>();
 ```
 
 ## 3. SDK 支援的 API 端點（2.0）
@@ -59,7 +85,7 @@ var channel = new LineChannel(channelAccessToken);
 | --- | --- | --- |
 | 回覆訊息 | `SendReplyMessage` / `SendReplyMessageAsync` | `POST /v2/bot/message/reply` |
 | 推播訊息 | `SendPushMessage` / `SendPushMessageAsync` | `POST /v2/bot/message/push` |
-| 多播訊息 | `SendMuticastMessage` / `SendMuticastMessageAsync` | `POST /v2/bot/message/multicast` |
+| 多播訊息 | `SendMulticastMessage` / `SendMulticastMessageAsync` | `POST /v2/bot/message/multicast` |
 | 取得使用者檔案 | `Get_User_Data` / `Get_User_DataAsync` | `GET /v2/bot/profile/{userId}` |
 | 取得群組/聊天室使用者檔案 | `Get_Group_UserProfile` / `Get_Group_UserProfileAsync` | `GET /v2/bot/{group|room}/{groupId|roomId}/member/{userId}` |
 | 取得使用者上傳的內容 | `Get_User_Upload_To_Bot` / `Get_User_Upload_To_BotAsync` | `GET /v2/bot/message/{messageId}/content` |
@@ -91,8 +117,13 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request)
     var replyToken = payload?.events?[0]?.replyToken;
     if (!string.IsNullOrEmpty(replyToken))
     {
-        var channel = new LineChannel(channelAccessToken);
-        channel.SendReplyMessage(replyToken, new LineMessageApiSDK.LineMessageObject.TextMessage("收到！"));
+        var sdk = new LineSdkBuilder(channelAccessToken)
+            .UseMessages()
+            .Build();
+
+        await sdk.Messages!.SendReplyMessageAsync(
+            replyToken,
+            new LineMessageApiSDK.LineMessageObject.TextMessage("收到！"));
     }
 
     return new OkResult();
@@ -128,4 +159,4 @@ var image = new ImageMessage
 1. 在 Webhook 入口先做 **簽章驗證**。
 2. 解析事件後分流為 **訊息處理服務**（方便日後擴充）。
 3. 回覆訊息與主動推播分離，以符合 **單一責任原則**。
-4. 所有外部呼叫集中在 `LineChannel`，讓測試與替換更容易。
+4. 將外部呼叫集中於 SDK（`LineSdkBuilder` / `LineChannel`），以利測試與替換。
