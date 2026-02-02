@@ -109,6 +109,8 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request, string chan
 
 ```bash
 pwsh scripts/sync-wiki.ps1
+pwsh scripts/sync-wiki.ps1 -Commit
+pwsh scripts/sync-wiki.ps1 -Commit -Push
 ```
 
 ## 授權
