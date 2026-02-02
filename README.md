@@ -103,6 +103,14 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request, string chan
 請先閱讀「LINE Messaging API 2.0 規格速覽與快速上手」，內含支援端點與最短上手流程。  
 [docs/line-message-api-2.0.md](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/line-message-api-2.0.md)
 
+## Wiki 同步
+
+本 repo 以 `docs/wiki/` 作為文件來源，可用腳本同步到 GitHub Wiki repo：
+
+```bash
+pwsh scripts/sync-wiki.ps1
+```
+
 ## 授權
 
 本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/LibroLineMessageApi/blob/main/LICENSE)。
