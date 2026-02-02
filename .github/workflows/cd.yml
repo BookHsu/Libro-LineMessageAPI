@@ -27,6 +27,9 @@ jobs:
       - name: Pack NuGet
         run: dotnet pack src/LineMessageApiSDK/LineMessageApiSDK.csproj -c Release -o artifacts --no-build --include-symbols --include-source
 
+      - name: Pack NuGet Extensions
+        run: dotnet pack src/LineMessageApiSDK.Extensions/LineMessageApiSDK.Extensions.csproj -c Release -o artifacts --no-build --include-symbols --include-source
+
       - name: Publish NuGet
         run: |
           Get-ChildItem artifacts -Filter *.nupkg | ForEach-Object {
@@ -45,5 +48,6 @@ jobs:
           name: LineMessageApiSDK-Release
           path: |
             src/LineMessageApiSDK/bin/Release/**
+            src/LineMessageApiSDK.Extensions/bin/Release/**
             artifacts/*.nupkg
             artifacts/*.snupkg

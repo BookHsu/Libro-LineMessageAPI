@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <RootNamespace>LineMessageApiSDK.Extensions</RootNamespace>
+    <AssemblyName>LineMessageApiSDK.Extensions</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>2.1.2</Version>
+    <PackageId>LibroLineMessageSDK.Extensions</PackageId>
+    <Authors>book.hsu</Authors>
+    <Description>LINE Messaging API SDK extensions for DI/Options integration.</Description>
+    <PackageProjectUrl>https://github.com/BookHsu/LibroLineMessageApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BookHsu/LibroLineMessageApi</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LineMessageApiSDK\LineMessageApiSDK.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
