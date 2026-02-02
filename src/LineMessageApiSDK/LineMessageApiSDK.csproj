@@ -8,8 +8,8 @@
     <PackageId>LibroLineMessageSDK</PackageId>
     <Authors>book.hsu</Authors>
     <Description>LINE Messaging API C# SDK.</Description>
-    <PackageProjectUrl>https://github.com/BookHsu/LibroLineMessageApi#</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/BookHsu/LibroLineMessageApi#</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BookHsu/LibroLineMessageApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BookHsu/LibroLineMessageApi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
