@@ -39,6 +39,37 @@ namespace LineMessageApiSDK.Tests
         }
 
         [TestMethod]
+        public void Serialize_LineAction_Should_Include_DisplayText()
+        {
+            var action = new LineAction(ActionType.postback)
+            {
+                data = "action=postback",
+                displayText = "這是留言"
+            };
+
+            var serializer = new SystemTextJsonSerializer();
+
+            var json = serializer.Serialize(action);
+
+            StringAssert.Contains(json, "\"displayText\":\"這是留言\"");
+        }
+
+        [TestMethod]
+        public void Serialize_LineAction_Should_Omit_DisplayText_When_Null()
+        {
+            var action = new LineAction(ActionType.postback)
+            {
+                data = "action=postback"
+            };
+
+            var serializer = new SystemTextJsonSerializer();
+
+            var json = serializer.Serialize(action);
+
+            StringAssert.DoesNotContain(json, "\"displayText\":");
+        }
+
+        [TestMethod]
         public void Deserialize_UserProfile_Should_Be_Case_Insensitive()
         {
             var serializer = new SystemTextJsonSerializer();
