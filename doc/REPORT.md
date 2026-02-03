@@ -27,6 +27,7 @@
 - 新增 `LineChannelOptions` 至 SDK，並提供 DI/Options 擴充套件。
 - 更新範例專案與文件，改用 `AddLineSdk(...)` 設定流程。
 - 版本更新至 2.1.2，並補上 Extensions 套件打包流程。
+- 補上 MSTest 平行化設定的命名空間引用並啟用 Nullable 註記範圍，修正建置失敗與警告。
 
 ## 後續建議
 
