@@ -1,51 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using LineMessageApi.ExampleApi.Hubs;
+using LineMessageApi.ExampleApi.Models;
+using LineMessageApi.ExampleApi.Services;
 using LineMessageApiSDK;
 using LineMessageApiSDK.LineMessageObject;
 using LineMessageApiSDK.LineReceivedObject;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace LineMessageApi.ExampleApi.Controllers;
 
 /// <summary>
-/// Line Webhook 相關範例 API
+/// Line Webhook 接收 API
 /// </summary>
 [ApiController]
 [Route("line")]
 public sealed class LineWebhookController : ControllerBase
 {
-    private readonly LineChannelOptions options;
+    private readonly LineConfigStore store;
     private readonly JsonSerializerOptions jsonOptions;
-    private readonly LineSdk sdk;
+    private readonly IHubContext<LineWebhookHub> hubContext;
     private readonly ILogger<LineWebhookController> logger;
 
     /// <summary>
     /// 建立 Line Webhook Controller
     /// </summary>
     public LineWebhookController(
-        IOptions<LineChannelOptions> options,
+        LineConfigStore store,
+        IHubContext<LineWebhookHub> hubContext,
         IOptions<Microsoft.AspNetCore.Mvc.JsonOptions> jsonOptions,
-        LineSdk sdk,
         ILogger<LineWebhookController> logger)
     {
-        this.options = options.Value;
+        this.store = store;
+        this.hubContext = hubContext;
         this.jsonOptions = jsonOptions.Value.JsonSerializerOptions;
-        this.sdk = sdk;
         this.logger = logger;
     }
 
     /// <summary>
-    /// Line Webhook 接收入口（會驗證簽章並回覆示範訊息）
+    /// Line Webhook 入口，驗證簽章並回覆訊息
     /// </summary>
     [HttpPost("webhook")]
     public async Task<IActionResult> HandleWebhook()
     {
-        var channelSecret = options.ChannelSecret;
+        var config = store.Get();
+        if (config == null)
+        {
+            return BadRequest(new
+            {
+                error = "尚未設定 Line 參數。"
+            });
+        }
+
+        var channelSecret = config.ChannelSecret;
         if (string.IsNullOrWhiteSpace(channelSecret))
         {
             return BadRequest(new
             {
-                error = "LineChannel:ChannelSecret is not configured."
+                error = "Channel Secret is empty."
             });
         }
 
@@ -64,15 +79,6 @@ public sealed class LineWebhookController : ControllerBase
         if (!LineWebhookSignature.Verify(body, channelSecret, signature.ToString()))
         {
             return Unauthorized();
-        }
-
-        var token = options.ChannelAccessToken;
-        if (string.IsNullOrWhiteSpace(token))
-        {
-            return BadRequest(new
-            {
-                error = "LineChannel:ChannelAccessToken is not configured."
-            });
         }
 
         var payload = JsonSerializer.Deserialize<LineReceivedMsg>(body, jsonOptions);
@@ -95,6 +101,12 @@ public sealed class LineWebhookController : ControllerBase
                 });
                 continue;
             }
+
+            var record = BuildEventRecord(evt, body);
+            store.AddEvent(record);
+
+            // 推送事件到前端
+            await hubContext.Clients.All.SendAsync("webhookReceived", record);
 
             if (!IsValidReplyToken(evt.replyToken))
             {
@@ -119,6 +131,21 @@ public sealed class LineWebhookController : ControllerBase
 
             try
             {
+                var token = config.ChannelAccessToken;
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    errors.Add(new
+                    {
+                        eventType = evt.type.ToString(),
+                        message = "Channel Access Token is empty."
+                    });
+                    continue;
+                }
+
+                var sdk = new LineSdkBuilder(token)
+                    .UseMessages()
+                    .Build();
+
                 await sdk.Messages!.SendReplyMessageAsync(
                     evt.replyToken,
                     new TextMessage(replyText));
@@ -149,13 +176,13 @@ public sealed class LineWebhookController : ControllerBase
             return false;
         }
 
-        // LINE replyToken is expected to be a non-trivial length.
+        // LINE replyToken 通常不會太短
         if (replyToken.Length < 10)
         {
             return false;
         }
 
-        // Known dummy tokens should be ignored.
+        // 已知的測試用假 token 不應回覆
         if (string.Equals(replyToken, "00000000000000000000000000000000", StringComparison.Ordinal))
         {
             return false;
@@ -165,7 +192,7 @@ public sealed class LineWebhookController : ControllerBase
     }
 
     /// <summary>
-    /// 依事件類型組合回覆文字
+    /// 依事件類型產生回覆文字
     /// </summary>
     private static string BuildReplyText(LineEvents evt)
     {
@@ -203,20 +230,20 @@ public sealed class LineWebhookController : ControllerBase
     }
 
     /// <summary>
-    /// 依訊息類型組合回覆文字
+    /// 依訊息類型產生回覆文字
     /// </summary>
     private static string BuildMessageReply(LineMessage message)
     {
         if (message == null)
         {
-            return "收到訊息事件";
+            return "收到訊息，但內容為空";
         }
 
         switch (message.type)
         {
             case MessageType.text:
                 return string.IsNullOrWhiteSpace(message.text)
-                    ? "收到文字訊息"
+                    ? "收到文字訊息，但內容為空"
                     : $"收到文字訊息: {message.text}";
             case MessageType.image:
                 return $"收到圖片訊息 (id: {message.id ?? "-"})";
@@ -236,7 +263,7 @@ public sealed class LineWebhookController : ControllerBase
     }
 
     /// <summary>
-    /// 依 Postback 內容組合回覆文字
+    /// 依 Postback 內容產生回覆文字
     /// </summary>
     private static string BuildPostbackReply(LinePostBack postback)
     {
@@ -269,7 +296,7 @@ public sealed class LineWebhookController : ControllerBase
     }
 
     /// <summary>
-    /// 依 Beacon 內容組合回覆文字
+    /// 依 Beacon 內容產生回覆文字
     /// </summary>
     private static string BuildBeaconReply(LineBeacon beacon)
     {
@@ -288,7 +315,7 @@ public sealed class LineWebhookController : ControllerBase
             return $"收到 {eventType} 事件";
         }
 
-        return $"收到 {eventType} 事件，成員數量: {members.members.Count}";
+        return $"收到 {eventType} 事件，共 {members.members.Count} 位成員";
     }
 
     private static string BuildVideoPlayCompleteReply(LineVideoPlayComplete info)
@@ -329,5 +356,29 @@ public sealed class LineWebhookController : ControllerBase
         }
 
         return $"收到 unsend: {unsend.messageId}";
+    }
+
+    private static WebhookEventRecord BuildEventRecord(LineEvents evt, string rawJson)
+    {
+        // 建立事件摘要
+        var summary = evt.type.ToString();
+        var messageType = evt.message?.type.ToString() ?? string.Empty;
+        var sourceType = evt.source?.type.ToString() ?? string.Empty;
+
+        if (evt.type == EventType.message && evt.message is LineMessage message)
+        {
+            summary = message.type == MessageType.text && !string.IsNullOrWhiteSpace(message.text)
+                ? message.text
+                : message.type.ToString();
+        }
+
+        return new WebhookEventRecord
+        {
+            EventType = evt.type.ToString(),
+            MessageType = messageType,
+            SourceType = sourceType,
+            Summary = summary,
+            RawJson = rawJson
+        };
     }
 }

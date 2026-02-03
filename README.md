@@ -116,3 +116,10 @@ pwsh scripts/sync-wiki.ps1 -Commit -Push
 ## 授權
 
 本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/LibroLineMessageApi/blob/main/LICENSE)。
+
+## 範例：LINE Webhook 控制台
+
+新增 Bootstrap 5 + Vue 的 Web UI 範例，支援輸入 Token/Secret、設定 Webhook Endpoint，並即時顯示 webhook 事件。
+
+詳細說明請見：
+[docs/example-line-webhook-dashboard.md](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/example-line-webhook-dashboard.md)
