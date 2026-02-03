@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 設定 API JSON 序列化，讓 enum 以字串輸出
-builder.Services.AddControllers()
+// 設定 MVC 與 API JSON 序列化，讓 enum 以字串輸出
+builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
@@ -22,8 +22,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-// 啟用預設檔案與靜態檔案服務
-app.UseDefaultFiles();
+// 啟用靜態檔案服務
 app.UseStaticFiles();
 
 app.MapGet("/health", () =>
@@ -31,6 +30,11 @@ app.MapGet("/health", () =>
 
 // 註冊 API 控制器
 app.MapControllers();
+
+// 註冊 MVC 頁面路由
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // 註冊 SignalR Hub
 app.MapHub<LineWebhookHub>("/hubs/line-webhook");

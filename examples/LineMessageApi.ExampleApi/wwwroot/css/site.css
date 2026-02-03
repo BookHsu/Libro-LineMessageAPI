@@ -1,0 +1,129 @@
+﻿/* 站台主題與排版樣式 */
+:root {
+  --lm-primary: #2563EB;
+  --lm-secondary: #3B82F6;
+  --lm-accent: #F97316;
+  --lm-bg: #F8FAFC;
+  --lm-text: #1E293B;
+  --lm-muted: #475569;
+  --lm-border: #E2E8F0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: radial-gradient(1200px 600px at 10% -10%, #E0F2FE 0%, transparent 60%),
+              radial-gradient(900px 500px at 90% -20%, #DBEAFE 0%, transparent 60%),
+              var(--lm-bg);
+  color: var(--lm-text);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', sans-serif;
+}
+
+.app-shell {
+  padding: 32px 0 48px;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--lm-border);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.section-title {
+  letter-spacing: 0.02em;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-online {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.status-offline {
+  background: rgba(148, 163, 184, 0.2);
+  color: #334155;
+}
+
+.status-warn {
+  background: rgba(249, 115, 22, 0.12);
+  color: #9A3412;
+}
+
+.icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table thead th {
+  color: var(--lm-muted);
+  font-weight: 600;
+}
+
+.event-card {
+  border-left: 4px solid var(--lm-primary);
+}
+
+.btn-primary {
+  background: var(--lm-primary);
+  border-color: var(--lm-primary);
+}
+
+.btn-primary:hover {
+  background: #1D4ED8;
+  border-color: #1D4ED8;
+}
+
+.btn-outline-primary {
+  border-color: var(--lm-primary);
+  color: var(--lm-primary);
+}
+
+.btn-outline-primary:hover {
+  background: var(--lm-primary);
+  color: #fff;
+}
+
+.form-control, .form-check-input {
+  border-color: var(--lm-border);
+}
+
+.form-text {
+  color: var(--lm-muted);
+}
+
+.badge-soft {
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--lm-primary);
+  font-weight: 600;
+}
+
+.mono-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
