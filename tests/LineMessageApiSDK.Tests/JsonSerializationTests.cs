@@ -66,7 +66,7 @@ namespace LineMessageApiSDK.Tests
 
             var json = serializer.Serialize(action);
 
-            StringAssert.DoesNotContain(json, "\"displayText\":");
+            Assert.IsFalse(json.Contains("\"displayText\":"));
         }
 
         [TestMethod]
