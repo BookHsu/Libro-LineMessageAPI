@@ -27,6 +27,8 @@
 - 新增 `LineChannelOptions` 至 SDK，並提供 DI/Options 擴充套件。
 - 更新範例專案與文件，改用 `AddLineSdk(...)` 設定流程。
 - 版本更新至 2.1.2，並補上 Extensions 套件打包流程。
+- 補上 Postback 動作留言欄位並新增序列化測試（含空值忽略）。
+- 調整 `LineChannelOptions` 為非 nullable string 並提供預設值。
 
 ## 後續建議
 

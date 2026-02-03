@@ -13,10 +13,10 @@ public sealed class LineChannelOptions
     /// <summary>
     /// Channel Access Token
     /// </summary>
-    public string? ChannelAccessToken { get; init; }
+    public string ChannelAccessToken { get; init; } = string.Empty;
 
     /// <summary>
     /// Channel Secret
     /// </summary>
-    public string? ChannelSecret { get; init; }
+    public string ChannelSecret { get; init; } = string.Empty;
 }
