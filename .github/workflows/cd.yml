@@ -42,6 +42,15 @@ jobs:
             dotnet nuget push $_.FullName --api-key "${{ secrets.NUGET_API_KEY }}" --source "https://api.nuget.org/v3/index.json" --skip-duplicate
           }
 
+      - name: Add GitHub Packages Source
+        run: dotnet nuget add source --username BookHsu --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/BookHsu/index.json"
+
+      - name: Publish GitHub Packages
+        run: |
+          Get-ChildItem artifacts -Filter *.nupkg | ForEach-Object {
+            dotnet nuget push $_.FullName --source "github" --api-key "${{ secrets.GITHUB_TOKEN }}" --skip-duplicate
+          }
+
       - name: Upload Release Artifacts
         uses: actions/upload-artifact@v4
         with:
