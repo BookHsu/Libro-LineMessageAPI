@@ -123,6 +123,17 @@ h1, h2, h3, h4, h5 {
   gap: 6px;
 }
 
+.hook-raw {
+  margin-top: 10px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .hook-meta {
   font-size: 0.8rem;
   padding-left: 4px;

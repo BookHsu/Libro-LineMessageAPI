@@ -242,20 +242,20 @@ public sealed class DashboardWebhookController : ControllerBase
         {
             case MessageType.text:
                 return string.IsNullOrWhiteSpace(message.text)
-                    ? "收到文字訊息，但內容為空"
-                    : $"收到文字訊息: {message.text}";
+                    ? "收到文字訊息 (text)，但內容為空"
+                    : $"收到文字訊息 (text): {message.text}";
             case MessageType.image:
-                return $"收到圖片訊息 (id: {message.id ?? "-"})";
+                return $"收到圖片訊息 (image)，id: {message.id ?? "-"}";
             case MessageType.video:
-                return $"收到影片訊息 (id: {message.id ?? "-"})";
+                return $"收到影片訊息 (video)，id: {message.id ?? "-"}";
             case MessageType.audio:
-                return $"收到音訊訊息 (id: {message.id ?? "-"})";
+                return $"收到音訊訊息 (audio)，id: {message.id ?? "-"}";
             case MessageType.file:
-                return $"收到檔案: {message.fileName ?? "-"} ({message.fileSize ?? 0} bytes)";
+                return $"收到檔案訊息 (file): {message.fileName ?? "-"} ({message.fileSize ?? 0} bytes)";
             case MessageType.location:
-                return $"收到位置: {message.title ?? "-"} {message.address ?? "-"} ({message.latitude ?? 0}, {message.longitude ?? 0})";
+                return $"收到位置訊息 (location): {message.title ?? "-"} {message.address ?? "-"} ({message.latitude ?? 0}, {message.longitude ?? 0})";
             case MessageType.sticker:
-                return $"收到貼圖: package {message.packageId ?? "-"}, sticker {message.stickerId ?? "-"}";
+                return $"收到貼圖訊息 (sticker): package {message.packageId ?? "-"}, sticker {message.stickerId ?? "-"}";
             default:
                 return $"收到訊息: {message.type}";
         }

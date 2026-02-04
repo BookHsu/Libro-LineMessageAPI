@@ -112,11 +112,13 @@ createApp({
         }
         const data = await response.json();
         if (Array.isArray(data)) {
-          this.events = [...data].sort((a, b) => {
-            const aTime = a?.receivedAtUtc ? Date.parse(a.receivedAtUtc) : 0;
-            const bTime = b?.receivedAtUtc ? Date.parse(b.receivedAtUtc) : 0;
-            return bTime - aTime;
-          });
+          this.events = [...data]
+            .map((item) => ({ ...item, expanded: false }))
+            .sort((a, b) => {
+              const aTime = a?.receivedAtUtc ? Date.parse(a.receivedAtUtc) : 0;
+              const bTime = b?.receivedAtUtc ? Date.parse(b.receivedAtUtc) : 0;
+              return bTime - aTime;
+            });
         }
       } catch {
         // 略過錯誤
@@ -175,6 +177,9 @@ createApp({
     clearEvents() {
       this.events = [];
     },
+    toggleRaw(eventRecord) {
+      eventRecord.expanded = !eventRecord.expanded;
+    },
     // 建立 SignalR 連線
     shouldConnectHub() {
       const endpoint = this.webhookEndpoint?.endpoint;
@@ -211,7 +216,7 @@ createApp({
       this.hubConnection = connection;
       connection.on('webhookReceived', (eventRecord) => {
         // 新事件插入清單最前
-        this.events.unshift(eventRecord);
+        this.events.unshift({ ...eventRecord, expanded: false });
         if (this.events.length > 200) {
           this.events = this.events.slice(0, 200);
         }
