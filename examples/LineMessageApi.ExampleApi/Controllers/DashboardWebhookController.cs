@@ -1,44 +1,60 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using LineMessageApi.ExampleApi.Hubs;
+using LineMessageApi.ExampleApi.Models;
+using LineMessageApi.ExampleApi.Services;
 using LineMessageApiSDK;
 using LineMessageApiSDK.LineMessageObject;
 using LineMessageApiSDK.LineReceivedObject;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace LineMessageApi.ExampleApi.Controllers;
 
 /// <summary>
-/// Line Webhook 接收 API（API 範例）
+/// Dashboard Webhook 接收 API
 /// </summary>
 [ApiController]
-public sealed class LineWebhookController : ControllerBase
+public sealed class DashboardWebhookController : ControllerBase
 {
-    private readonly LineChannelOptions channelOptions;
+    private readonly LineConfigStore store;
     private readonly JsonSerializerOptions jsonOptions;
-    private readonly ILogger<LineWebhookController> logger;
+    private readonly IHubContext<LineWebhookHub> hubContext;
+    private readonly ILogger<DashboardWebhookController> logger;
 
     /// <summary>
-    /// 建立 Line Webhook Controller
+    /// 建立 Dashboard Webhook Controller
     /// </summary>
-    public LineWebhookController(
-        IOptions<LineChannelOptions> channelOptions,
+    public DashboardWebhookController(
+        LineConfigStore store,
+        IHubContext<LineWebhookHub> hubContext,
         IOptions<Microsoft.AspNetCore.Mvc.JsonOptions> jsonOptions,
-        ILogger<LineWebhookController> logger)
+        ILogger<DashboardWebhookController> logger)
     {
-        this.channelOptions = channelOptions.Value;
+        this.store = store;
+        this.hubContext = hubContext;
         this.jsonOptions = jsonOptions.Value.JsonSerializerOptions;
         this.logger = logger;
     }
 
     /// <summary>
-    /// Line Webhook 入口，驗證簽章並回覆訊息
+    /// Dashboard Webhook 入口，驗證簽章並回覆訊息
     /// </summary>
-    [HttpPost("/line/hook")]
+    [HttpPost("/dashboard/hook")]
     public async Task<IActionResult> HandleWebhook()
     {
-        var channelSecret = channelOptions.ChannelSecret;
+        var config = store.Get();
+        if (config == null)
+        {
+            return BadRequest(new
+            {
+                error = "尚未設定 Line 參數。"
+            });
+        }
+
+        var channelSecret = config.ChannelSecret;
         if (string.IsNullOrWhiteSpace(channelSecret))
         {
             return BadRequest(new
@@ -85,6 +101,12 @@ public sealed class LineWebhookController : ControllerBase
                 continue;
             }
 
+            var record = BuildEventRecord(evt, body);
+            store.AddEvent(record);
+
+            // 推送事件到前端
+            await hubContext.Clients.All.SendAsync("webhookReceived", record);
+
             if (!IsValidReplyToken(evt.replyToken))
             {
                 errors.Add(new
@@ -108,7 +130,7 @@ public sealed class LineWebhookController : ControllerBase
 
             try
             {
-                var token = channelOptions.ChannelAccessToken;
+                var token = config.ChannelAccessToken;
                 if (string.IsNullOrWhiteSpace(token))
                 {
                     errors.Add(new
@@ -335,4 +357,27 @@ public sealed class LineWebhookController : ControllerBase
         return $"收到 unsend: {unsend.messageId}";
     }
 
+    private static WebhookEventRecord BuildEventRecord(LineEvents evt, string rawJson)
+    {
+        // 建立事件摘要
+        var summary = evt.type.ToString();
+        var messageType = evt.message?.type.ToString() ?? string.Empty;
+        var sourceType = evt.source?.type.ToString() ?? string.Empty;
+
+        if (evt.type == EventType.message && evt.message is LineMessage message)
+        {
+            summary = message.type == MessageType.text && !string.IsNullOrWhiteSpace(message.text)
+                ? message.text
+                : message.type.ToString();
+        }
+
+        return new WebhookEventRecord
+        {
+            EventType = evt.type.ToString(),
+            MessageType = messageType,
+            SourceType = sourceType,
+            Summary = summary,
+            RawJson = rawJson
+        };
+    }
 }

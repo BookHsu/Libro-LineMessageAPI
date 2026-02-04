@@ -7,14 +7,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LineMessageApi.ExampleApi.Tests.Controllers
 {
     [TestClass]
-    public class LineConfigControllerTests
+    public class DashboardLineConfigControllerTests
     {
         [TestMethod]
         public void GetConfig_Should_Return_Not_Configured_When_Empty()
         {
             // 準備空設定的控制器
             var store = new LineConfigStore();
-            var controller = new LineConfigController(store);
+            var controller = new DashboardLineConfigController(store);
 
             // 取得設定
             var result = controller.GetConfig() as OkObjectResult;
@@ -31,7 +31,7 @@ namespace LineMessageApi.ExampleApi.Tests.Controllers
         {
             // 準備控制器
             var store = new LineConfigStore();
-            var controller = new LineConfigController(store);
+            var controller = new DashboardLineConfigController(store);
 
             // 缺少 token
             var request = new LineConfigRequest

@@ -117,7 +117,36 @@ pwsh scripts/sync-wiki.ps1 -Commit -Push
 
 本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/LibroLineMessageApi/blob/main/LICENSE)。
 
-## 範例：LINE Webhook 控制台
+## 範例：API 與 Dashboard 兩種流程
+
+此範例提供兩條路徑：
+
+1. API 範例：透過設定或環境變數注入 Channel Access Token / Secret
+2. Dashboard 範例：由頁面輸入並存於記憶體，提供快速驗證與即時事件流
+
+### API 範例（注入或環境變數）
+
+設定 `LineChannel`：
+
+```json
+{
+  "LineChannel": {
+    "ChannelAccessToken": "YOUR_CHANNEL_ACCESS_TOKEN",
+    "ChannelSecret": "YOUR_CHANNEL_SECRET"
+  }
+}
+```
+
+或使用環境變數：
+
+- `LineChannel__ChannelAccessToken`
+- `LineChannel__ChannelSecret`
+
+Webhook 入口：
+
+- `POST /line/hook`
+
+### Dashboard 範例（頁面設定）
 
 新增 Bootstrap 5 + Vue 的 Web UI 範例，支援輸入 Token/Secret、設定 Webhook Endpoint，並即時顯示 webhook 事件。
 

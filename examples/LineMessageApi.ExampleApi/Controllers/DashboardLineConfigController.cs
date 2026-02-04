@@ -11,8 +11,8 @@ namespace LineMessageApi.ExampleApi.Controllers
     /// Line 設定與資訊 API
     /// </summary>
     [ApiController]
-    [Route("api/line")]
-    public sealed class LineConfigController : ControllerBase
+    [Route("dashboard/api/line")]
+    public sealed class DashboardLineConfigController : ControllerBase
     {
         private readonly LineConfigStore store;
 
@@ -20,7 +20,7 @@ namespace LineMessageApi.ExampleApi.Controllers
         /// 建立控制器
         /// </summary>
         /// <param name="store">設定存放</param>
-        public LineConfigController(LineConfigStore store)
+        public DashboardLineConfigController(LineConfigStore store)
         {
             this.store = store;
         }
@@ -197,7 +197,7 @@ namespace LineMessageApi.ExampleApi.Controllers
         private string BuildDefaultWebhookUrl()
         {
             // 使用目前請求的 Host 組合預設 webhook URL
-            return $"{Request.Scheme}://{Request.Host}/line/webhook";
+            return $"{Request.Scheme}://{Request.Host}/dashboard/hook";
         }
     }
 }

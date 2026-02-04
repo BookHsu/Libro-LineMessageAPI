@@ -1,5 +1,6 @@
-﻿using LineMessageApi.ExampleApi.Hubs;
+using LineMessageApi.ExampleApi.Hubs;
 using LineMessageApi.ExampleApi.Services;
+using LineMessageApiSDK;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddControllersWithViews()
 
 // 註冊 SignalR 以推送 webhook 事件
 builder.Services.AddSignalR();
+
+// 綁定 LineChannel 設定（API 範例用）
+builder.Services.Configure<LineChannelOptions>(
+    builder.Configuration.GetSection(LineChannelOptions.SectionName));
 
 // 註冊記憶體設定與事件存放
 builder.Services.AddSingleton<LineConfigStore>();
@@ -40,3 +45,4 @@ app.MapControllerRoute(
 app.MapHub<LineWebhookHub>("/hubs/line-webhook");
 
 app.Run();
+

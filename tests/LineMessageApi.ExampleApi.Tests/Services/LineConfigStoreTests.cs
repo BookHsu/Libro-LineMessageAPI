@@ -17,7 +17,7 @@ namespace LineMessageApi.ExampleApi.Tests.Services
             {
                 ChannelAccessToken = "token",
                 ChannelSecret = "secret",
-                WebhookUrl = "https://example.com/line/webhook"
+                WebhookUrl = "https://example.com/dashboard/hook"
             };
 
             // 更新設定

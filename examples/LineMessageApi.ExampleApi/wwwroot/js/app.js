@@ -23,13 +23,14 @@ createApp({
       loading: false,
       message: '',
       connectionState: 'disconnected',
+      hubConnection: null,
       placeholderImage: 'https://placehold.co/88x88?text=LINE'
     };
   },
   computed: {
     // Webhook URL 顯示
     currentWebhookUrl() {
-      return this.form.webhookUrl || `${window.location.origin}/line/webhook`;
+      return this.form.webhookUrl || `${window.location.origin}/dashboard/hook`;
     },
     // 連線狀態樣式
     connectionClass() {
@@ -63,13 +64,12 @@ createApp({
   mounted() {
     // 初始化表單預設值
     if (!this.form.webhookUrl) {
-      this.form.webhookUrl = `${window.location.origin}/line/webhook`;
+      this.form.webhookUrl = `${window.location.origin}/dashboard/hook`;
     }
     // 載入設定與事件
     this.fetchConfig();
     this.refreshInfo();
     this.fetchEvents();
-    this.connectHub();
   },
   methods: {
     // 格式化 UTC 時間
@@ -86,7 +86,7 @@ createApp({
     // 取得設定狀態
     async fetchConfig() {
       try {
-        const response = await fetch('/api/line/config');
+        const response = await fetch('/dashboard/api/line/config');
         if (!response.ok) {
           return;
         }
@@ -98,7 +98,7 @@ createApp({
     // 取得事件清單
     async fetchEvents() {
       try {
-        const response = await fetch('/api/line/events');
+        const response = await fetch('/dashboard/api/line/events');
         if (!response.ok) {
           return;
         }
@@ -113,7 +113,7 @@ createApp({
     // 重新載入 Bot 與 Webhook 資訊
     async refreshInfo() {
       try {
-        const response = await fetch('/api/line/info');
+        const response = await fetch('/dashboard/api/line/info');
         if (!response.ok) {
           return;
         }
@@ -124,6 +124,7 @@ createApp({
         }
         this.botInfo = data.botInfo || null;
         this.webhookEndpoint = data.webhookEndpoint || null;
+        this.ensureHubConnection();
       } catch {
         this.message = '取得資訊失敗。';
       }
@@ -133,7 +134,7 @@ createApp({
       this.loading = true;
       this.message = '';
       try {
-        const response = await fetch('/api/line/config', {
+        const response = await fetch('/dashboard/api/line/config', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -151,6 +152,7 @@ createApp({
         }
         this.botInfo = data.botInfo || null;
         this.webhookEndpoint = data.webhookEndpoint || null;
+        this.ensureHubConnection();
       } catch {
         this.message = '設定失敗，請確認網路連線。';
       } finally {
@@ -162,13 +164,39 @@ createApp({
       this.events = [];
     },
     // 建立 SignalR 連線
+    shouldConnectHub() {
+      const endpoint = this.webhookEndpoint?.endpoint;
+      if (!endpoint || !this.webhookEndpoint?.active) {
+        return false;
+      }
+      return endpoint === this.currentWebhookUrl;
+    },
+    ensureHubConnection() {
+      if (this.shouldConnectHub()) {
+        this.connectHub();
+        return;
+      }
+
+      if (this.hubConnection) {
+        const connection = this.hubConnection;
+        this.hubConnection = null;
+        connection.stop().finally(() => {
+          this.connectionState = 'disconnected';
+        });
+      }
+    },
     connectHub() {
+      if (this.hubConnection) {
+        return;
+      }
+
       this.connectionState = 'connecting';
       const connection = new signalR.HubConnectionBuilder()
         .withUrl('/hubs/line-webhook')
         .withAutomaticReconnect()
         .build();
 
+      this.hubConnection = connection;
       connection.on('webhookReceived', (eventRecord) => {
         // 新事件插入清單最前
         this.events.unshift(eventRecord);
@@ -194,6 +222,7 @@ createApp({
           this.connectionState = 'connected';
         })
         .catch(() => {
+          this.hubConnection = null;
           this.connectionState = 'disconnected';
         });
     }
