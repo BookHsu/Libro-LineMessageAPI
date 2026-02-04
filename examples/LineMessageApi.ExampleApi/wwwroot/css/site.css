@@ -415,7 +415,7 @@ body.theme-dark .type-badge {
 }
 
 .mobile-summary {
-  display: none;
+  display: block;
   cursor: pointer;
   padding: 10px 14px;
   border-radius: 12px;
@@ -445,10 +445,6 @@ body.theme-dark .mobile-summary {
 
   .hook-stream {
     max-height: 320px;
-  }
-
-  .mobile-summary {
-    display: block;
   }
 
   .mobile-section[open] .mobile-summary {
