@@ -394,6 +394,15 @@ body.theme-dark .type-badge {
   border-color: var(--lm-border);
 }
 
+.input-group .btn {
+  min-width: 64px;
+}
+
+body.theme-dark .input-group .btn {
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.4);
+}
+
 .form-text {
   color: var(--lm-muted);
 }

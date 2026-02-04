@@ -11,6 +11,8 @@ createApp({
         webhookUrl: '',
         setEndpoint: false
       },
+      showToken: false,
+      showSecret: false,
       // 狀態資料
       status: {
         configured: false,
@@ -107,6 +109,12 @@ createApp({
       this.darkMode = !this.darkMode;
       localStorage.setItem('line-dashboard-theme', this.darkMode ? 'dark' : 'light');
       this.applyTheme();
+    },
+    toggleTokenVisibility() {
+      this.showToken = !this.showToken;
+    },
+    toggleSecretVisibility() {
+      this.showSecret = !this.showSecret;
     },
     // 啟用 Bootstrap Tooltip
     initTooltips() {

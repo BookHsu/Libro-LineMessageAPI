@@ -45,13 +45,25 @@
                         @* Channel Access Token *@
                         <div class="mb-3">
                             <label class="form-label">Channel Access Token</label>
-                            <input v-model.trim="form.channelAccessToken" type="password" class="form-control" autocomplete="off" placeholder="輸入 Channel Access Token" />
+                            <div class="input-group">
+                                <input v-model.trim="form.channelAccessToken" :type="showToken ? 'text' : 'password'" class="form-control" autocomplete="off" placeholder="輸入 Channel Access Token" />
+                                <button class="btn btn-outline-secondary" type="button" v-on:click="toggleTokenVisibility" :aria-label="showToken ? '隱藏 Token' : '顯示 Token'">
+                                    <span v-if="showToken">隱藏</span>
+                                    <span v-else>顯示</span>
+                                </button>
+                            </div>
                         </div>
 
                         @* Channel Secret *@
                         <div class="mb-3">
                             <label class="form-label">Channel Secret</label>
-                            <input v-model.trim="form.channelSecret" type="password" class="form-control" autocomplete="off" placeholder="輸入 Channel Secret" />
+                            <div class="input-group">
+                                <input v-model.trim="form.channelSecret" :type="showSecret ? 'text' : 'password'" class="form-control" autocomplete="off" placeholder="輸入 Channel Secret" />
+                                <button class="btn btn-outline-secondary" type="button" v-on:click="toggleSecretVisibility" :aria-label="showSecret ? '隱藏 Secret' : '顯示 Secret'">
+                                    <span v-if="showSecret">隱藏</span>
+                                    <span v-else>顯示</span>
+                                </button>
+                            </div>
                         </div>
 
                         @* Webhook URL *@
