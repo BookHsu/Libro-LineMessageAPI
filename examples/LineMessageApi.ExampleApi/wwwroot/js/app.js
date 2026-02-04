@@ -27,6 +27,7 @@ createApp({
       newEventCount: 0,
       density: 'comfortable',
       isStreamAtTop: true,
+      darkMode: false,
       placeholderImage: 'https://placehold.co/88x88?text=LINE'
     };
   },
@@ -86,6 +87,7 @@ createApp({
     if (!this.form.webhookUrl) {
       this.form.webhookUrl = `${window.location.origin}/dashboard/hook`;
     }
+    this.loadTheme();
     // 載入設定與事件
     this.fetchConfig();
     this.refreshInfo();
@@ -93,6 +95,19 @@ createApp({
     this.initTooltips();
   },
   methods: {
+    loadTheme() {
+      const saved = localStorage.getItem('line-dashboard-theme');
+      this.darkMode = saved === 'dark';
+      this.applyTheme();
+    },
+    applyTheme() {
+      document.body.classList.toggle('theme-dark', this.darkMode);
+    },
+    toggleTheme() {
+      this.darkMode = !this.darkMode;
+      localStorage.setItem('line-dashboard-theme', this.darkMode ? 'dark' : 'light');
+      this.applyTheme();
+    },
     // 啟用 Bootstrap Tooltip
     initTooltips() {
       const triggers = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -133,12 +148,8 @@ createApp({
         const data = await response.json();
         if (Array.isArray(data)) {
           this.events = [...data]
-            .map((item) => ({ ...item, expanded: false }))
-            .sort((a, b) => {
-              const aTime = a?.receivedAtUtc ? Date.parse(a.receivedAtUtc) : 0;
-              const bTime = b?.receivedAtUtc ? Date.parse(b.receivedAtUtc) : 0;
-              return bTime - aTime;
-            });
+            .map((item) => this.decorateEvent(item));
+          this.sortEvents();
           this.newEventCount = 0;
           this.$nextTick(() => this.syncStreamState(true));
         }
@@ -226,6 +237,23 @@ createApp({
     toggleRaw(eventRecord) {
       eventRecord.expanded = !eventRecord.expanded;
     },
+    togglePin(eventRecord) {
+      eventRecord.pinned = !eventRecord.pinned;
+      this.sortEvents();
+    },
+    copyRaw(eventRecord) {
+      if (!navigator.clipboard) {
+        return;
+      }
+      navigator.clipboard.writeText(eventRecord.rawJson || '')
+        .then(() => {
+          eventRecord.copied = true;
+          setTimeout(() => {
+            eventRecord.copied = false;
+          }, 1200);
+        })
+        .catch(() => {});
+    },
     toggleDensity() {
       this.density = this.density === 'compact' ? 'comfortable' : 'compact';
     },
@@ -248,6 +276,51 @@ createApp({
         default:
           return 'type-unknown';
       }
+    },
+    decorateEvent(item) {
+      const source = this.extractSource(item?.rawJson);
+      return {
+        ...item,
+        expanded: false,
+        pinned: false,
+        copied: false,
+        sourceIdLabel: source?.label || '',
+        sourceIdValue: source?.value || ''
+      };
+    },
+    extractSource(rawJson) {
+      if (!rawJson) {
+        return null;
+      }
+      try {
+        const payload = JSON.parse(rawJson);
+        const source = payload?.events?.[0]?.source;
+        if (!source) {
+          return null;
+        }
+        if (source.userId) {
+          return { label: 'User ID', value: source.userId };
+        }
+        if (source.groupId) {
+          return { label: 'Group ID', value: source.groupId };
+        }
+        if (source.roomId) {
+          return { label: 'Room ID', value: source.roomId };
+        }
+        return { label: 'Source', value: source.type || '' };
+      } catch {
+        return null;
+      }
+    },
+    sortEvents() {
+      this.events = [...this.events].sort((a, b) => {
+        if (a.pinned !== b.pinned) {
+          return a.pinned ? -1 : 1;
+        }
+        const aTime = a?.receivedAtUtc ? Date.parse(a.receivedAtUtc) : 0;
+        const bTime = b?.receivedAtUtc ? Date.parse(b.receivedAtUtc) : 0;
+        return bTime - aTime;
+      });
     },
     getStreamEl() {
       return this.$el?.querySelector('.hook-stream');
@@ -312,10 +385,11 @@ createApp({
       this.hubConnection = connection;
       connection.on('webhookReceived', (eventRecord) => {
         // 新事件插入清單最前
-        this.events.unshift({ ...eventRecord, expanded: false });
+        this.events.unshift(this.decorateEvent(eventRecord));
         if (this.events.length > 200) {
           this.events = this.events.slice(0, 200);
         }
+        this.sortEvents();
         this.$nextTick(() => {
           if (this.isStreamAtTop) {
             this.syncStreamState(true);

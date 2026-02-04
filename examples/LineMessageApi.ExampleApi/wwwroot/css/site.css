@@ -18,6 +18,16 @@ body {
   min-height: 100vh;
 }
 
+body.theme-dark {
+  --lm-bg: #0f172a;
+  --lm-text: #e2e8f0;
+  --lm-muted: #94a3b8;
+  --lm-border: rgba(148, 163, 184, 0.2);
+  background: radial-gradient(900px 480px at 10% -10%, rgba(30, 64, 175, 0.35) 0%, transparent 60%),
+              radial-gradient(900px 500px at 90% -20%, rgba(14, 116, 144, 0.28) 0%, transparent 60%),
+              var(--lm-bg);
+}
+
 h1, h2, h3, h4, h5 {
   font-family: 'Poppins', sans-serif;
 }
@@ -32,6 +42,11 @@ h1, h2, h3, h4, h5 {
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(6px);
+}
+
+body.theme-dark .glass-card {
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.5);
 }
 
 .section-title {
@@ -118,16 +133,25 @@ h1, h2, h3, h4, h5 {
   gap: 10px;
 }
 
-.hook-new {
+.hook-float {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(37, 99, 235, 0.12);
+  gap: 12px;
+  background: rgba(37, 99, 235, 0.14);
   color: #1d4ed8;
   border-radius: 12px;
   padding: 8px 12px;
   font-size: 0.85rem;
-  margin-bottom: 10px;
+  position: sticky;
+  bottom: 8px;
+  margin-top: 10px;
+  z-index: 2;
+}
+
+body.theme-dark .hook-float {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
 }
 
 .hook-group-label {
@@ -145,11 +169,20 @@ h1, h2, h3, h4, h5 {
   border-radius: 10px;
 }
 
+body.theme-dark .hook-group-label {
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7));
+}
+
 .hook-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+}
+
+.hook-item.pinned .hook-bubble {
+  border-left-color: #f59e0b;
+  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.25);
 }
 
 .hook-bubble {
@@ -160,6 +193,11 @@ h1, h2, h3, h4, h5 {
   border-radius: 14px;
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.theme-dark .hook-bubble {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.25), rgba(15, 23, 42, 0.5));
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .hook-bubble:hover {
@@ -180,6 +218,35 @@ h1, h2, h3, h4, h5 {
   gap: 10px;
 }
 
+.hook-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pin-btn {
+  border: none;
+  background: rgba(148, 163, 184, 0.2);
+  color: #475569;
+  border-radius: 999px;
+  padding: 4px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.pin-btn.pinned {
+  background: rgba(37, 99, 235, 0.18);
+  color: #1d4ed8;
+}
+
+.pin-btn:hover {
+  background: rgba(37, 99, 235, 0.12);
+}
+
 .type-badge {
   display: inline-flex;
   align-items: center;
@@ -191,6 +258,23 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.04em;
   background: rgba(148, 163, 184, 0.18);
   color: #475569;
+}
+
+body.theme-dark .type-badge {
+  background: rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+}
+
+.type-icon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+}
+
+.type-icon svg {
+  width: 14px;
+  height: 14px;
 }
 
 .type-text {
@@ -258,6 +342,16 @@ h1, h2, h3, h4, h5 {
   overflow: auto;
 }
 
+.hook-raw-wrapper {
+  position: relative;
+}
+
+.hook-copy {
+  position: absolute;
+  top: -6px;
+  right: 0;
+}
+
 .hook-meta {
   font-size: 0.8rem;
   padding-left: 4px;
@@ -316,6 +410,25 @@ h1, h2, h3, h4, h5 {
   word-break: break-all;
 }
 
+.mobile-section {
+  border: none;
+}
+
+.mobile-summary {
+  display: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.16);
+  color: var(--lm-text);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+body.theme-dark .mobile-summary {
+  background: rgba(30, 41, 59, 0.8);
+}
+
 @media (max-width: 992px) {
   .app-shell {
     padding: 20px 0 32px;
@@ -332,6 +445,14 @@ h1, h2, h3, h4, h5 {
 
   .hook-stream {
     max-height: 320px;
+  }
+
+  .mobile-summary {
+    display: block;
+  }
+
+  .mobile-section[open] .mobile-summary {
+    margin-bottom: 12px;
   }
 }
 
