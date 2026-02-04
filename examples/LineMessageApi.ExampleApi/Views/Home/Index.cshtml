@@ -24,7 +24,9 @@
         <div class="row g-4">
             @* 左側：設定表單 *@
             <div class="col-lg-5">
-                <div class="glass-card p-4 h-100">
+                <details class="mobile-section" open>
+                    <summary class="mobile-summary">設定 Line 參數</summary>
+                    <div class="glass-card p-4 h-100">
                     <div class="d-flex align-items-center gap-3 mb-3">
                         <span class="icon-circle">
                             @* 設定圖示 *@
@@ -95,7 +97,8 @@
                             {{ message }}
                         </div>
                     </form>
-                </div>
+                    </div>
+                </details>
             </div>
 
             @* 右側：資訊與事件 *@
