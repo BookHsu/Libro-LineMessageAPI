@@ -162,17 +162,32 @@
                                     <h4 class="mb-1 section-title">即時 Webhook 事件</h4>
                                     <small class="text-muted">接收到事件後會即時推送到此列表（僅顯示）。</small>
                                 </div>
-                                <button class="btn btn-outline-primary btn-sm" type="button" v-on:click="clearEvents">清除</button>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-outline-secondary btn-sm" type="button" v-on:click="toggleDensity">
+                                        {{ density === 'compact' ? '舒適模式' : '密集模式' }}
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm" type="button" v-on:click="clearEvents">清除</button>
+                                </div>
                             </div>
 
                             <div v-if="events.length === 0" class="text-muted">尚未收到事件。</div>
 
-                            <div v-else class="hook-stream">
+                            <div v-else>
+                                <div v-if="newEventCount > 0" class="hook-new">
+                                    <span>有 {{ newEventCount }} 則新事件</span>
+                                    <button class="btn btn-link btn-sm p-0" type="button" v-on:click="jumpToLatest">跳到最新</button>
+                                </div>
+                                <div class="hook-stream" :class="densityClass" v-on:scroll.passive="onStreamScroll">
                                 <div v-for="group in groupedEvents" :key="group.label" class="hook-group">
                                     <div class="hook-group-label">{{ group.label }}</div>
                                     <div v-for="event in group.items" :key="event.id" class="hook-item">
                                         <div class="hook-bubble">
-                                            <div class="hook-title">{{ event.eventType }}</div>
+                                            <div class="hook-header">
+                                                <div class="hook-title">{{ event.eventType }}</div>
+                                                <span class="type-badge" :class="getMessageTypeClass(event.messageType)">
+                                                    {{ event.messageType || 'unknown' }}
+                                                </span>
+                                            </div>
                                             <div class="hook-text">{{ event.summary }}</div>
                                             <button class="btn btn-link btn-sm px-0 mt-2" type="button" v-on:click="toggleRaw(event)">
                                                 {{ event.expanded ? '隱藏詳細' : '顯示詳細' }}
@@ -185,6 +200,7 @@
                                         </div>
                                         <div class="hook-meta text-muted">{{ formatUtc(event.receivedAtUtc) }}</div>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

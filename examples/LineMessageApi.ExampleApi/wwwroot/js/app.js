@@ -24,6 +24,9 @@ createApp({
       message: '',
       connectionState: 'disconnected',
       hubConnection: null,
+      newEventCount: 0,
+      density: 'comfortable',
+      isStreamAtTop: true,
       placeholderImage: 'https://placehold.co/88x88?text=LINE'
     };
   },
@@ -59,6 +62,9 @@ createApp({
     // Webhook 啟用狀態文字
     webhookStatusLabel() {
       return this.webhookEndpoint?.active ? '已啟用' : '未啟用';
+    },
+    densityClass() {
+      return this.density === 'compact' ? 'hook-compact' : 'hook-comfort';
     },
     groupedEvents() {
       const groups = new Map();
@@ -133,6 +139,8 @@ createApp({
               const bTime = b?.receivedAtUtc ? Date.parse(b.receivedAtUtc) : 0;
               return bTime - aTime;
             });
+          this.newEventCount = 0;
+          this.$nextTick(() => this.syncStreamState(true));
         }
       } catch {
         // 略過錯誤
@@ -213,9 +221,60 @@ createApp({
     // 清除事件
     clearEvents() {
       this.events = [];
+      this.newEventCount = 0;
     },
     toggleRaw(eventRecord) {
       eventRecord.expanded = !eventRecord.expanded;
+    },
+    toggleDensity() {
+      this.density = this.density === 'compact' ? 'comfortable' : 'compact';
+    },
+    getMessageTypeClass(type) {
+      switch (type) {
+        case 'text':
+          return 'type-text';
+        case 'image':
+          return 'type-image';
+        case 'video':
+          return 'type-video';
+        case 'audio':
+          return 'type-audio';
+        case 'file':
+          return 'type-file';
+        case 'location':
+          return 'type-location';
+        case 'sticker':
+          return 'type-sticker';
+        default:
+          return 'type-unknown';
+      }
+    },
+    getStreamEl() {
+      return this.$el?.querySelector('.hook-stream');
+    },
+    onStreamScroll() {
+      const el = this.getStreamEl();
+      if (!el) {
+        return;
+      }
+      const atTop = el.scrollTop <= 8;
+      this.isStreamAtTop = atTop;
+      if (atTop && this.newEventCount > 0) {
+        this.newEventCount = 0;
+      }
+    },
+    syncStreamState(scrollToTop) {
+      const el = this.getStreamEl();
+      if (!el) {
+        return;
+      }
+      if (scrollToTop) {
+        el.scrollTop = 0;
+      }
+      this.onStreamScroll();
+    },
+    jumpToLatest() {
+      this.$nextTick(() => this.syncStreamState(true));
     },
     // 建立 SignalR 連線
     shouldConnectHub() {
@@ -257,6 +316,13 @@ createApp({
         if (this.events.length > 200) {
           this.events = this.events.slice(0, 200);
         }
+        this.$nextTick(() => {
+          if (this.isStreamAtTop) {
+            this.syncStreamState(true);
+          } else {
+            this.newEventCount += 1;
+          }
+        });
       });
 
       connection.onreconnecting(() => {

@@ -92,10 +92,42 @@ h1, h2, h3, h4, h5 {
   scroll-behavior: smooth;
 }
 
+.hook-comfort .hook-bubble {
+  padding: 12px 14px;
+}
+
+.hook-compact .hook-bubble {
+  padding: 8px 10px;
+}
+
+.hook-compact .hook-item {
+  gap: 4px;
+}
+
+.hook-compact .hook-meta {
+  font-size: 0.75rem;
+}
+
+.hook-compact .hook-text {
+  font-size: 0.9rem;
+}
+
 .hook-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.hook-new {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
 }
 
 .hook-group-label {
@@ -126,7 +158,6 @@ h1, h2, h3, h4, h5 {
   border: 1px solid rgba(37, 99, 235, 0.18);
   border-left: 4px solid rgba(37, 99, 235, 0.55);
   border-radius: 14px;
-  padding: 12px 14px;
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -140,6 +171,66 @@ h1, h2, h3, h4, h5 {
   font-weight: 700;
   font-size: 0.95rem;
   margin-bottom: 4px;
+}
+
+.hook-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(148, 163, 184, 0.18);
+  color: #475569;
+}
+
+.type-text {
+  background: rgba(37, 99, 235, 0.15);
+  color: #1d4ed8;
+}
+
+.type-image {
+  background: rgba(16, 185, 129, 0.15);
+  color: #047857;
+}
+
+.type-video {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1d4ed8;
+}
+
+.type-audio {
+  background: rgba(249, 115, 22, 0.15);
+  color: #c2410c;
+}
+
+.type-file {
+  background: rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+}
+
+.type-location {
+  background: rgba(236, 72, 153, 0.15);
+  color: #be185d;
+}
+
+.type-sticker {
+  background: rgba(168, 85, 247, 0.15);
+  color: #7e22ce;
+}
+
+.type-unknown {
+  background: rgba(100, 116, 139, 0.15);
+  color: #475569;
 }
 
 .hook-text {
