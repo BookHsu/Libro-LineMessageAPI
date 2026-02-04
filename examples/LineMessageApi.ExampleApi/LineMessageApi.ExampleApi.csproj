@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\LineMessageApiSDK\LineMessageApiSDK.csproj" />
+    <ProjectReference Include="..\..\src\LineMessageApiSDK.Extensions\LineMessageApiSDK.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

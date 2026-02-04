@@ -24,6 +24,11 @@
 - CD 在建立版本標籤時自動打包並發佈 NuGet 套件（含符號檔）。
 - 調整 README 連結為 GitHub 絕對路徑，確保 NuGet 套件頁面顯示一致。
 - 修正 NuGet 套件的專案與版本庫 URL 以避免不必要的錨點字元。
+- 新增 `LineChannelOptions` 至 SDK，並提供 DI/Options 擴充套件。
+- 更新範例專案與文件，改用 `AddLineSdk(...)` 設定流程。
+- 版本更新至 2.1.2，並補上 Extensions 套件打包流程。
+- 補上 Postback 動作留言欄位並新增序列化測試（含空值忽略）。
+- 調整 `LineChannelOptions` 為非 nullable string 並提供預設值。
 
 ## 後續建議
 

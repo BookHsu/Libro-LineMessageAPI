@@ -24,6 +24,11 @@ namespace LineMessageApiSDK.LineMessageObject
         /// <summary>Template</summary>
         public string data { get; set; }
 
+        /// <summary>Postback 留言</summary>
+        [JsonPropertyName("displayText")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string displayText { get; set; }
+
         /// <summary>Template</summary>
         public string label { get; set; }
 

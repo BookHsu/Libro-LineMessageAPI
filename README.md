@@ -18,6 +18,12 @@
 dotnet add package LibroLineMessageSDK
 ```
 
+> 若要使用 DI/Options 方便註冊，請加裝擴充套件：
+
+```bash
+dotnet add package LibroLineMessageSDK.Extensions
+```
+
 ## 快速使用範例
 
 ### 1) 直接建立實例
@@ -41,22 +47,20 @@ var sdk = new LineSdkBuilder(channelAccessToken)
 
 ```csharp
 using LineMessageApiSDK;
+using LineMessageApiSDK.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
-services.AddSingleton(sp =>
-{
-    var channelAccessToken = Environment.GetEnvironmentVariable("LINE_CHANNEL_ACCESS_TOKEN");
-    if (string.IsNullOrWhiteSpace(channelAccessToken))
-    {
-        throw new InvalidOperationException("缺少 LINE_CHANNEL_ACCESS_TOKEN");
-    }
+var configuration = new ConfigurationBuilder()
+    .AddEnvironmentVariables()
+    .Build();
 
-    return new LineSdkBuilder(channelAccessToken)
+services.AddLineSdk(
+    configuration,
+    sdkBuilder => sdkBuilder
         .UseBot()
-        .UseMessages()
-        .Build();
-});
+        .UseMessages());
 
 var serviceProvider = services.BuildServiceProvider();
 var sdk = serviceProvider.GetRequiredService<LineSdk>();
@@ -98,6 +102,16 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request, string chan
 
 請先閱讀「LINE Messaging API 2.0 規格速覽與快速上手」，內含支援端點與最短上手流程。  
 [docs/line-message-api-2.0.md](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/line-message-api-2.0.md)
+
+## Wiki 同步
+
+本 repo 以 `docs/wiki/` 作為文件來源，可用腳本同步到 GitHub Wiki repo：
+
+```bash
+pwsh scripts/sync-wiki.ps1
+pwsh scripts/sync-wiki.ps1 -Commit
+pwsh scripts/sync-wiki.ps1 -Commit -Push
+```
 
 ## 授權
 

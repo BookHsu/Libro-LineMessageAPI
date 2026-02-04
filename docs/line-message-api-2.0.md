@@ -36,6 +36,7 @@
   - `LINE_CHANNEL_ACCESS_TOKEN`
 - **設定檔**（可選）
   - 以 `appsettings.json` 或秘密管理服務保存，避免硬編碼。
+  - SDK 提供 `LineChannelOptions`，預設讀取 `LineChannel` 區段。
 
 ### 2.3 SDK 初始化範例（直接建立實例）
 
@@ -57,23 +58,22 @@ var sdk = new LineSdkBuilder(channelAccessToken)
 
 ### 2.4 SDK 初始化範例（DI 注入）
 
+> 需安裝 `LibroLineMessageSDK.Extensions`。
+
 ```csharp
 using LineMessageApiSDK;
+using LineMessageApiSDK.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
-services.AddSingleton(sp =>
-{
-    var channelAccessToken = Environment.GetEnvironmentVariable("LINE_CHANNEL_ACCESS_TOKEN");
-    if (string.IsNullOrWhiteSpace(channelAccessToken))
-    {
-        throw new InvalidOperationException("缺少 LINE_CHANNEL_ACCESS_TOKEN");
-    }
+var configuration = new ConfigurationBuilder()
+    .AddEnvironmentVariables()
+    .Build();
 
-    return new LineSdkBuilder(channelAccessToken)
-        .UseMessages()
-        .Build();
-});
+services.AddLineSdk(
+    configuration,
+    sdkBuilder => sdkBuilder.UseMessages());
 
 var serviceProvider = services.BuildServiceProvider();
 var sdk = serviceProvider.GetRequiredService<LineSdk>();
