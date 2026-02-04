@@ -82,6 +82,52 @@ h1, h2, h3, h4, h5 {
   border-left: 4px solid var(--lm-primary);
 }
 
+.hook-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 420px;
+  overflow: auto;
+  padding: 4px 6px 4px 2px;
+}
+
+.hook-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.hook-bubble {
+  width: 100%;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.hook-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.hook-text {
+  color: var(--lm-text);
+}
+
+.hook-tags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hook-meta {
+  font-size: 0.8rem;
+  padding-left: 4px;
+}
+
 .btn-primary {
   background: var(--lm-primary);
   border-color: var(--lm-primary);
