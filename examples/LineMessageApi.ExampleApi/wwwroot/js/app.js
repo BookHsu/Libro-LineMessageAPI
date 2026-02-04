@@ -154,7 +154,7 @@ createApp({
         this.webhookEndpoint = data.webhookEndpoint || null;
         this.ensureHubConnection();
       } catch {
-        this.message = '設定失敗，請確認網路連線。';
+        this.message = '設定失敗，請確認網路連線（即時事件仍會透過 SignalR 更新）。';
       } finally {
         this.loading = false;
       }
