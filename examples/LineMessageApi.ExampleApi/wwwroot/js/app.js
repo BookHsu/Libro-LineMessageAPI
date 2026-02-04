@@ -104,7 +104,11 @@ createApp({
         }
         const data = await response.json();
         if (Array.isArray(data)) {
-          this.events = data;
+          this.events = [...data].sort((a, b) => {
+            const aTime = a?.receivedAtUtc ? Date.parse(a.receivedAtUtc) : 0;
+            const bTime = b?.receivedAtUtc ? Date.parse(b.receivedAtUtc) : 0;
+            return bTime - aTime;
+          });
         }
       } catch {
         // 略過錯誤
