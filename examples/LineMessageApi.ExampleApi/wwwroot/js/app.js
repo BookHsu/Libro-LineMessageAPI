@@ -220,6 +220,7 @@ createApp({
       connection.start()
         .then(() => {
           this.connectionState = 'connected';
+          this.fetchEvents();
         })
         .catch(() => {
           this.hubConnection = null;
