@@ -9,7 +9,7 @@ createApp({
         channelAccessToken: '',
         channelSecret: '',
         webhookUrl: '',
-        setEndpoint: true
+        setEndpoint: false
       },
       // 狀態資料
       status: {
@@ -70,8 +70,16 @@ createApp({
     this.fetchConfig();
     this.refreshInfo();
     this.fetchEvents();
+    this.initTooltips();
   },
   methods: {
+    // 啟用 Bootstrap Tooltip
+    initTooltips() {
+      const triggers = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      triggers.forEach((el) => {
+        new bootstrap.Tooltip(el);
+      });
+    },
     // 格式化 UTC 時間
     formatUtc(value) {
       if (!value) {

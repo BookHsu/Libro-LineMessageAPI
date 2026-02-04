@@ -59,6 +59,17 @@
                             <input v-model="form.setEndpoint" class="form-check-input" type="checkbox" id="setEndpoint" />
                             <label class="form-check-label" for="setEndpoint">
                                 自動設定 LINE Webhook Endpoint
+                                <button class="btn btn-link p-0 ms-1 align-baseline" type="button"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="勾選後會用上方的 Webhook URL，自動呼叫 LINE Webhook Endpoint 設定。未勾選時只儲存本頁設定。">
+                                    <span class="visually-hidden">說明</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.82 1c0 2-3 2-3 4"></path>
+                                        <line x1="12" y1="17" x2="12" y2="17"></line>
+                                    </svg>
+                                </button>
                             </label>
                         </div>
 
@@ -69,6 +80,9 @@
                             <button type="button" class="btn btn-outline-primary" v-on:click="refreshInfo" :disabled="loading">
                                 重新載入資訊
                             </button>
+                        </div>
+                        <div class="form-text mt-2">
+                            儲存會使用 Token / Secret 進行驗證，並可同步 Webhook Endpoint 與 Bot 資訊。
                         </div>
 
                         @* 狀態訊息 *@
