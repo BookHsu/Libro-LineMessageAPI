@@ -1,0 +1,306 @@
+﻿@* 控制台首頁 *@
+<div id="app" class="app-shell">
+    <div class="container">
+        @* 頂部標題區 *@
+        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
+            <div>
+                <h1 class="mb-2">LINE Webhook 控制台</h1>
+                <p class="text-muted mb-0">在此輸入 Channel 資訊、同步 Webhook Endpoint，並即時監看事件流。</p>
+            </div>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <button class="btn btn-outline-secondary btn-sm" type="button" v-on:click="toggleTheme">
+                    {{ darkMode ? '淺色模式' : '深色模式' }}
+                </button>
+                <div class="status-pill" :class="connectionClass">
+                    @* 連線狀態圖示 *@
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                    <span>{{ connectionLabel }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            @* 左側：設定表單 *@
+            <div class="col-lg-5">
+                <details class="mobile-section" open>
+                    <summary class="mobile-summary">設定 Line 參數</summary>
+                    <div class="glass-card p-4 h-100">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <span class="icon-circle">
+                            @* 設定圖示 *@
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0A1.65 1.65 0 0 0 9 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0A1.65 1.65 0 0 0 20.91 11H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <h4 class="mb-1 section-title">設定 Line 參數</h4>
+                            <small class="text-muted">設定內容只保存在記憶體，重啟後會清除。</small>
+                        </div>
+                    </div>
+
+                    <form v-on:submit.prevent="saveConfig">
+                        @* Channel Access Token *@
+                        <div class="mb-3">
+                            <label class="form-label">Channel Access Token</label>
+                            <div class="input-group">
+                                <input v-model.trim="form.channelAccessToken" :type="showToken ? 'text' : 'password'" class="form-control" autocomplete="off" placeholder="輸入 Channel Access Token" />
+                                <button class="btn btn-outline-secondary" type="button" v-on:click="toggleTokenVisibility" :aria-label="showToken ? '隱藏 Token' : '顯示 Token'">
+                                    <span v-if="showToken">隱藏</span>
+                                    <span v-else>顯示</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        @* Channel Secret *@
+                        <div class="mb-3">
+                            <label class="form-label">Channel Secret</label>
+                            <div class="input-group">
+                                <input v-model.trim="form.channelSecret" :type="showSecret ? 'text' : 'password'" class="form-control" autocomplete="off" placeholder="輸入 Channel Secret" />
+                                <button class="btn btn-outline-secondary" type="button" v-on:click="toggleSecretVisibility" :aria-label="showSecret ? '隱藏 Secret' : '顯示 Secret'">
+                                    <span v-if="showSecret">隱藏</span>
+                                    <span v-else>顯示</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        @* Webhook URL *@
+                        <div class="mb-3">
+                            <label class="form-label">Webhook URL</label>
+                            <input v-model.trim="form.webhookUrl" type="url" class="form-control" placeholder="https://your-domain/dashboard/hook" />
+                            <div class="form-text">若未輸入，會使用目前站台的 /dashboard/hook。</div>
+                        </div>
+
+                        @* 設定 Endpoint *@
+                        <div class="form-check mb-3">
+                            <input v-model="form.setEndpoint" class="form-check-input" type="checkbox" id="setEndpoint" />
+                            <label class="form-check-label" for="setEndpoint">
+                                自動設定 LINE Webhook Endpoint
+                                <button class="btn btn-link p-0 ms-1 align-baseline" type="button"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="勾選後會用上方的 Webhook URL，自動呼叫 LINE Webhook Endpoint 設定。未勾選時只儲存本頁設定。">
+                                    <span class="visually-hidden">說明</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.82 1c0 2-3 2-3 4"></path>
+                                        <line x1="12" y1="17" x2="12" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </label>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="submit" class="btn btn-primary" :disabled="loading">
+                                儲存並同步
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" v-on:click="refreshInfo" :disabled="loading">
+                                重新載入資訊
+                            </button>
+                        </div>
+                        <div class="form-text mt-2">
+                            儲存會使用 Token / Secret 進行驗證，並可同步 Webhook Endpoint 與 Bot 資訊。
+                        </div>
+
+                        @* 狀態訊息 *@
+                        <div v-if="message" class="alert alert-info mt-3" role="alert">
+                            {{ message }}
+                        </div>
+                    </form>
+                    </div>
+                </details>
+            </div>
+
+            @* 右側：資訊與事件 *@
+            <div class="col-lg-7">
+                <div class="row g-4">
+                    @* Bot 資訊 *@
+                    <div class="col-12">
+                        <details class="mobile-section" open>
+                            <summary class="mobile-summary">Bot 資訊</summary>
+                            <div class="glass-card p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div>
+                                        <h4 class="mb-1 section-title">Bot 資訊</h4>
+                                        <small class="text-muted">同步完成後顯示 LINE Bot 基本資料。</small>
+                                    </div>
+                                    <span class="badge badge-soft">{{ botInfo ? '已載入' : '尚未載入' }}</span>
+                                </div>
+
+                                <div v-if="botInfo" class="d-flex flex-column flex-md-row gap-3">
+                                    <div>
+                                        <img :src="botInfo.pictureUrl || placeholderImage" alt="Bot 頭像" class="rounded-3" width="88" height="88" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold fs-5">{{ botInfo.displayName }}</div>
+                                        <div class="text-muted">User ID: <span class="mono-text">{{ botInfo.userId }}</span></div>
+                                        <div class="text-muted">Basic ID: <span class="mono-text">{{ botInfo.basicId || '-' }}</span></div>
+                                        <div class="text-muted">Premium ID: <span class="mono-text">{{ botInfo.premiumId || '-' }}</span></div>
+                                        <div class="mt-2 d-flex flex-wrap gap-2">
+                                            <span class="badge bg-light text-dark border">Chat: {{ botInfo.chatMode }}</span>
+                                            <span class="badge bg-light text-dark border">Read: {{ botInfo.markAsReadMode }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else class="text-muted">尚未取得 Bot 資訊，請先設定 Token。</div>
+                            </div>
+                        </details>
+                    </div>
+
+                    @* Webhook Endpoint *@
+                    <div class="col-12">
+                        <details class="mobile-section" open>
+                            <summary class="mobile-summary">Webhook Endpoint</summary>
+                            <div class="glass-card p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div>
+                                        <h4 class="mb-1 section-title">Webhook Endpoint</h4>
+                                        <small class="text-muted">檢視 LINE 端的 Webhook 設定狀態。</small>
+                                    </div>
+                                    <span class="badge" :class="webhookStatusClass">{{ webhookStatusLabel }}</span>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-8">
+                                        <div class="text-muted mb-1">Endpoint URL</div>
+                                        <div class="mono-text">{{ webhookEndpoint?.endpoint || '尚未設定' }}</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-muted mb-1">啟用狀態</div>
+                                        <div class="fw-semibold">{{ webhookEndpoint?.active ? '已啟用' : '未啟用' }}</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted mb-1">目前站台 Webhook URL</div>
+                                        <div class="mono-text">{{ currentWebhookUrl }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    @* Webhook 事件流 *@
+                    <div class="col-12">
+                        <details class="mobile-section" open>
+                            <summary class="mobile-summary">即時 Webhook 事件</summary>
+                            <div class="glass-card p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div>
+                                        <h4 class="mb-1 section-title">即時 Webhook 事件</h4>
+                                        <small class="text-muted">接收到事件後會即時推送到此列表（僅顯示）。</small>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="btn btn-outline-secondary btn-sm" type="button" v-on:click="toggleDensity">
+                                            {{ density === 'compact' ? '舒適模式' : '密集模式' }}
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm" type="button" v-on:click="clearEvents">清除</button>
+                                    </div>
+                                </div>
+
+                                <div v-if="events.length === 0" class="text-muted">尚未收到事件。</div>
+
+                                <div v-else>
+                                    <div class="hook-stream" :class="densityClass" v-on:scroll.passive="onStreamScroll">
+                                        <div v-for="group in groupedEvents" :key="group.label" class="hook-group">
+                                            <div class="hook-group-label">{{ group.label }}</div>
+                                            <div v-for="event in group.items" :key="event.id" class="hook-item" :class="{ pinned: event.pinned }">
+                                                <div class="hook-bubble">
+                                                    <div class="hook-header">
+                                                        <div class="hook-title">{{ event.eventType }}</div>
+                                                        <div class="hook-actions">
+                                                            <button class="pin-btn" type="button" v-on:click="togglePin(event)" :class="{ pinned: event.pinned }" aria-label="釘選">
+                                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                    <path d="M16 3l5 5"></path>
+                                                                    <path d="M4 20l6-6"></path>
+                                                                    <path d="M14 4l6 6-6 6-6-6z"></path>
+                                                                </svg>
+                                                            </button>
+                                                            <span class="type-badge" :class="getMessageTypeClass(event.messageType)">
+                                                                <span v-if="event.messageType === 'text'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <path d="M4 4h16v12H7l-3 3z"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else-if="event.messageType === 'image'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                                                        <path d="M8 13l3-3 4 4 3-3"></path>
+                                                                        <circle cx="9" cy="9" r="1"></circle>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else-if="event.messageType === 'sticker'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <path d="M21 12c0 5-4 9-9 9H6a3 3 0 0 1-3-3V7c0-3 2-5 5-5h6c5 0 9 4 9 10z"></path>
+                                                                        <path d="M16 16h5v5"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else-if="event.messageType === 'file'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+                                                                        <path d="M14 2v6h6"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else-if="event.messageType === 'location'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <path d="M12 21s-6-5.33-6-10a6 6 0 1 1 12 0c0 4.67-6 10-6 10z"></path>
+                                                                        <circle cx="12" cy="11" r="2"></circle>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else-if="event.messageType === 'video'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <rect x="3" y="5" width="14" height="14" rx="2"></rect>
+                                                                        <path d="M17 9l4-2v10l-4-2z"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else-if="event.messageType === 'audio'" class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <path d="M12 3v18"></path>
+                                                                        <path d="M8 7v10"></path>
+                                                                        <path d="M16 7v10"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                <span v-else class="type-icon" aria-hidden="true">
+                                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                                        <circle cx="12" cy="12" r="9"></circle>
+                                                                        <path d="M12 7v5"></path>
+                                                                        <path d="M12 16h.01"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                {{ event.messageType || 'unknown' }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hook-text">{{ event.summary }}</div>
+                                                    <button class="btn btn-link btn-sm px-0 mt-2" type="button" v-on:click="toggleRaw(event)">
+                                                        {{ event.expanded ? '隱藏詳細' : '顯示詳細' }}
+                                                    </button>
+                                                    <div v-if="event.expanded" class="hook-tags">
+                                                        <span class="badge bg-light text-dark border">Message: {{ event.messageType || '-' }}</span>
+                                                        <span class="badge bg-light text-dark border">Source: {{ event.sourceType || '-' }}</span>
+                                                        <span v-if="event.sourceIdValue" class="badge bg-light text-dark border">{{ event.sourceIdLabel }}: {{ event.sourceIdValue }}</span>
+                                                    </div>
+                                                    <div v-if="event.expanded" class="hook-raw-wrapper">
+                                                        <button class="btn btn-outline-light btn-sm hook-copy" type="button" v-on:click="copyRaw(event)">
+                                                            {{ event.copied ? '已複製' : '複製 JSON' }}
+                                                        </button>
+                                                        <pre class="hook-raw">{{ event.rawJson }}</pre>
+                                                    </div>
+                                                </div>
+                                                <div class="hook-meta text-muted">{{ formatUtc(event.receivedAtUtc) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="newEventCount > 0" class="hook-float">
+                                    <span>有 {{ newEventCount }} 則新事件</span>
+                                    <button class="btn btn-link btn-sm p-0" type="button" v-on:click="jumpToLatest">跳到最新</button>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

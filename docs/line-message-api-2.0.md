@@ -18,6 +18,20 @@
 5. **使用 Reply Token 回覆**
    - 以 `LineSdkBuilder(...).UseMessages()` 建立後呼叫 `SendReplyMessage`/`SendReplyMessageAsync`。
 
+## 1.1 範例專案（API / Dashboard）
+
+`examples/LineMessageApi.ExampleApi` 提供兩條路徑：
+
+1. **API 範例**
+   - 來源：設定檔或環境變數注入
+   - Webhook 入口：`POST /line/hook`
+   - 設定節點：`LineChannel`（`LineChannel__ChannelAccessToken` / `LineChannel__ChannelSecret`）
+2. **Dashboard 範例**
+   - 來源：頁面輸入（記憶體保存，重啟即清除）
+   - 目的：快速驗證 Webhook 與事件流
+   - Webhook 入口：`POST /dashboard/hook`
+   - API 端點：`/dashboard/api/line/*`
+
 ## 2. 設定方式（必要參數與環境）
 
 ### 2.1 LINE Developers 後台設定
@@ -32,8 +46,12 @@
 ### 2.2 服務端設定建議
 
 - **環境變數**（建議）
-  - `LINE_CHANNEL_SECRET`
-  - `LINE_CHANNEL_ACCESS_TOKEN`
+  - 若直接讀取環境變數（手動建立 `LineSdkBuilder`）：
+    - `LINE_CHANNEL_SECRET`
+    - `LINE_CHANNEL_ACCESS_TOKEN`
+  - 若使用 `LineChannelOptions` / `AddLineSdk(...)`（綁定 `LineChannel` 區段）：
+    - `LineChannel__ChannelSecret`
+    - `LineChannel__ChannelAccessToken`
 - **設定檔**（可選）
   - 以 `appsettings.json` 或秘密管理服務保存，避免硬編碼。
   - SDK 提供 `LineChannelOptions`，預設讀取 `LineChannel` 區段。
@@ -56,7 +74,7 @@ var sdk = new LineSdkBuilder(channelAccessToken)
     .Build();
 ```
 
-### 2.4 SDK 初始化範例（DI 注入）
+### 2.4 SDK 初始化範例（DI 注入 / LineChannelOptions）
 
 > 需安裝 `LibroLineMessageSDK.Extensions`。
 
@@ -78,6 +96,11 @@ services.AddLineSdk(
 var serviceProvider = services.BuildServiceProvider();
 var sdk = serviceProvider.GetRequiredService<LineSdk>();
 ```
+
+設定環境變數（綁定 `LineChannel` 區段）：
+
+- `LineChannel__ChannelAccessToken`
+- `LineChannel__ChannelSecret`
 
 ## 3. SDK 支援的 API 端點（2.0）
 

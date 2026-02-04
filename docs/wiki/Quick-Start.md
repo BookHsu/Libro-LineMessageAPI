@@ -82,9 +82,26 @@ services.AddLineSdk(
         .UseBot()
         .UseMessages());
 
+// 設定環境變數（LineChannel 區段）
+// - LineChannel__ChannelAccessToken
+// - LineChannel__ChannelSecret
+
 var serviceProvider = services.BuildServiceProvider();
 var sdk = serviceProvider.GetRequiredService<LineSdk>();
 ```
+
+## 5) 範例路徑（API / Dashboard）
+
+此範例提供兩條路徑：
+
+1. API 範例：透過設定或環境變數注入 Channel Access Token / Secret
+2. Dashboard 範例：由頁面輸入並存於記憶體，提供快速驗證與即時事件流
+
+對應端點：
+
+- API Webhook 入口：`POST /line/hook`
+- Dashboard Webhook 入口：`POST /dashboard/hook`
+- Dashboard API：`/dashboard/api/line/*`
 
 ## 下一步
 

@@ -1,41 +1,48 @@
-using LineMessageApiSDK.Extensions;
+using LineMessageApi.ExampleApi.Hubs;
+using LineMessageApi.ExampleApi.Services;
+using LineMessageApiSDK;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 設定 API JSON 反序列化選項（包含 enum string 與大小寫不敏感）
-builder.Services.AddControllers()
+// 設定 MVC 與 API JSON 序列化，讓 enum 以字串輸出
+builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-// 註冊 Line SDK，並啟用全部模組供範例 API 使用
-builder.Services.AddLineSdk(
-    builder.Configuration,
-    sdkBuilder => sdkBuilder
-        .UseWebhook() // Webhook 驗證模組
-        .UseWebhookEndpoints() // Webhook Endpoint 管理
-        .UseBot() // Bot 與群組/對話資訊
-        .UseBroadcast() // Broadcast / Narrowcast
-        .UseMessageValidation() // 訊息驗證
-        .UseRichMenu() // Rich Menu 管理
-        .UseInsight() // Insights 查詢
-        .UseAudience() // Audience 管理
-        .UseAccountLink() // Account Link
-        .UseMessages() // 訊息收發
-        .UseProfiles() // 使用者/成員檔案
-        .UseGroups()); // 群組/多人對話
+// 註冊 SignalR 以推送 webhook 事件
+builder.Services.AddSignalR();
+
+// 綁定 LineChannel 設定（API 範例用）
+builder.Services.Configure<LineChannelOptions>(
+    builder.Configuration.GetSection(LineChannelOptions.SectionName));
+
+// 註冊記憶體設定與事件存放
+builder.Services.AddSingleton<LineConfigStore>();
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => Results.Ok(new { message = "LineMessageApi Example API" }));
+// 啟用靜態檔案服務
+app.UseStaticFiles();
 
 app.MapGet("/health", () =>
     Results.Ok(new { status = "ok", utc = DateTimeOffset.UtcNow }));
+
+// 註冊 API 控制器
 app.MapControllers();
 
+// 註冊 MVC 頁面路由
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// 註冊 SignalR Hub
+app.MapHub<LineWebhookHub>("/hubs/line-webhook");
+
 app.Run();
+

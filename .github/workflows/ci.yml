@@ -36,3 +36,6 @@ jobs:
 
       - name: Test (net10.0)
         run: dotnet test tests/LineMessageApiSDK.Tests/LineMessageApiSDK.Tests.csproj -c Release --no-build -f net10.0
+
+      - name: Test Example API
+        run: dotnet test tests/LineMessageApi.ExampleApi.Tests/LineMessageApi.ExampleApi.Tests.csproj -c Release --no-build
