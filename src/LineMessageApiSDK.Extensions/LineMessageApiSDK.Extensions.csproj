@@ -4,7 +4,7 @@
     <RootNamespace>LineMessageApiSDK.Extensions</RootNamespace>
     <AssemblyName>LineMessageApiSDK.Extensions</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>2.1.2</Version>
+    <Version>2.1.3</Version>
     <PackageId>LibroLineMessageSDK.Extensions</PackageId>
     <Authors>book.hsu</Authors>
     <Description>LINE Messaging API SDK extensions for DI/Options integration.</Description>
