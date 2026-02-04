@@ -91,6 +91,21 @@ h1, h2, h3, h4, h5 {
   padding: 4px 6px 4px 2px;
 }
 
+.hook-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hook-group-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--lm-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-left: 2px;
+}
+
 .hook-item {
   display: flex;
   flex-direction: column;

@@ -59,6 +59,20 @@ createApp({
     // Webhook 啟用狀態文字
     webhookStatusLabel() {
       return this.webhookEndpoint?.active ? '已啟用' : '未啟用';
+    },
+    groupedEvents() {
+      const groups = new Map();
+      this.events.forEach((eventRecord) => {
+        const label = this.getDateLabel(eventRecord?.receivedAtUtc);
+        if (!groups.has(label)) {
+          groups.set(label, []);
+        }
+        groups.get(label).push(eventRecord);
+      });
+      return Array.from(groups.entries()).map(([label, items]) => ({
+        label,
+        items
+      }));
     }
   },
   mounted() {
@@ -142,6 +156,29 @@ createApp({
       } catch {
         this.message = '取得資訊失敗。';
       }
+    },
+    getDateLabel(value) {
+      if (!value) {
+        return '未知時間';
+      }
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) {
+        return '未知時間';
+      }
+      const today = new Date();
+      const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const startOfDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const diffDays = Math.round((startOfToday - startOfDate) / 86400000);
+
+      if (diffDays === 0) {
+        return '今天';
+      }
+      if (diffDays === 1) {
+        return '昨天';
+      }
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${date.getFullYear()}-${month}-${day}`;
     },
     // 儲存設定
     async saveConfig() {

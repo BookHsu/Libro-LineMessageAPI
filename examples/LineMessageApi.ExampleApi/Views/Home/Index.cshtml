@@ -167,23 +167,26 @@
 
                             <div v-if="events.length === 0" class="text-muted">尚未收到事件。</div>
 
-                                <div v-else class="hook-stream">
-                                    <div v-for="event in events" :key="event.id" class="hook-item">
+                            <div v-else class="hook-stream">
+                                <div v-for="group in groupedEvents" :key="group.label" class="hook-group">
+                                    <div class="hook-group-label">{{ group.label }}</div>
+                                    <div v-for="event in group.items" :key="event.id" class="hook-item">
                                         <div class="hook-bubble">
                                             <div class="hook-title">{{ event.eventType }}</div>
                                             <div class="hook-text">{{ event.summary }}</div>
-                                            <div class="hook-tags">
+                                            <button class="btn btn-link btn-sm px-0 mt-2" type="button" v-on:click="toggleRaw(event)">
+                                                {{ event.expanded ? '隱藏詳細' : '顯示詳細' }}
+                                            </button>
+                                            <div v-if="event.expanded" class="hook-tags">
                                                 <span class="badge bg-light text-dark border">Message: {{ event.messageType || '-' }}</span>
                                                 <span class="badge bg-light text-dark border">Source: {{ event.sourceType || '-' }}</span>
                                             </div>
-                                            <button class="btn btn-link btn-sm px-0 mt-2" type="button" v-on:click="toggleRaw(event)">
-                                                {{ event.expanded ? '隱藏原始 JSON' : '顯示原始 JSON' }}
-                                            </button>
                                             <pre v-if="event.expanded" class="hook-raw">{{ event.rawJson }}</pre>
                                         </div>
                                         <div class="hook-meta text-muted">{{ formatUtc(event.receivedAtUtc) }}</div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
