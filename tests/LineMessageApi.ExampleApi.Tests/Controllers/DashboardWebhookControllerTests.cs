@@ -93,10 +93,14 @@ public class DashboardWebhookControllerTests
         TestHubContext hub,
         JsonSerializerOptions jsonOptions)
     {
-        var mvcOptions = Options.Create(new Microsoft.AspNetCore.Mvc.JsonOptions
+        var mvcOptionsValue = new Microsoft.AspNetCore.Mvc.JsonOptions();
+        mvcOptionsValue.JsonSerializerOptions.PropertyNameCaseInsensitive = jsonOptions.PropertyNameCaseInsensitive;
+        foreach (var converter in jsonOptions.Converters)
         {
-            JsonSerializerOptions = jsonOptions
-        });
+            mvcOptionsValue.JsonSerializerOptions.Converters.Add(converter);
+        }
+
+        var mvcOptions = Options.Create(mvcOptionsValue);
 
         return new DashboardWebhookController(
             store,
