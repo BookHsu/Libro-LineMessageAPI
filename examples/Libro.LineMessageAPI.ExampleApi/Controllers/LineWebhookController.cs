@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Libro.LineMessageApi;
+using Libro.LineMessageAPI.ExampleApi.Services;
 using Libro.LineMessageApi.LineMessageObject;
 using Libro.LineMessageApi.LineReceivedObject;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +17,7 @@ public sealed class LineWebhookController : ControllerBase
 {
     private readonly LineChannelOptions channelOptions;
     private readonly JsonSerializerOptions jsonOptions;
+    private readonly ILineSdkFactory sdkFactory;
     private readonly ILogger<LineWebhookController> logger;
 
     /// <summary>
@@ -24,10 +25,12 @@ public sealed class LineWebhookController : ControllerBase
     /// </summary>
     public LineWebhookController(
         IOptions<LineChannelOptions> channelOptions,
+        ILineSdkFactory sdkFactory,
         IOptions<Microsoft.AspNetCore.Mvc.JsonOptions> jsonOptions,
         ILogger<LineWebhookController> logger)
     {
         this.channelOptions = channelOptions.Value;
+        this.sdkFactory = sdkFactory;
         this.jsonOptions = jsonOptions.Value.JsonSerializerOptions;
         this.logger = logger;
     }
@@ -119,9 +122,7 @@ public sealed class LineWebhookController : ControllerBase
                     continue;
                 }
 
-                var sdk = new LineSdkBuilder(token)
-                    .UseMessages()
-                    .Build();
+                var sdk = sdkFactory.CreateMessageSdk(token);
 
                 await sdk.Messages!.SendReplyMessageAsync(
                     evt.replyToken,

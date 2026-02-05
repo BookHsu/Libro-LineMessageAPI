@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Libro.LineMessageAPI.ExampleApi.Hubs;
 using Libro.LineMessageAPI.ExampleApi.Models;
 using Libro.LineMessageAPI.ExampleApi.Services;
-using Libro.LineMessageApi;
 using Libro.LineMessageApi.LineMessageObject;
 using Libro.LineMessageApi.LineReceivedObject;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +21,7 @@ public sealed class DashboardWebhookController : ControllerBase
     private readonly LineConfigStore store;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IHubContext<LineWebhookHub> hubContext;
+    private readonly ILineSdkFactory sdkFactory;
     private readonly ILogger<DashboardWebhookController> logger;
 
     /// <summary>
@@ -30,11 +30,13 @@ public sealed class DashboardWebhookController : ControllerBase
     public DashboardWebhookController(
         LineConfigStore store,
         IHubContext<LineWebhookHub> hubContext,
+        ILineSdkFactory sdkFactory,
         IOptions<Microsoft.AspNetCore.Mvc.JsonOptions> jsonOptions,
         ILogger<DashboardWebhookController> logger)
     {
         this.store = store;
         this.hubContext = hubContext;
+        this.sdkFactory = sdkFactory;
         this.jsonOptions = jsonOptions.Value.JsonSerializerOptions;
         this.logger = logger;
     }
@@ -141,9 +143,7 @@ public sealed class DashboardWebhookController : ControllerBase
                     continue;
                 }
 
-                var sdk = new LineSdkBuilder(token)
-                    .UseMessages()
-                    .Build();
+                var sdk = sdkFactory.CreateMessageSdk(token);
 
                 await sdk.Messages!.SendReplyMessageAsync(
                     evt.replyToken,
