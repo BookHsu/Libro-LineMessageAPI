@@ -4,7 +4,7 @@
     <RootNamespace>Libro.LineMessageApi</RootNamespace>
     <AssemblyName>Libro.LineMessageAPI</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>2.1.6</Version>
+    <Version>2.1.7</Version>
     <PackageId>Libro.LineMessageAPI</PackageId>
     <Authors>book.hsu</Authors>
     <Description>LINE Messaging API C# SDK.</Description>
@@ -19,6 +19,7 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
+
 
 
 
