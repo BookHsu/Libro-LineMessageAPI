@@ -3,6 +3,7 @@ using Libro.LineMessageApi.LineReceivedObject;
 using Libro.LineMessageApi.SendMessage;
 using Libro.LineMessageApi.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立訊息發送 API
@@ -24,7 +26,7 @@ namespace Libro.LineMessageApi.Method
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal MessageSendApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -33,12 +35,16 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal MessageSendApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal MessageSendApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -58,8 +64,10 @@ namespace Libro.LineMessageApi.Method
             {
                 var payload = NormalizeMessagePayload(message);
                 var sJosn = serializer.Serialize(payload);
-                var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
-                var s = client.PostAsync(strUrl, content).Result.Content.ReadAsStringAsync().Result;
+                using var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var response = adapter.Post(strUrl, content);
+                var s = response.Content.ReadAsStringSync();
                 if (s == "{}")
                 {
                     return string.Empty;
@@ -97,9 +105,9 @@ namespace Libro.LineMessageApi.Method
             {
                 var payload = NormalizeMessagePayload(message);
                 var sJosn = serializer.Serialize(payload);
-                var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(strUrl, content);
-                var s = await response.Content.ReadAsStringAsync();
+                using var content = new StringContent(sJosn, Encoding.UTF8, "application/json");
+                using var response = await client.PostAsync(strUrl, content).ConfigureAwait(false);
+                var s = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (s == "{}")
                 {
                     return string.Empty;
@@ -142,7 +150,7 @@ namespace Libro.LineMessageApi.Method
                 return null;
             }
 
-            var messageList = message.messages?.Select(m => (object)m).ToList();
+            IEnumerable<object> messageList = message.messages?.Cast<object>();
 
             switch (message)
             {

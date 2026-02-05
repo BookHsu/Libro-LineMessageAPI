@@ -1,6 +1,7 @@
 using Libro.LineMessageApi.Http;
 using Libro.LineMessageApi.Serialization;
 using Libro.LineMessageApi.Types;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,24 +15,29 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立 Rich Menu API
         /// </summary>
         internal RichMenuApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
         /// <summary>
         /// 建立 Rich Menu API
         /// </summary>
-        internal RichMenuApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal RichMenuApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? new SystemTextJsonSerializer();
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -45,9 +51,10 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenu();
                 var payload = serializer.Serialize(richMenu);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(url, content).Result;
-                var body = result.Content.ReadAsStringAsync().Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
+                var body = result.Content.ReadAsStringSync();
                 return serializer.Deserialize<RichMenuIdResponse>(body);
             }
             finally
@@ -70,9 +77,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenu();
                 var payload = serializer.Serialize(richMenu);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
-                var body = await result.Content.ReadAsStringAsync();
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
+                var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return serializer.Deserialize<RichMenuIdResponse>(body);
             }
             finally
@@ -94,7 +101,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuId(richMenuId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<RichMenuResponse>(result);
             }
             finally
@@ -116,7 +124,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuId(richMenuId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<RichMenuResponse>(result);
             }
             finally
@@ -138,7 +146,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuId(richMenuId);
-                var result = client.DeleteAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Delete(url);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -160,7 +169,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuId(richMenuId);
-                var result = await client.DeleteAsync(url);
+                using var result = await client.DeleteAsync(url).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -182,7 +191,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuList();
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<RichMenuListResponse>(result);
             }
             finally
@@ -204,7 +214,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuList();
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<RichMenuListResponse>(result);
             }
             finally
@@ -226,9 +236,10 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuContent(richMenuId);
-                var body = new ByteArrayContent(content ?? new byte[0]);
+                using var body = new ByteArrayContent(content ?? Array.Empty<byte>());
                 body.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
-                var result = client.PostAsync(url, body).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, body);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -250,9 +261,9 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuContent(richMenuId);
-                var body = new ByteArrayContent(content ?? new byte[0]);
+                using var body = new ByteArrayContent(content ?? Array.Empty<byte>());
                 body.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
-                var result = await client.PostAsync(url, body);
+                using var result = await client.PostAsync(url, body).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -274,7 +285,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuContent(richMenuId);
-                return client.GetByteArrayAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                return adapter.GetByteArray(url);
             }
             finally
             {
@@ -295,7 +307,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuContent(richMenuId);
-                return await client.GetByteArrayAsync(url);
+                return await client.GetByteArrayAsync(url).ConfigureAwait(false);
             }
             finally
             {
@@ -316,7 +328,9 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildDefaultRichMenu(richMenuId);
-                var result = client.PostAsync(url, new StringContent("{}")).Result;
+                using var content = new StringContent("{}");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -338,7 +352,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildDefaultRichMenu(richMenuId);
-                var result = await client.PostAsync(url, new StringContent("{}"));
+                using var content = new StringContent("{}");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -360,7 +375,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildDefaultRichMenu();
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<RichMenuIdResponse>(result);
             }
             finally
@@ -382,7 +398,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildDefaultRichMenu();
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<RichMenuIdResponse>(result);
             }
             finally
@@ -404,7 +420,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildDefaultRichMenu();
-                var result = client.DeleteAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Delete(url);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -426,7 +443,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildDefaultRichMenu();
-                var result = await client.DeleteAsync(url);
+                using var result = await client.DeleteAsync(url).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -448,7 +465,9 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildUserRichMenu(userId, richMenuId);
-                var result = client.PostAsync(url, new StringContent("{}")).Result;
+                using var content = new StringContent("{}");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -470,7 +489,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildUserRichMenu(userId, richMenuId);
-                var result = await client.PostAsync(url, new StringContent("{}"));
+                using var content = new StringContent("{}");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -492,7 +512,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildUserRichMenu(userId);
-                var result = client.DeleteAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Delete(url);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -514,7 +535,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildUserRichMenu(userId);
-                var result = await client.DeleteAsync(url);
+                using var result = await client.DeleteAsync(url).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -537,8 +558,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuBulkLink();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(url, content).Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -561,8 +583,8 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuBulkLink();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -585,8 +607,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuBulkUnlink();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(url, content).Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -609,8 +632,8 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuBulkUnlink();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -633,8 +656,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(url, content).Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -657,8 +681,8 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -681,8 +705,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias(aliasId);
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(url, content).Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -705,8 +730,8 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias(aliasId);
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -728,7 +753,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias(aliasId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<RichMenuAliasResponse>(result);
             }
             finally
@@ -750,7 +776,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias(aliasId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<RichMenuAliasResponse>(result);
             }
             finally
@@ -772,7 +798,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuAliasList();
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<RichMenuAliasListResponse>(result);
             }
             finally
@@ -794,7 +821,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuAliasList();
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<RichMenuAliasListResponse>(result);
             }
             finally
@@ -816,7 +843,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias(aliasId);
-                var result = client.DeleteAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Delete(url);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -838,7 +866,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRichMenuAlias(aliasId);
-                var result = await client.DeleteAsync(url);
+                using var result = await client.DeleteAsync(url).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally

@@ -10,13 +10,14 @@ namespace Libro.LineMessageApi.Method
     internal class MessageContentApi
     {
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立訊息內容 API
         /// </summary>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal MessageContentApi(HttpClient httpClient = null)
-            : this(new DefaultHttpClientProvider(httpClient))
+            : this(new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -24,10 +25,13 @@ namespace Libro.LineMessageApi.Method
         /// 建立訊息內容 API
         /// </summary>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal MessageContentApi(IHttpClientProvider httpClientProvider)
+        internal MessageContentApi(
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -43,7 +47,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string strUrl = LineApiEndpoints.BuildMessageContent(messageId);
-                var result = client.GetByteArrayAsync(strUrl).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetByteArray(strUrl);
                 return result;
             }
             finally
@@ -69,7 +74,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string strUrl = LineApiEndpoints.BuildMessageContent(messageId);
-                var result = await client.GetByteArrayAsync(strUrl);
+                var result = await client.GetByteArrayAsync(strUrl).ConfigureAwait(false);
                 return result;
             }
             finally

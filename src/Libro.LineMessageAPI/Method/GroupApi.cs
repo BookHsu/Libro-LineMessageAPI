@@ -10,13 +10,14 @@ namespace Libro.LineMessageApi.Method
     internal class GroupApi
     {
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立群組 API
         /// </summary>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal GroupApi(HttpClient httpClient = null)
-            : this(new DefaultHttpClientProvider(httpClient))
+            : this(new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -24,10 +25,13 @@ namespace Libro.LineMessageApi.Method
         /// 建立群組 API
         /// </summary>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal GroupApi(IHttpClientProvider httpClientProvider)
+        internal GroupApi(
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -45,7 +49,9 @@ namespace Libro.LineMessageApi.Method
             HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
-                var result = client.PostAsync(strUrl, new StringContent("")).Result;
+                using var content = new StringContent(string.Empty);
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(strUrl, content);
                 flag = result.IsSuccessStatusCode;
             }
             finally
@@ -74,7 +80,8 @@ namespace Libro.LineMessageApi.Method
             HttpClient client = httpClientProvider.GetClient(channelAccessToken, out shouldDispose);
             try
             {
-                var result = await client.PostAsync(strUrl, new StringContent(""));
+                using var content = new StringContent(string.Empty);
+                using var result = await client.PostAsync(strUrl, content).ConfigureAwait(false);
                 flag = result.IsSuccessStatusCode;
             }
             finally

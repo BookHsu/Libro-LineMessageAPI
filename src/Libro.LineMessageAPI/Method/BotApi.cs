@@ -13,6 +13,7 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立 Bot API
@@ -20,7 +21,7 @@ namespace Libro.LineMessageApi.Method
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal BotApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -29,12 +30,16 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal BotApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal BotApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? new SystemTextJsonSerializer();
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -49,7 +54,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildBotInfo();
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<BotInfo>(result);
             }
             finally
@@ -74,7 +80,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildBotInfo();
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<BotInfo>(result);
             }
             finally
@@ -97,7 +103,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildGroupSummary(groupId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<GroupSummary>(result);
             }
             finally
@@ -119,7 +126,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildGroupSummary(groupId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<GroupSummary>(result);
             }
             finally
@@ -141,7 +148,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRoomSummary(roomId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<RoomSummary>(result);
             }
             finally
@@ -163,7 +171,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRoomSummary(roomId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<RoomSummary>(result);
             }
             finally
@@ -185,7 +193,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildGroupMemberIds(groupId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<MemberIdsResponse>(result);
             }
             finally
@@ -207,7 +216,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildGroupMemberIds(groupId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<MemberIdsResponse>(result);
             }
             finally
@@ -229,7 +238,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRoomMemberIds(roomId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<MemberIdsResponse>(result);
             }
             finally
@@ -251,7 +261,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRoomMemberIds(roomId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<MemberIdsResponse>(result);
             }
             finally
@@ -273,7 +283,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildGroupMemberCount(groupId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<MemberCountResponse>(result);
             }
             finally
@@ -295,7 +306,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildGroupMemberCount(groupId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<MemberCountResponse>(result);
             }
             finally
@@ -317,7 +328,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRoomMemberCount(roomId);
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<MemberCountResponse>(result);
             }
             finally
@@ -339,7 +351,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildRoomMemberCount(roomId);
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<MemberCountResponse>(result);
             }
             finally

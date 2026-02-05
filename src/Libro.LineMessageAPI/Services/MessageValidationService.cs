@@ -21,7 +21,7 @@ namespace Libro.LineMessageApi.Services
             // 保存 Context 以使用 Token/序列化器/HttpClientProvider
             this.context = context;
             // 建立訊息驗證 API
-            api = new MessageValidationApi(context.Serializer, context.HttpClientProvider);
+            api = new MessageValidationApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         /// <inheritdoc />

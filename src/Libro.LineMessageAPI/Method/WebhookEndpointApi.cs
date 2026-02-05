@@ -14,6 +14,7 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立 Webhook Endpoint API
@@ -21,7 +22,7 @@ namespace Libro.LineMessageApi.Method
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal WebhookEndpointApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -30,12 +31,16 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal WebhookEndpointApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal WebhookEndpointApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? new SystemTextJsonSerializer();
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -50,7 +55,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildWebhookEndpoint();
-                var result = client.GetStringAsync(url).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(url);
                 return serializer.Deserialize<WebhookEndpointResponse>(result);
             }
             finally
@@ -75,7 +81,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildWebhookEndpoint();
-                var result = await client.GetStringAsync(url);
+                var result = await client.GetStringAsync(url).ConfigureAwait(false);
                 return serializer.Deserialize<WebhookEndpointResponse>(result);
             }
             finally
@@ -102,8 +108,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildWebhookEndpoint();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PutAsync(url, content).Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Put(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -130,8 +137,8 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildWebhookEndpoint();
                 var payload = serializer.Serialize(request);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PutAsync(url, content);
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PutAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -156,8 +163,10 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildWebhookTest();
-                var result = client.PostAsync(url, new StringContent("{}")).Result;
-                var body = result.Content.ReadAsStringAsync().Result;
+                using var content = new StringContent("{}");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
+                var body = result.Content.ReadAsStringSync();
                 return serializer.Deserialize<WebhookTestResponse>(body);
             }
             finally
@@ -182,8 +191,9 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildWebhookTest();
-                var result = await client.PostAsync(url, new StringContent("{}"));
-                var body = await result.Content.ReadAsStringAsync();
+                using var content = new StringContent("{}");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
+                var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return serializer.Deserialize<WebhookTestResponse>(body);
             }
             finally

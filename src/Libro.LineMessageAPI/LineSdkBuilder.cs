@@ -14,6 +14,7 @@ namespace Libro.LineMessageApi
         private IJsonSerializer serializer;
         private HttpClient httpClient;
         private IHttpClientProvider httpClientProvider;
+        private IHttpClientSyncAdapterFactory syncAdapterFactory;
         private bool useWebhook = true;
         private bool useWebhookEndpoints;
         private bool useBot;
@@ -70,6 +71,17 @@ namespace Libro.LineMessageApi
         {
             // 設定外部注入的 HttpClient 提供者
             this.httpClientProvider = httpClientProvider;
+            return this;
+        }
+
+        /// <summary>
+        /// 指定同步 HttpClient 轉接器工廠
+        /// </summary>
+        /// <param name="syncAdapterFactory">同步轉接器工廠</param>
+        /// <returns>Builder</returns>
+        public LineSdkBuilder WithHttpClientSyncAdapterFactory(IHttpClientSyncAdapterFactory syncAdapterFactory)
+        {
+            this.syncAdapterFactory = syncAdapterFactory;
             return this;
         }
 
@@ -227,7 +239,8 @@ namespace Libro.LineMessageApi
                 channelAccessToken,
                 serializer ?? new SystemTextJsonSerializer(),
                 httpClient,
-                httpClientProvider);
+                httpClientProvider,
+                syncAdapterFactory);
 
             // 依需求載入模組
             IWebhookService webhook = useWebhook ? new WebhookService() : null;
