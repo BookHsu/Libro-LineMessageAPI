@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <RootNamespace>Libro.LineMessageApi</RootNamespace>
+    <AssemblyName>Libro.LineMessageAPI</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>2.1.5</Version>
+    <PackageId>Libro.LineMessageAPI</PackageId>
+    <Authors>book.hsu</Authors>
+    <Description>LINE Messaging API C# SDK.</Description>
+    <PackageProjectUrl>https://github.com/BookHsu/Libro-LineMessageAPI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BookHsu/Libro-LineMessageAPI</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
+
+

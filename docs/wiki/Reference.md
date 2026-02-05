@@ -8,7 +8,7 @@
 - `LineSdk`：建置後的主要操作物件
 - `LineChannel`：Webhook 驗證等通用工具
 - `LineChannelOptions`：Access Token / Secret 設定物件
-- `AddLineSdk(...)`：DI/Options 快速註冊（需 `LibroLineMessageSDK.Extensions`）
+- `AddLineSdk(...)`：DI/Options 快速註冊（需 `Libro.LineMessageAPI.Extensions`）
 
 ## 常見入口
 
@@ -22,11 +22,13 @@
 
 ## 相關文件
 
-- [LINE Messaging API 2.0 規格速覽](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/line-message-api-2.0.md)
-- [參考範例專案](https://github.com/BookHsu/LibroLineMessageApi/tree/main/examples/LineMessageApi.ExampleApi)
+- [LINE Messaging API 2.0 規格速覽](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/docs/line-message-api-2.0.md)
+- [參考範例專案](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/examples/Libro.Libro.LineMessageAPI.ExampleApi)
 
 ## 建議閱讀順序
 
 1. 快速開始
 2. LINE Messaging API 2.0 規格速覽
 3. 範例專案
+
+

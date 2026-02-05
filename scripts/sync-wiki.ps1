@@ -1,6 +1,6 @@
 param(
     [string]$Source = "$(Resolve-Path "$PSScriptRoot\..\docs\wiki")",
-    [string]$Destination = "$(Resolve-Path "$PSScriptRoot\..\LibroLineMessageApi.wiki")",
+    [string]$Destination = "$(Resolve-Path "$PSScriptRoot\..\Libro-LineMessageAPI.wiki")",
     [switch]$Commit,
     [switch]$Push
 )
@@ -40,3 +40,4 @@ if ($Commit -or $Push) {
         Pop-Location
     }
 }
+

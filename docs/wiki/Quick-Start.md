@@ -5,19 +5,19 @@
 ## 1) 安裝
 
 ```bash
-dotnet add package LibroLineMessageSDK
+dotnet add package Libro.LineMessageAPI
 ```
 
 > 若要使用 DI/Options，請加裝擴充套件：
 
 ```bash
-dotnet add package LibroLineMessageSDK.Extensions
+dotnet add package Libro.LineMessageAPI.Extensions
 ```
 
 ## 2) 建立 SDK
 
 ```csharp
-using LineMessageApiSDK;
+using Libro.LineMessageApi;
 
 var channelAccessToken = Environment.GetEnvironmentVariable("LINE_CHANNEL_ACCESS_TOKEN");
 if (string.IsNullOrWhiteSpace(channelAccessToken))
@@ -34,9 +34,9 @@ var sdk = new LineSdkBuilder(channelAccessToken)
 ## 3) Webhook 驗證 + 回覆訊息
 
 ```csharp
-using LineMessageApiSDK;
-using LineMessageApiSDK.LineMessageObject;
-using LineMessageApiSDK.LineReceivedObject;
+using Libro.LineMessageApi;
+using Libro.LineMessageApi.LineMessageObject;
+using Libro.LineMessageApi.LineReceivedObject;
 using System.Text.Json;
 
 public async Task<IActionResult> Webhook(HttpRequestMessage request, string channelSecret, string channelAccessToken)
@@ -66,8 +66,8 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request, string chan
 ## 4) 透過 DI 注入（可選）
 
 ```csharp
-using LineMessageApiSDK;
-using LineMessageApiSDK.Extensions;
+using Libro.LineMessageApi;
+using Libro.LineMessageApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -107,3 +107,4 @@ var sdk = serviceProvider.GetRequiredService<LineSdk>();
 
 - 參考頁：常用類別與功能入口
 - 範例頁：可直接執行的完整專案
+
