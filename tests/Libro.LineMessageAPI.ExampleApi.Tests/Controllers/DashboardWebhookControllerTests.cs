@@ -1,10 +1,10 @@
 using System.Text;
 using System.Text.Json;
-using Libro.LineMessageAPI.ExampleApi;
 using Libro.LineMessageAPI.ExampleApi.Controllers;
 using Libro.LineMessageAPI.ExampleApi.Hubs;
 using Libro.LineMessageAPI.ExampleApi.Models;
 using Libro.LineMessageAPI.ExampleApi.Services;
+using Libro.LineMessageAPI.ExampleApi.Tests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -23,7 +23,7 @@ public class DashboardWebhookControllerTests
     {
         var store = new LineConfigStore();
         var hub = new TestHubContext();
-        var controller = CreateController(store, hub, new JsonSerializerOptions());
+        var controller = CreateController(store, hub, new JsonSerializerOptions(), new StubLineSdkFactory());
 
         var context = new DefaultHttpContext();
         context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes("{}"));
@@ -46,7 +46,7 @@ public class DashboardWebhookControllerTests
         });
 
         var hub = new TestHubContext();
-        var controller = CreateController(store, hub, CreateJsonOptions());
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
 
         var payload = BuildPayload("00000000000000000000000000000000");
         var context = new DefaultHttpContext();
@@ -70,7 +70,7 @@ public class DashboardWebhookControllerTests
         });
 
         var hub = new TestHubContext();
-        var controller = CreateController(store, hub, CreateJsonOptions());
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
 
         var payload = BuildPayload("00000000000000000000000000000000");
         var signature = BuildSignature(payload, "secret");
@@ -86,12 +86,255 @@ public class DashboardWebhookControllerTests
         Assert.AreEqual(1, store.GetEvents().Count);
         Assert.AreEqual(1, hub.ClientProxy.SendCount);
         Assert.AreEqual("webhookReceived", hub.ClientProxy.LastMethod);
+
+        var okResult = result as OkObjectResult;
+        Assert.IsNotNull(okResult);
+        var responseJson = JsonSerializer.Serialize(okResult.Value);
+        StringAssert.Contains(responseJson, "replyToken is missing or invalid");
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Return_BadRequest_When_Secret_Empty()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes("{}"));
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook();
+
+        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Return_BadRequest_When_Body_Empty()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Array.Empty<byte>());
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook();
+
+        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Return_Unauthorized_When_Signature_Invalid()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
+
+        var payload = BuildPayload("validtoken12345");
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(payload));
+        context.Request.Headers["X-Line-Signature"] = "invalid";
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook();
+
+        Assert.IsInstanceOfType(result, typeof(UnauthorizedResult));
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Return_Ok_When_Events_Empty()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
+
+        var payload = "{\"events\":[]}";
+        var signature = BuildSignature(payload, "secret");
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(payload));
+        context.Request.Headers["X-Line-Signature"] = signature;
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook();
+
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        Assert.AreEqual(0, store.GetEvents().Count);
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Record_Error_When_Event_Null()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
+
+        var payload = "{\"events\":[null]}";
+        var signature = BuildSignature(payload, "secret");
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(payload));
+        context.Request.Headers["X-Line-Signature"] = signature;
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook() as OkObjectResult;
+
+        Assert.IsNotNull(result);
+        var responseJson = JsonSerializer.Serialize(result.Value);
+        StringAssert.Contains(responseJson, "event is null");
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Record_Error_When_Token_Empty()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), new StubLineSdkFactory());
+
+        var payload = BuildPayload("validtoken12345");
+        var signature = BuildSignature(payload, "secret");
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(payload));
+        context.Request.Headers["X-Line-Signature"] = signature;
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook() as OkObjectResult;
+
+        Assert.IsNotNull(result);
+        var responseJson = JsonSerializer.Serialize(result.Value);
+        StringAssert.Contains(responseJson, "Channel Access Token is empty");
+        Assert.AreEqual(1, store.GetEvents().Count);
+        Assert.AreEqual(1, hub.ClientProxy.SendCount);
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Record_Error_When_SendReply_Fails()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var messageService = new StubMessageService
+        {
+            ThrowOnSendReplyAsync = true
+        };
+        var factory = new StubLineSdkFactory
+        {
+            MessageSdk = new StubLineSdkFacade
+            {
+                Messages = messageService
+            }
+        };
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), factory);
+
+        var payload = BuildPayload("validtoken12345");
+        var signature = BuildSignature(payload, "secret");
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(payload));
+        context.Request.Headers["X-Line-Signature"] = signature;
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook() as OkObjectResult;
+
+        Assert.IsNotNull(result);
+        var responseJson = JsonSerializer.Serialize(result.Value);
+        StringAssert.Contains(responseJson, "boom");
+    }
+
+    [TestMethod]
+    public async Task HandleWebhook_Should_Send_Reply_When_Valid()
+    {
+        var store = new LineConfigStore();
+        store.Update(new LineConfig
+        {
+            ChannelAccessToken = "token",
+            ChannelSecret = "secret",
+            WebhookUrl = "https://example.com/dashboard/hook"
+        });
+
+        var messageService = new StubMessageService();
+        var factory = new StubLineSdkFactory
+        {
+            MessageSdk = new StubLineSdkFacade
+            {
+                Messages = messageService
+            }
+        };
+
+        var hub = new TestHubContext();
+        var controller = CreateController(store, hub, CreateJsonOptions(), factory);
+
+        var payload = BuildPayload("validtoken12345");
+        var signature = BuildSignature(payload, "secret");
+
+        var context = new DefaultHttpContext();
+        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(payload));
+        context.Request.Headers["X-Line-Signature"] = signature;
+        controller.ControllerContext = new ControllerContext { HttpContext = context };
+
+        var result = await controller.HandleWebhook();
+
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        Assert.AreEqual(1, messageService.SendReplyAsyncCallCount);
     }
 
     private static DashboardWebhookController CreateController(
         LineConfigStore store,
         TestHubContext hub,
-        JsonSerializerOptions jsonOptions)
+        JsonSerializerOptions jsonOptions,
+        ILineSdkFactory sdkFactory)
     {
         var mvcOptionsValue = new Microsoft.AspNetCore.Mvc.JsonOptions();
         mvcOptionsValue.JsonSerializerOptions.PropertyNameCaseInsensitive = jsonOptions.PropertyNameCaseInsensitive;
@@ -105,6 +348,7 @@ public class DashboardWebhookControllerTests
         return new DashboardWebhookController(
             store,
             hub,
+            sdkFactory,
             mvcOptions,
             NullLogger<DashboardWebhookController>.Instance);
     }
