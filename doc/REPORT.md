@@ -8,7 +8,7 @@
 ## 本次調整內容
 
 - 新增 `docs/`、`doc/`、`release/`、`src/`、`tests/` 等資料夾。
-- 原始碼移至 `src/LineMessageApiSDK`。
+- 原始碼移至 `src/Libro.LineMessageApi`。
 - 新增 Git Flow 與 CI/CD 文件。
 - 新增單元測試專案並納入 CI。
 - 補充既有專案初始化 Git Flow 與建立 `develop` 分支的說明。
@@ -35,3 +35,4 @@
 
 - 補充使用範例。
 - 擴充測試案例以提升覆蓋率。
+

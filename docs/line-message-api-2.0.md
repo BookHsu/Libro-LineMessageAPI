@@ -20,7 +20,7 @@
 
 ## 1.1 範例專案（API / Dashboard）
 
-`examples/LineMessageApi.ExampleApi` 提供兩條路徑：
+`examples/Libro.Libro.LineMessageAPI.ExampleApi` 提供兩條路徑：
 
 1. **API 範例**
    - 來源：設定檔或環境變數注入
@@ -59,7 +59,7 @@
 ### 2.3 SDK 初始化範例（直接建立實例）
 
 ```csharp
-using LineMessageApiSDK;
+using Libro.LineMessageApi;
 
 var channelSecret = Environment.GetEnvironmentVariable("LINE_CHANNEL_SECRET");
 var channelAccessToken = Environment.GetEnvironmentVariable("LINE_CHANNEL_ACCESS_TOKEN");
@@ -76,11 +76,11 @@ var sdk = new LineSdkBuilder(channelAccessToken)
 
 ### 2.4 SDK 初始化範例（DI 注入 / LineChannelOptions）
 
-> 需安裝 `LibroLineMessageSDK.Extensions`。
+> 需安裝 `Libro.LineMessageAPI.Extensions`。
 
 ```csharp
-using LineMessageApiSDK;
-using LineMessageApiSDK.Extensions;
+using Libro.LineMessageApi;
+using Libro.LineMessageApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -119,8 +119,8 @@ var sdk = serviceProvider.GetRequiredService<LineSdk>();
 ## 4. Webhook 驗證與解析範例
 
 ```csharp
-using LineMessageApiSDK;
-using LineMessageApiSDK.LineReceivedObject;
+using Libro.LineMessageApi;
+using Libro.LineMessageApi.LineReceivedObject;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -146,7 +146,7 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request)
 
         await sdk.Messages!.SendReplyMessageAsync(
             replyToken,
-            new LineMessageApiSDK.LineMessageObject.TextMessage("收到！"));
+            new Libro.LineMessageApi.LineMessageObject.TextMessage("收到！"));
     }
 
     return new OkResult();
@@ -156,7 +156,7 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request)
 ## 5. 常用訊息類型範例
 
 ```csharp
-using LineMessageApiSDK.LineMessageObject;
+using Libro.LineMessageApi.LineMessageObject;
 
 var text = new TextMessage("Hello LINE 2.0");
 var image = new ImageMessage
@@ -183,3 +183,5 @@ var image = new ImageMessage
 2. 解析事件後分流為 **訊息處理服務**（方便日後擴充）。
 3. 回覆訊息與主動推播分離，以符合 **單一責任原則**。
 4. 將外部呼叫集中於 SDK（`LineSdkBuilder` / `LineChannel`），以利測試與替換。
+
+

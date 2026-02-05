@@ -1,13 +1,13 @@
-# LineMessageApiSDK
+# Libro.LineMessageAPI
 
-![GitHub release](https://img.shields.io/github/v/release/BookHsu/LibroLineMessageApi?sort=semver)
-![CI](https://github.com/BookHsu/LibroLineMessageApi/actions/workflows/ci.yml/badge.svg)
-![CodeQL](https://github.com/BookHsu/LibroLineMessageApi/actions/workflows/codeql.yml/badge.svg)
-![NuGet](https://img.shields.io/nuget/v/LibroLineMessageSDK)
-![NuGet downloads](https://img.shields.io/nuget/dt/LibroLineMessageSDK)
-![License](https://img.shields.io/github/license/BookHsu/LibroLineMessageApi)
-![Issues](https://img.shields.io/github/issues/BookHsu/LibroLineMessageApi)
-![PRs](https://img.shields.io/github/issues-pr/BookHsu/LibroLineMessageApi)
+![GitHub release](https://img.shields.io/github/v/release/BookHsu/Libro-LineMessageAPI?sort=semver)
+![CI](https://github.com/BookHsu/Libro-LineMessageAPI/actions/workflows/ci.yml/badge.svg)
+![CodeQL](https://github.com/BookHsu/Libro-LineMessageAPI/actions/workflows/codeql.yml/badge.svg)
+![NuGet](https://img.shields.io/nuget/v/Libro.LineMessageAPI)
+![NuGet downloads](https://img.shields.io/nuget/dt/Libro.LineMessageAPI)
+![License](https://img.shields.io/github/license/BookHsu/Libro-LineMessageAPI)
+![Issues](https://img.shields.io/github/issues/BookHsu/Libro-LineMessageAPI)
+![PRs](https://img.shields.io/github/issues-pr/BookHsu/Libro-LineMessageAPI)
 ![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-512BD4)
 
 此專案為 LINE Messaging API 的 C# SDK，並以開源專案結構進行整理，方便維護與擴充。
@@ -15,13 +15,13 @@
 ## NuGet
 
 ```bash
-dotnet add package LibroLineMessageSDK
+dotnet add package Libro.LineMessageAPI
 ```
 
 > 若要使用 DI/Options 方便註冊，請加裝擴充套件：
 
 ```bash
-dotnet add package LibroLineMessageSDK.Extensions
+dotnet add package Libro.LineMessageAPI.Extensions
 ```
 
 ## 快速使用範例
@@ -29,7 +29,7 @@ dotnet add package LibroLineMessageSDK.Extensions
 ### 1) 直接建立實例
 
 ```csharp
-using LineMessageApiSDK;
+using Libro.LineMessageApi;
 
 var channelAccessToken = Environment.GetEnvironmentVariable("LINE_CHANNEL_ACCESS_TOKEN");
 if (string.IsNullOrWhiteSpace(channelAccessToken))
@@ -46,8 +46,8 @@ var sdk = new LineSdkBuilder(channelAccessToken)
 ### 2) 透過 DI 注入
 
 ```csharp
-using LineMessageApiSDK;
-using LineMessageApiSDK.Extensions;
+using Libro.LineMessageApi;
+using Libro.LineMessageApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -69,9 +69,9 @@ var sdk = serviceProvider.GetRequiredService<LineSdk>();
 ### 3) Webhook 驗證與回覆訊息（最短流程）
 
 ```csharp
-using LineMessageApiSDK;
-using LineMessageApiSDK.LineMessageObject;
-using LineMessageApiSDK.LineReceivedObject;
+using Libro.LineMessageApi;
+using Libro.LineMessageApi.LineMessageObject;
+using Libro.LineMessageApi.LineReceivedObject;
 using System.Text.Json;
 
 public async Task<IActionResult> Webhook(HttpRequestMessage request, string channelSecret, string channelAccessToken)
@@ -101,7 +101,7 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request, string chan
 ## LINE Messaging API 2.0 快速使用
 
 請先閱讀「LINE Messaging API 2.0 規格速覽與快速上手」，內含支援端點與最短上手流程。  
-[docs/line-message-api-2.0.md](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/line-message-api-2.0.md)
+[docs/line-message-api-2.0.md](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/docs/line-message-api-2.0.md)
 
 ## Wiki 同步
 
@@ -115,7 +115,7 @@ pwsh scripts/sync-wiki.ps1 -Commit -Push
 
 ## 授權
 
-本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/LibroLineMessageApi/blob/main/LICENSE)。
+本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/LICENSE)。
 
 ## 範例：API 與 Dashboard 兩種流程
 
@@ -151,4 +151,6 @@ Webhook 入口：
 新增 Bootstrap 5 + Vue 的 Web UI 範例，支援輸入 Token/Secret、設定 Webhook Endpoint，並即時顯示 webhook 事件。
 
 詳細說明請見：
-[docs/example-line-webhook-dashboard.md](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/example-line-webhook-dashboard.md)
+[docs/example-line-webhook-dashboard.md](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/docs/example-line-webhook-dashboard.md)
+
+
