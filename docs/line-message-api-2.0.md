@@ -20,7 +20,7 @@
 
 ## 1.1 範例專案（API / Dashboard）
 
-`examples/Libro.Libro.LineMessageAPI.ExampleApi` 提供兩條路徑：
+`examples/Libro.LineMessageAPI.ExampleApi` 提供兩條路徑：
 
 1. **API 範例**
    - 來源：設定檔或環境變數注入
@@ -183,5 +183,6 @@ var image = new ImageMessage
 2. 解析事件後分流為 **訊息處理服務**（方便日後擴充）。
 3. 回覆訊息與主動推播分離，以符合 **單一責任原則**。
 4. 將外部呼叫集中於 SDK（`LineSdkBuilder` / `LineChannel`），以利測試與替換。
+
 
 

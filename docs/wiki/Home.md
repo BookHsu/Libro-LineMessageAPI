@@ -22,10 +22,12 @@
 
 ## 關聯資源
 
-- [API 2.0 快速規格](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/docs/line-message-api-2.0.md)
-- [範例專案](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/examples/Libro.Libro.LineMessageAPI.ExampleApi)
+- [API 2.0 快速規格](https://github.com/BookHsu/Libro-LineMessageAPI/blob/master/docs/line-message-api-2.0.md)
+- [範例專案](https://github.com/BookHsu/Libro-LineMessageAPI/tree/master/examples/Libro.LineMessageAPI.ExampleApi)
 - [NuGet](https://www.nuget.org/packages/Libro.LineMessageAPI)
 - [NuGet Extensions](https://www.nuget.org/packages/Libro.LineMessageAPI.Extensions)
+
+
 
 
 
