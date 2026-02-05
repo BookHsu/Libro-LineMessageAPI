@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+## [2.1.7] - 2026-02-05
+- Fix README doc links to use `docs/` paths.
+
 ## [2.1.6] - 2026-02-05
 - Fix documentation links to use repository tree paths.
 
