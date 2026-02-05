@@ -1,5 +1,8 @@
 using System.Net.Http;
+using System.Reflection;
+using Libro.LineMessageApi.Http;
 using Libro.LineMessageApi.Serialization;
+using Libro.LineMessageApi.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Libro.LineMessageApi.Tests
@@ -62,6 +65,27 @@ namespace Libro.LineMessageApi.Tests
             Assert.IsNotNull(sdk.Messages);
         }
 
+        [TestMethod]
+        public void Builder_Should_Use_Custom_SyncAdapterFactory()
+        {
+            var factory = new StubSyncAdapterFactory();
+
+            var sdk = new LineSdkBuilder("token-value")
+                .WithHttpClientSyncAdapterFactory(factory)
+                .UseMessages()
+                .Build();
+
+            var messageService = sdk.Messages as MessageService;
+            Assert.IsNotNull(messageService);
+
+            var contextField = typeof(MessageService)
+                .GetField("context", BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(contextField);
+
+            var context = (LineApiContext)contextField.GetValue(messageService);
+            Assert.AreSame(factory, context.SyncAdapterFactory);
+        }
+
         private class StubSerializer : IJsonSerializer
         {
             public string Serialize<T>(T value)
@@ -74,6 +98,14 @@ namespace Libro.LineMessageApi.Tests
             {
                 // 測試用序列化器回傳預設值
                 return default;
+            }
+        }
+
+        private sealed class StubSyncAdapterFactory : IHttpClientSyncAdapterFactory
+        {
+            public IHttpClientSyncAdapter Create(HttpClient client)
+            {
+                return new HttpClientSyncAdapter(client ?? new HttpClient());
             }
         }
     }
