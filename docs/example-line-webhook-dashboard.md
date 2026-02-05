@@ -1,6 +1,6 @@
 # LINE Webhook 控制台範例
 
-此範例位於 `examples/Libro.Libro.LineMessageAPI.ExampleApi`，提供一個簡易的 Web UI，讓使用者輸入 LINE Channel 資訊後：
+此範例位於 `examples/Libro.LineMessageAPI.ExampleApi`，提供一個簡易的 Web UI，讓使用者輸入 LINE Channel 資訊後：
 
 - 自動設定 Webhook Endpoint
 - 取得 Bot 基本資訊與 Webhook 設定
@@ -19,7 +19,7 @@
 ## 啟動範例
 
 ```bash
-dotnet run --project examples/Libro.Libro.LineMessageAPI.ExampleApi/Libro.LineMessageAPI.ExampleApi.csproj
+dotnet run --project examples/Libro.LineMessageAPI.ExampleApi/Libro.LineMessageAPI.ExampleApi.csproj
 ```
 
 開啟瀏覽器：
@@ -55,4 +55,5 @@ http://localhost:5175/
   請確認 Access Token 權限與網域可公開存取。
 - **收不到事件？**
   請確認 LINE Developers 後台 Webhook 已啟用，且 webhook URL 可被 LINE 連線。
+
 
