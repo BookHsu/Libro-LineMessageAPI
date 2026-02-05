@@ -4,7 +4,7 @@
 
 ## 範例專案
 
-- [examples/Libro.Libro.LineMessageAPI.ExampleApi](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/examples/Libro.Libro.LineMessageAPI.ExampleApi)
+- [examples/Libro.LineMessageAPI.ExampleApi](https://github.com/BookHsu/Libro-LineMessageAPI/tree/master/examples/Libro.LineMessageAPI.ExampleApi)
 
 ## 執行方式（建議）
 
@@ -14,7 +14,7 @@
 2. 啟動範例
 
 ```bash
-dotnet run --project examples/Libro.Libro.LineMessageAPI.ExampleApi
+dotnet run --project examples/Libro.LineMessageAPI.ExampleApi
 ```
 
 ## 範例內容
@@ -29,5 +29,6 @@ dotnet run --project examples/Libro.Libro.LineMessageAPI.ExampleApi
 - 最短消息流程
 - 透過 `AddLineSdk(...)` 與 `LineChannelOptions` 綁定設定
  - Dashboard Webhook 控制台（SignalR 即時事件）
+
 
 
