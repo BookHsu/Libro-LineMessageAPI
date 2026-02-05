@@ -22,7 +22,7 @@
 
 ## 相關文件
 
-- [LINE Messaging API 2.0 規格速覽](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/docs/line-message-api-2.0.md)
+- [LINE Messaging API 2.0 規格速覽](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/docs/line-message-api-2.0.md)
 - [參考範例專案](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/examples/Libro.Libro.LineMessageAPI.ExampleApi)
 
 ## 建議閱讀順序
@@ -30,5 +30,6 @@
 1. 快速開始
 2. LINE Messaging API 2.0 規格速覽
 3. 範例專案
+
 
 

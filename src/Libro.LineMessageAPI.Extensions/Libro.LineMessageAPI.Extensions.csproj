@@ -4,7 +4,7 @@
     <RootNamespace>Libro.LineMessageApi.Extensions</RootNamespace>
     <AssemblyName>Libro.LineMessageAPI.Extensions</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>2.1.5</Version>
+    <Version>2.1.6</Version>
     <PackageId>Libro.LineMessageAPI.Extensions</PackageId>
     <Authors>book.hsu</Authors>
     <Description>LINE Messaging API SDK extensions for DI/Options integration.</Description>
@@ -30,5 +30,6 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
+
 
 
