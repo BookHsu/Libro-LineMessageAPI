@@ -101,7 +101,7 @@ public async Task<IActionResult> Webhook(HttpRequestMessage request, string chan
 ## LINE Messaging API 2.0 快速使用
 
 請先閱讀「LINE Messaging API 2.0 規格速覽與快速上手」，內含支援端點與最短上手流程。  
-[docs/line-message-api-2.0.md](docs/line-message-api-2.0.md)
+[docs/line-message-api-2.0.md](https://github.com/BookHsu/Libro-LineMessageAPI/blob/master/docs/line-message-api-2.0.md)
 
 ## Wiki 同步
 
@@ -115,7 +115,7 @@ pwsh scripts/sync-wiki.ps1 -Commit -Push
 
 ## 授權
 
-本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/LICENSE)。
+本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/Libro-LineMessageAPI/blob/master/LICENSE)。
 
 ## 範例：API 與 Dashboard 兩種流程
 
@@ -151,7 +151,9 @@ Webhook 入口：
 新增 Bootstrap 5 + Vue 的 Web UI 範例，支援輸入 Token/Secret、設定 Webhook Endpoint，並即時顯示 webhook 事件。
 
 詳細說明請見：
-[docs/example-line-webhook-dashboard.md](docs/example-line-webhook-dashboard.md)
+[docs/example-line-webhook-dashboard.md](https://github.com/BookHsu/Libro-LineMessageAPI/blob/master/docs/example-line-webhook-dashboard.md)
+
+
 
 
 
