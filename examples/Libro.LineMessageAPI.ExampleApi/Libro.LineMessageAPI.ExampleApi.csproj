@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Libro.LineMessageAPI.ExampleApi</RootNamespace>
+    <AssemblyName>Libro.LineMessageAPI.ExampleApi</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\\Libro.LineMessageAPI\\Libro.LineMessageAPI.csproj" />
+    <ProjectReference Include="..\..\src\\Libro.LineMessageAPI.Extensions\\Libro.LineMessageAPI.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
+
+

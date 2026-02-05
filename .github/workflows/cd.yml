@@ -22,17 +22,16 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore
-        run: dotnet restore LineMessageApiSDK.sln
+        run: dotnet restore Libro.LineMessageApi.sln
 
       - name: Build Release
-        run: dotnet build LineMessageApiSDK.sln -c Release --no-restore
+        run: dotnet build Libro.LineMessageApi.sln -c Release --no-restore
 
       - name: Pack NuGet
-        run: dotnet pack src/LineMessageApiSDK/LineMessageApiSDK.csproj -c Release -o artifacts --no-build --include-symbols --include-source
+        run: dotnet pack src/Libro.LineMessageAPI/Libro.LineMessageAPI.csproj -c Release -o artifacts --no-build --include-symbols --include-source
 
       - name: Pack NuGet Extensions
-        run: dotnet pack src/LineMessageApiSDK.Extensions/LineMessageApiSDK.Extensions.csproj -c Release -o artifacts --no-build --include-symbols --include-source
-
+        run: dotnet pack src/Libro.LineMessageAPI.Extensions/Libro.LineMessageAPI.Extensions.csproj -c Release -o artifacts --no-build --include-symbols --include-source
       - name: Publish NuGet
         run: |
           Get-ChildItem artifacts -Filter *.nupkg | ForEach-Object {
@@ -57,9 +56,13 @@ jobs:
       - name: Upload Release Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: LineMessageApiSDK-Release
+          name: Libro.LineMessageAPI-Release
           path: |
-            src/LineMessageApiSDK/bin/Release/**
-            src/LineMessageApiSDK.Extensions/bin/Release/**
+            src/Libro.LineMessageAPI/bin/Release/**
+            src/Libro.LineMessageAPI.Extensions/bin/Release/**
             artifacts/*.nupkg
             artifacts/*.snupkg
+
+
+
+

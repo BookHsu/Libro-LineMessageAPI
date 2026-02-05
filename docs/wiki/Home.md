@@ -1,6 +1,6 @@
-# LibroLineMessageApi SDK
+# Libro.LineMessageAPI SDK
 
-這是 LINE Messaging API 的 C# SDK（LibroLineMessageSDK）文件入口。
+這是 LINE Messaging API 的 C# SDK（Libro.LineMessageAPI）文件入口。
 
 ## 你可以從這裡開始
 
@@ -17,12 +17,15 @@
 ## 版本與相容性
 
 - .NET 8 / 9 / 10
-- NuGet：`LibroLineMessageSDK`
-- 擴充套件（DI/Options）：`LibroLineMessageSDK.Extensions`
+- NuGet：`Libro.LineMessageAPI`
+- 擴充套件（DI/Options）：`Libro.LineMessageAPI.Extensions`
 
 ## 關聯資源
 
-- [API 2.0 快速規格](https://github.com/BookHsu/LibroLineMessageApi/blob/main/docs/line-message-api-2.0.md)
-- [範例專案](https://github.com/BookHsu/LibroLineMessageApi/tree/main/examples/LineMessageApi.ExampleApi)
-- [NuGet](https://www.nuget.org/packages/LibroLineMessageSDK)
-- [NuGet Extensions](https://www.nuget.org/packages/LibroLineMessageSDK.Extensions)
+- [API 2.0 快速規格](https://github.com/BookHsu/Libro-LineMessageAPI/blob/main/docs/line-message-api-2.0.md)
+- [範例專案](https://github.com/BookHsu/Libro-LineMessageAPI/tree/main/examples/Libro.Libro.LineMessageAPI.ExampleApi)
+- [NuGet](https://www.nuget.org/packages/Libro.LineMessageAPI)
+- [NuGet Extensions](https://www.nuget.org/packages/Libro.LineMessageAPI.Extensions)
+
+
+
