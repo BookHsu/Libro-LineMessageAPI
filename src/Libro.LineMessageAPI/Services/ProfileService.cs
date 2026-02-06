@@ -34,7 +34,7 @@ namespace Libro.LineMessageApi.Services
         /// <inheritdoc />
         public Task<UserProfile> GetUserProfileAsync(string userId)
         {
-            // 取得使用者檔案（非同步）
+            // 取得使用者檔案
             return profileApi.GetUserProfileAsync(context.ChannelAccessToken, userId);
         }
 
@@ -48,7 +48,7 @@ namespace Libro.LineMessageApi.Services
         /// <inheritdoc />
         public Task<UserProfile> GetGroupMemberProfileAsync(string userId, string groupIdOrRoomId, SourceType type)
         {
-            // 取得群組或多人對話成員檔案（非同步）
+            // 取得群組或多人對話成員檔案
             return profileApi.GetGroupMemberProfileAsync(context.ChannelAccessToken, userId, groupIdOrRoomId, type);
         }
     }

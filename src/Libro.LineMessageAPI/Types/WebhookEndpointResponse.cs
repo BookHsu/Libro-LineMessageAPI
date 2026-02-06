@@ -3,12 +3,12 @@ using System.Text.Json.Serialization;
 namespace Libro.LineMessageApi.Types
 {
     /// <summary>
-    /// Webhook Endpoint 回應
+    /// Webhook 端點 回應
     /// </summary>
     public class WebhookEndpointResponse
     {
         /// <summary>
-        /// Webhook Endpoint
+        /// Webhook 端點
         /// </summary>
         [JsonPropertyName("endpoint")]
         public string endpoint { get; set; }

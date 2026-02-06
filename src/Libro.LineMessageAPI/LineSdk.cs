@@ -13,7 +13,7 @@ namespace Libro.LineMessageApi
         public IWebhookService Webhook { get; }
 
         /// <summary>
-        /// Webhook Endpoint 管理模組（未啟用時為 null）
+        /// Webhook 端點 管理模組（未啟用時為 null）
         /// </summary>
         public IWebhookEndpointService WebhookEndpoints { get; }
 
@@ -71,7 +71,14 @@ namespace Libro.LineMessageApi
         /// 建立 LineSdk
         /// </summary>
         /// <param name="webhook">Webhook 模組</param>
-        /// <param name="webhookEndpoints">Webhook Endpoint 模組</param>
+        /// <param name="webhookEndpoints">Webhook 端點 模組</param>
+        /// <param name="bot">Bot 模組</param>
+        /// <param name="broadcast">Broadcast/Narrowcast 模組</param>
+        /// <param name="messageValidation">訊息驗證模組</param>
+        /// <param name="richMenu">Rich Menu 模組</param>
+        /// <param name="insight">Insights 模組</param>
+        /// <param name="audience">Audience 模組</param>
+        /// <param name="accountLink">Account Link 模組</param>
         /// <param name="messages">訊息模組</param>
         /// <param name="profiles">檔案模組</param>
         /// <param name="groups">群組模組</param>

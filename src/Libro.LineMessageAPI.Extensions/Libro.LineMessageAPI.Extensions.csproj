@@ -4,6 +4,8 @@
     <RootNamespace>Libro.LineMessageApi.Extensions</RootNamespace>
     <AssemblyName>Libro.LineMessageAPI.Extensions</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.xml</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <Version>2.1.7</Version>
     <PackageId>Libro.LineMessageAPI.Extensions</PackageId>
     <Authors>book.hsu</Authors>

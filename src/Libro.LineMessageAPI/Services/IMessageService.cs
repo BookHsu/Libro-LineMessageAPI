@@ -17,7 +17,7 @@ namespace Libro.LineMessageApi.Services
         byte[] GetMessageContent(string messageId);
 
         /// <summary>
-        /// 取得使用者上傳的檔案內容（非同步）
+        /// 取得使用者上傳的檔案內容
         /// </summary>
         /// <param name="messageId">訊息 ID</param>
         /// <returns>檔案內容</returns>
@@ -32,7 +32,7 @@ namespace Libro.LineMessageApi.Services
         string SendReplyMessage(string replyToken, params Message[] message);
 
         /// <summary>
-        /// 回覆訊息（非同步）
+        /// 回覆訊息
         /// </summary>
         /// <param name="replyToken">回覆 Token</param>
         /// <param name="message">訊息內容</param>
@@ -48,7 +48,7 @@ namespace Libro.LineMessageApi.Services
         string SendPushMessage(string toId, params Message[] message);
 
         /// <summary>
-        /// 推播訊息（非同步）
+        /// 推播訊息
         /// </summary>
         /// <param name="toId">接收者 ID</param>
         /// <param name="message">訊息內容</param>
@@ -64,7 +64,7 @@ namespace Libro.LineMessageApi.Services
         string SendMulticastMessage(List<string> toIds, params Message[] message);
 
         /// <summary>
-        /// 群發訊息（非同步）
+        /// 群發訊息
         /// </summary>
         /// <param name="toIds">接收者 ID 清單</param>
         /// <param name="message">訊息內容</param>

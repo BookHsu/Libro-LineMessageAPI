@@ -25,6 +25,7 @@ namespace Libro.LineMessageApi.Method
         /// 建立群組 API
         /// </summary>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal GroupApi(
             IHttpClientProvider httpClientProvider,
             IHttpClientSyncAdapterFactory syncAdapterFactory)
@@ -66,7 +67,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 離開群組或多人對話（非同步）
+        /// 離開群組或多人對話
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="id">群組或對話 ID</param>

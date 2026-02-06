@@ -25,6 +25,7 @@ namespace Libro.LineMessageApi.Method
         /// 建立訊息內容 API
         /// </summary>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal MessageContentApi(
             IHttpClientProvider httpClientProvider,
             IHttpClientSyncAdapterFactory syncAdapterFactory)
@@ -62,7 +63,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得使用者傳送的圖片、影片、聲音、檔案（非同步）
+        /// 取得使用者傳送的圖片、影片、聲音、檔案
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="messageId">訊息 ID</param>

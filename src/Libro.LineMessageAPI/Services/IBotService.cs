@@ -9,12 +9,12 @@ namespace Libro.LineMessageApi.Services
     public interface IBotService
     {
         /// <summary>
-        /// 取得 Bot 基本資訊
+        /// 取得 Bot 資訊
         /// </summary>
         BotInfo GetBotInfo();
 
         /// <summary>
-        /// 取得 Bot 基本資訊（非同步）
+        /// 取得 Bot 資訊
         /// </summary>
         Task<BotInfo> GetBotInfoAsync();
 
@@ -24,7 +24,7 @@ namespace Libro.LineMessageApi.Services
         GroupSummary GetGroupSummary(string groupId);
 
         /// <summary>
-        /// 取得群組摘要（非同步）
+        /// 取得群組摘要
         /// </summary>
         Task<GroupSummary> GetGroupSummaryAsync(string groupId);
 
@@ -34,7 +34,7 @@ namespace Libro.LineMessageApi.Services
         RoomSummary GetRoomSummary(string roomId);
 
         /// <summary>
-        /// 取得多人對話摘要（非同步）
+        /// 取得多人對話摘要
         /// </summary>
         Task<RoomSummary> GetRoomSummaryAsync(string roomId);
 
@@ -44,7 +44,7 @@ namespace Libro.LineMessageApi.Services
         MemberIdsResponse GetGroupMemberIds(string groupId);
 
         /// <summary>
-        /// 取得群組成員 ID 清單（非同步）
+        /// 取得群組成員 ID 清單
         /// </summary>
         Task<MemberIdsResponse> GetGroupMemberIdsAsync(string groupId);
 
@@ -54,7 +54,7 @@ namespace Libro.LineMessageApi.Services
         MemberIdsResponse GetRoomMemberIds(string roomId);
 
         /// <summary>
-        /// 取得多人對話成員 ID 清單（非同步）
+        /// 取得多人對話成員 ID 清單
         /// </summary>
         Task<MemberIdsResponse> GetRoomMemberIdsAsync(string roomId);
 
@@ -64,7 +64,7 @@ namespace Libro.LineMessageApi.Services
         MemberCountResponse GetGroupMemberCount(string groupId);
 
         /// <summary>
-        /// 取得群組成員數量（非同步）
+        /// 取得群組成員數量
         /// </summary>
         Task<MemberCountResponse> GetGroupMemberCountAsync(string groupId);
 
@@ -74,7 +74,7 @@ namespace Libro.LineMessageApi.Services
         MemberCountResponse GetRoomMemberCount(string roomId);
 
         /// <summary>
-        /// 取得多人對話成員數量（非同步）
+        /// 取得多人對話成員數量
         /// </summary>
         Task<MemberCountResponse> GetRoomMemberCountAsync(string roomId);
     }

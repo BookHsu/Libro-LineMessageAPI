@@ -16,7 +16,7 @@ namespace Libro.LineMessageApi.Services
         bool LeaveRoomOrGroup(string sourceId, SourceType type);
 
         /// <summary>
-        /// 離開群組或多人對話（非同步）
+        /// 離開群組或多人對話
         /// </summary>
         /// <param name="sourceId">群組或對話 ID</param>
         /// <param name="type">來源類型</param>

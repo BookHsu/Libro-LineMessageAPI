@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace Libro.LineMessageApi.Types
 {
     /// <summary>
-    /// Bot 基本資訊
+    /// Bot 資訊
     /// </summary>
     public class BotInfo
     {

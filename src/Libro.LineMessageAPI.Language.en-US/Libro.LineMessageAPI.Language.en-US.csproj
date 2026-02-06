@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <RootNamespace>Libro.LineMessageApi.Language.en_US</RootNamespace>
+    <AssemblyName>Libro.LineMessageAPI.Language.en-US</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>2.1.7</Version>
+    <PackageId>Libro.LineMessageAPI.Language.en-US</PackageId>
+    <Authors>book.hsu</Authors>
+    <Description>English XML documentation language pack for Libro.LineMessageAPI.</Description>
+    <PackageProjectUrl>https://github.com/BookHsu/Libro-LineMessageAPI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BookHsu/Libro-LineMessageAPI</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libro.LineMessageAPI\Libro.LineMessageAPI.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Libro.LineMessageAPI.Extensions\Libro.LineMessageAPI.Extensions.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="buildTransitive\Libro.LineMessageAPI.Language.en-US.targets" Pack="true" PackagePath="buildTransitive\" />
+    <None Include="lib\net8.0\_._" Pack="true" PackagePath="lib/net8.0/" />
+    <None Include="lib\net9.0\_._" Pack="true" PackagePath="lib/net9.0/" />
+    <None Include="lib\net10.0\_._" Pack="true" PackagePath="lib/net10.0/" />
+    <None Include="contentFiles\any\any\xml\en-US\Libro.LineMessageAPI.xml" Pack="true" PackagePath="contentFiles\any\any\xml\en-US\" />
+    <None Include="contentFiles\any\any\xml\en-US\Libro.LineMessageAPI.Extensions.xml" Pack="true" PackagePath="contentFiles\any\any\xml\en-US\" />
+  </ItemGroup>
+</Project>

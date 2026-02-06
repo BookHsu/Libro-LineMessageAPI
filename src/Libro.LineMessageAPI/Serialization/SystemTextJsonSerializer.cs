@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Libro.LineMessageApi.Serialization
 {
-    /// <summary>System.Text.Json 序列化實作</summary>
+    /// <summary>System.Text.Json 序列化實作。</summary>
     public class SystemTextJsonSerializer : IJsonSerializer
     {
         private static readonly JsonSerializerOptions SerializerOptions = new()

@@ -9,6 +9,9 @@ namespace Libro.LineMessageApi.Serialization
     /// </summary>
     internal sealed class FlexibleBoolConverter : JsonConverter<bool>
     {
+        /// <summary>
+        /// 讀取 R ea d。
+        /// </summary>
         public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
@@ -54,6 +57,9 @@ namespace Libro.LineMessageApi.Serialization
             return false;
         }
 
+        /// <summary>
+        /// 寫入 W ri te。
+        /// </summary>
         public override void Write(Utf8JsonWriter writer, bool value, JsonSerializerOptions options)
         {
             writer.WriteBooleanValue(value);

@@ -1,0 +1,49 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../..",
+          "files": [
+            "src/Libro.LineMessageAPI/Libro.LineMessageAPI.csproj",
+            "src/Libro.LineMessageAPI.Extensions/Libro.LineMessageAPI.Extensions.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "en-US/**.md",
+          "en-US/**.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "en-US/images/**"
+        ]
+      }
+    ],
+    "dest": "_site/en-US",
+    "template": [
+      "default"
+    ],
+    "globalMetadata": {
+      "_appTitle": "Libro.LineMessageAPI Docs (en-US)"
+    }
+  }
+}

@@ -108,12 +108,12 @@ namespace Libro.LineMessageApi
         }
 
         /// <summary>
-        /// 啟用 Webhook Endpoint 模組
+        /// 啟用 Webhook 端點 模組
         /// </summary>
         /// <returns>Builder</returns>
         public LineSdkBuilder UseWebhookEndpoints()
         {
-            // 啟用 Webhook Endpoint 管理功能
+            // 啟用 Webhook 端點 管理功能
             useWebhookEndpoints = true;
             return this;
         }

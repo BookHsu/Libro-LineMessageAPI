@@ -41,6 +41,7 @@ namespace Libro.LineMessageApi.Services
         /// <param name="serializer">序列化器</param>
         /// <param name="httpClient">HttpClient</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal LineApiContext(
             string channelAccessToken,
             IJsonSerializer serializer,

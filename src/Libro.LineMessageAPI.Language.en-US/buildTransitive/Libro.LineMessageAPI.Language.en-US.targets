@@ -1,0 +1,13 @@
+<Project>
+  <ItemGroup>
+    <_LibroLineMessageApiEnUsXml Include="$(MSBuildThisFileDirectory)..\contentFiles\any\any\xml\en-US\Libro.LineMessageAPI.xml" />
+    <_LibroLineMessageApiEnUsXml Include="$(MSBuildThisFileDirectory)..\contentFiles\any\any\xml\en-US\Libro.LineMessageAPI.Extensions.xml" />
+  </ItemGroup>
+
+  <Target Name="LibroLineMessageApiApplyEnglishXmlDocs" AfterTargets="Build">
+    <Copy SourceFiles="@(_LibroLineMessageApiEnUsXml)"
+          DestinationFolder="$(TargetDir)"
+          SkipUnchangedFiles="true"
+          Condition="'$(TargetDir)' != ''" />
+  </Target>
+</Project>

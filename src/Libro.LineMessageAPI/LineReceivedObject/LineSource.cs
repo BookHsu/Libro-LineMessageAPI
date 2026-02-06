@@ -10,20 +10,20 @@ namespace Libro.LineMessageApi.LineReceivedObject
     /// </summary>
     public class LineSource
     {
-        /// <summary>訊息來源類型</summary>
+        /// <summary>訊息來源類型。</summary>
         [JsonPropertyName("type")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SourceType type { get; set; }
 
-        /// <summary>使用者 ID</summary>
+        /// <summary>使用者 ID。</summary>
         [JsonPropertyName("userId")]
         public string userId { get; set; }
 
-        /// <summary>群組 ID</summary>
+        /// <summary>群組 ID。</summary>
         [JsonPropertyName("groupId")]
         public string groupId { get; set; }
 
-        /// <summary>房間 ID</summary>
+        /// <summary>房間 ID。</summary>
         [JsonPropertyName("roomId")]
         public string roomId { get; set; }
     }

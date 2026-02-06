@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Libro.LineMessageApi.Method
 {
     /// <summary>
-    /// Webhook Endpoint 管理 API
+    /// 提供 Webhook 端點的查詢、更新與測試功能。
     /// </summary>
     internal class WebhookEndpointApi
     {
@@ -17,20 +17,21 @@ namespace Libro.LineMessageApi.Method
         private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
-        /// 建立 Webhook Endpoint API
+        /// 初始化 <see cref="WebhookEndpointApi"/> 執行個體。
         /// </summary>
-        /// <param name="serializer">JSON 序列化器</param>
-        /// <param name="httpClient">外部注入的 HttpClient</param>
+        /// <param name="serializer">JSON 序列化器；若為 <c>null</c> 則使用預設實作。</param>
+        /// <param name="httpClient">外部提供的 <see cref="HttpClient"/>；若為 <c>null</c> 則使用預設流程建立。</param>
         internal WebhookEndpointApi(IJsonSerializer serializer, HttpClient httpClient = null)
             : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
         /// <summary>
-        /// 建立 Webhook Endpoint API
+        /// 初始化 <see cref="WebhookEndpointApi"/> 執行個體。
         /// </summary>
-        /// <param name="serializer">JSON 序列化器</param>
-        /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="serializer">JSON 序列化器；若為 <c>null</c> 則使用預設實作。</param>
+        /// <param name="httpClientProvider"><see cref="HttpClient"/> 提供者；若為 <c>null</c> 則使用預設實作。</param>
+        /// <param name="syncAdapterFactory">同步 HTTP 轉接器工廠；若為 <c>null</c> 則使用預設實作。</param>
         internal WebhookEndpointApi(
             IJsonSerializer serializer,
             IHttpClientProvider httpClientProvider,
@@ -44,10 +45,10 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Webhook Endpoint
+        /// 取得目前的 Webhook 端點設定。
         /// </summary>
-        /// <param name="channelAccessToken">Channel Access Token</param>
-        /// <returns>Webhook Endpoint 設定</returns>
+        /// <param name="channelAccessToken">Channel Access Token。</param>
+        /// <returns>Webhook 端點設定內容。</returns>
         internal WebhookEndpointResponse GetWebhookEndpoint(string channelAccessToken)
         {
             bool shouldDispose;
@@ -70,10 +71,10 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Webhook Endpoint（非同步）
+        /// 取得目前的 Webhook 端點設定。
         /// </summary>
-        /// <param name="channelAccessToken">Channel Access Token</param>
-        /// <returns>Webhook Endpoint 設定</returns>
+        /// <param name="channelAccessToken">Channel Access Token。</param>
+        /// <returns>Webhook 端點設定內容。</returns>
         internal async Task<WebhookEndpointResponse> GetWebhookEndpointAsync(string channelAccessToken)
         {
             bool shouldDispose;
@@ -95,11 +96,11 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 更新 Webhook Endpoint
+        /// 更新 Webhook 端點設定。
         /// </summary>
-        /// <param name="channelAccessToken">Channel Access Token</param>
-        /// <param name="request">Webhook 設定</param>
-        /// <returns>是否成功</returns>
+        /// <param name="channelAccessToken">Channel Access Token。</param>
+        /// <param name="request">要套用的 Webhook 設定。</param>
+        /// <returns>更新是否成功。</returns>
         internal bool SetWebhookEndpoint(string channelAccessToken, WebhookEndpointRequest request)
         {
             bool shouldDispose;
@@ -124,11 +125,11 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 更新 Webhook Endpoint（非同步）
+        /// 更新 Webhook 端點設定。
         /// </summary>
-        /// <param name="channelAccessToken">Channel Access Token</param>
-        /// <param name="request">Webhook 設定</param>
-        /// <returns>是否成功</returns>
+        /// <param name="channelAccessToken">Channel Access Token。</param>
+        /// <param name="request">要套用的 Webhook 設定。</param>
+        /// <returns>更新是否成功。</returns>
         internal async Task<bool> SetWebhookEndpointAsync(string channelAccessToken, WebhookEndpointRequest request)
         {
             bool shouldDispose;
@@ -152,10 +153,10 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 測試 Webhook Endpoint
+        /// 觸發 Webhook 端點連線測試。
         /// </summary>
-        /// <param name="channelAccessToken">Channel Access Token</param>
-        /// <returns>測試結果</returns>
+        /// <param name="channelAccessToken">Channel Access Token。</param>
+        /// <returns>Webhook 測試結果。</returns>
         internal WebhookTestResponse TestWebhookEndpoint(string channelAccessToken)
         {
             bool shouldDispose;
@@ -180,10 +181,10 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 測試 Webhook Endpoint（非同步）
+        /// 觸發 Webhook 端點連線測試。
         /// </summary>
-        /// <param name="channelAccessToken">Channel Access Token</param>
-        /// <returns>測試結果</returns>
+        /// <param name="channelAccessToken">Channel Access Token。</param>
+        /// <returns>Webhook 測試結果。</returns>
         internal async Task<WebhookTestResponse> TestWebhookEndpointAsync(string channelAccessToken)
         {
             bool shouldDispose;

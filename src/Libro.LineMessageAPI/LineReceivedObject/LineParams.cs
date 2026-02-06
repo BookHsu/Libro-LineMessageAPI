@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Libro.LineMessageApi.LineReceivedObject
 {
-    /// <summary>Postback 參數</summary>
+    /// <summary>Postback 參數。</summary>
     public class LineParams
     {
         /// <summary>

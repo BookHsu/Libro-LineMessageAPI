@@ -113,6 +113,10 @@ pwsh scripts/sync-wiki.ps1 -Commit
 pwsh scripts/sync-wiki.ps1 -Commit -Push
 ```
 
+## 多語系文件
+
+此專案支援多語系文件，預設語系為繁體中文（`zh-TW`），並提供英文（`en-US`）版本。
+
 ## 授權
 
 本專案採用 MIT License，詳見 [LICENSE](https://github.com/BookHsu/Libro-LineMessageAPI/blob/master/LICENSE)。

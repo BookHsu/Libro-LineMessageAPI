@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Libro.LineMessageApi
 {
-    /// <summary>主動調用 Line 物件</summary>
+    /// <summary>主動呼叫 LINE API 物件。</summary>
     public class LineChannel
     {
         private readonly IMessageService messageService;
@@ -29,7 +29,7 @@ namespace Libro.LineMessageApi
         private readonly IAccountLinkService accountLinkService;
         private static readonly IWebhookService SharedWebhookService = new WebhookService();
 
-        /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
+        /// <summary>驗證訊息是否來自 LINE 伺服器。</summary>
         /// <param name="request">Request</param> 
         /// <param name="ChannelSecret">ChannelSecret</param>
         /// <returns></returns>
@@ -39,57 +39,57 @@ namespace Libro.LineMessageApi
             return SharedWebhookService.ValidateSignature(request, ChannelSecret);
         }
 
-        /// <summary>取得 Webhook Endpoint</summary>
-        /// <returns>Webhook Endpoint 設定</returns>
+        /// <summary>取得 Webhook 端點。</summary>
+        /// <returns>Webhook 端點 設定</returns>
         public Types.WebhookEndpointResponse GetWebhookEndpoint()
         {
-            // 透過 Webhook Endpoint 服務取得設定
+            // 透過 Webhook 端點 服務取得設定
             return webhookEndpointService.GetWebhookEndpoint();
         }
 
-        /// <summary>取得 Webhook Endpoint（非同步）</summary>
-        /// <returns>Webhook Endpoint 設定</returns>
+        /// <summary>取得 Webhook 端點。</summary>
+        /// <returns>Webhook 端點 設定</returns>
         public Task<Types.WebhookEndpointResponse> GetWebhookEndpointAsync()
         {
-            // 透過 Webhook Endpoint 服務取得設定（非同步）
+            // 透過 Webhook 端點 服務取得設定
             return webhookEndpointService.GetWebhookEndpointAsync();
         }
 
-        /// <summary>更新 Webhook Endpoint</summary>
+        /// <summary>更新 Webhook 端點。</summary>
         /// <param name="request">Webhook 設定</param>
         /// <returns>是否成功</returns>
         public bool SetWebhookEndpoint(Types.WebhookEndpointRequest request)
         {
-            // 透過 Webhook Endpoint 服務更新設定
+            // 透過 Webhook 端點 服務更新設定
             return webhookEndpointService.SetWebhookEndpoint(request);
         }
 
-        /// <summary>更新 Webhook Endpoint（非同步）</summary>
+        /// <summary>更新 Webhook 端點。</summary>
         /// <param name="request">Webhook 設定</param>
         /// <returns>是否成功</returns>
         public Task<bool> SetWebhookEndpointAsync(Types.WebhookEndpointRequest request)
         {
-            // 透過 Webhook Endpoint 服務更新設定（非同步）
+            // 透過 Webhook 端點 服務更新設定
             return webhookEndpointService.SetWebhookEndpointAsync(request);
         }
 
-        /// <summary>測試 Webhook Endpoint</summary>
+        /// <summary>測試 Webhook 端點。</summary>
         /// <returns>測試結果</returns>
         public Types.WebhookTestResponse TestWebhookEndpoint()
         {
-            // 透過 Webhook Endpoint 服務測試設定
+            // 透過 Webhook 端點 服務測試設定
             return webhookEndpointService.TestWebhookEndpoint();
         }
 
-        /// <summary>測試 Webhook Endpoint（非同步）</summary>
+        /// <summary>測試 Webhook 端點。</summary>
         /// <returns>測試結果</returns>
         public Task<Types.WebhookTestResponse> TestWebhookEndpointAsync()
         {
-            // 透過 Webhook Endpoint 服務測試設定（非同步）
+            // 透過 Webhook 端點 服務測試設定
             return webhookEndpointService.TestWebhookEndpointAsync();
         }
 
-        /// <summary>取得 Bot 基本資訊</summary>
+        /// <summary>取得 Bot 資訊。</summary>
         /// <returns>Bot 資訊</returns>
         public Types.BotInfo GetBotInfo()
         {
@@ -97,111 +97,111 @@ namespace Libro.LineMessageApi
             return botService.GetBotInfo();
         }
 
-        /// <summary>取得 Bot 基本資訊（非同步）</summary>
+        /// <summary>取得 Bot 資訊。</summary>
         /// <returns>Bot 資訊</returns>
         public Task<Types.BotInfo> GetBotInfoAsync()
         {
-            // 透過 Bot 服務取得基本資訊（非同步）
+            // 透過 Bot 服務取得基本資訊
             return botService.GetBotInfoAsync();
         }
 
-        /// <summary>取得群組摘要</summary>
+        /// <summary>取得群組摘要。</summary>
         public Types.GroupSummary GetGroupSummary(string groupId)
         {
             return botService.GetGroupSummary(groupId);
         }
 
-        /// <summary>取得群組摘要（非同步）</summary>
+        /// <summary>取得群組摘要。</summary>
         public Task<Types.GroupSummary> GetGroupSummaryAsync(string groupId)
         {
             return botService.GetGroupSummaryAsync(groupId);
         }
 
-        /// <summary>取得多人對話摘要</summary>
+        /// <summary>取得多人對話摘要。</summary>
         public Types.RoomSummary GetRoomSummary(string roomId)
         {
             return botService.GetRoomSummary(roomId);
         }
 
-        /// <summary>取得多人對話摘要（非同步）</summary>
+        /// <summary>取得多人對話摘要。</summary>
         public Task<Types.RoomSummary> GetRoomSummaryAsync(string roomId)
         {
             return botService.GetRoomSummaryAsync(roomId);
         }
 
-        /// <summary>取得群組成員 ID 清單</summary>
+        /// <summary>取得群組成員 ID 清單。</summary>
         public Types.MemberIdsResponse GetGroupMemberIds(string groupId)
         {
             return botService.GetGroupMemberIds(groupId);
         }
 
-        /// <summary>取得群組成員 ID 清單（非同步）</summary>
+        /// <summary>取得群組成員 ID 清單。</summary>
         public Task<Types.MemberIdsResponse> GetGroupMemberIdsAsync(string groupId)
         {
             return botService.GetGroupMemberIdsAsync(groupId);
         }
 
-        /// <summary>取得多人對話成員 ID 清單</summary>
+        /// <summary>取得多人對話成員 ID 清單。</summary>
         public Types.MemberIdsResponse GetRoomMemberIds(string roomId)
         {
             return botService.GetRoomMemberIds(roomId);
         }
 
-        /// <summary>取得多人對話成員 ID 清單（非同步）</summary>
+        /// <summary>取得多人對話成員 ID 清單。</summary>
         public Task<Types.MemberIdsResponse> GetRoomMemberIdsAsync(string roomId)
         {
             return botService.GetRoomMemberIdsAsync(roomId);
         }
 
-        /// <summary>取得群組成員數量</summary>
+        /// <summary>取得群組成員數量。</summary>
         public Types.MemberCountResponse GetGroupMemberCount(string groupId)
         {
             return botService.GetGroupMemberCount(groupId);
         }
 
-        /// <summary>取得群組成員數量（非同步）</summary>
+        /// <summary>取得群組成員數量。</summary>
         public Task<Types.MemberCountResponse> GetGroupMemberCountAsync(string groupId)
         {
             return botService.GetGroupMemberCountAsync(groupId);
         }
 
-        /// <summary>取得多人對話成員數量</summary>
+        /// <summary>取得多人對話成員數量。</summary>
         public Types.MemberCountResponse GetRoomMemberCount(string roomId)
         {
             return botService.GetRoomMemberCount(roomId);
         }
 
-        /// <summary>取得多人對話成員數量（非同步）</summary>
+        /// <summary>取得多人對話成員數量。</summary>
         public Task<Types.MemberCountResponse> GetRoomMemberCountAsync(string roomId)
         {
             return botService.GetRoomMemberCountAsync(roomId);
         }
 
-        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        /// <summary>初始化 <see cref="LineChannel"/> 執行個體。</summary>
         public LineChannel(string ChannelAccessToken)
             : this(ChannelAccessToken, new SystemTextJsonSerializer(), null, null)
         {
         }
 
-        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        /// <summary>初始化 <see cref="LineChannel"/> 執行個體。</summary>
         public LineChannel(string ChannelAccessToken, IJsonSerializer serializer)
             : this(ChannelAccessToken, serializer, null, null)
         {
         }
 
-        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        /// <summary>初始化 <see cref="LineChannel"/> 執行個體。</summary>
         public LineChannel(string ChannelAccessToken, IJsonSerializer serializer, HttpClient httpClient)
             : this(ChannelAccessToken, serializer, httpClient, null)
         {
         }
 
-        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        /// <summary>初始化 <see cref="LineChannel"/> 執行個體。</summary>
         public LineChannel(string ChannelAccessToken, IJsonSerializer serializer, HttpClient httpClient, IHttpClientProvider httpClientProvider)
             : this(ChannelAccessToken, serializer, httpClient, httpClientProvider, null)
         {
         }
 
-        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        /// <summary>初始化 <see cref="LineChannel"/> 執行個體。</summary>
         public LineChannel(
             string ChannelAccessToken,
             IJsonSerializer serializer,
@@ -227,7 +227,7 @@ namespace Libro.LineMessageApi
             accountLinkService = new AccountLinkService(context);
         }
 
-        /// <summary>channelAccessToken</summary>
+        /// <summary>channelAccessToken。</summary>
         public string channelAccessToken { get; private set; }
 
         /// <summary>
@@ -268,24 +268,24 @@ namespace Libro.LineMessageApi
 
         }
 
-        /// <summary>取得使用者檔案</summary>
-        /// <param name="userid"></param>
+        /// <summary>取得使用者檔案。</summary>
+        /// <param name="userId"></param>
         /// <returns></returns>
         public UserProfile GetUserProfile(string userId)
         {
             // 取得使用者檔案
             return profileService.GetUserProfile(userId);
         }
-        /// <summary>取得使用者檔案</summary>
-        /// <param name="userid"></param>
+        /// <summary>取得使用者檔案。</summary>
+        /// <param name="userId"></param>
         /// <returns></returns>
         public Task<UserProfile> GetUserProfileAsync(string userId)
         {
-            // 取得使用者檔案（非同步）
+            // 取得使用者檔案
             return profileService.GetUserProfileAsync(userId);
         }
-        /// <summary>取得大量使用者檔案</summary>
-        /// <param name="userids"></param>
+        /// <summary>取得大量使用者檔案。</summary>
+        /// <param name="userIds"></param>
         /// <returns></returns>
         public List<UserProfile> GetUserProfiles(List<string> userIds)
         {
@@ -305,9 +305,9 @@ namespace Libro.LineMessageApi
         /// 取得群組內指定使用者資料
         /// 
         /// </summary>
-        /// <param name="userid">指定使用者Id</param>
-        ///<param name="GroupidOrRoomId">群組或對話ID</param>
-        ///<param name="type">群組或對話</param>
+        /// <param name="userId">指定使用者Id</param>
+        /// <param name="groupIdOrRoomId">群組或對話ID</param>
+        /// <param name="type">群組或對話</param>
         /// <returns></returns>
         public UserProfile GetGroupMemberProfile(string userId, string groupIdOrRoomId, SourceType type)
         {
@@ -321,9 +321,9 @@ namespace Libro.LineMessageApi
         /// <summary>
         /// 取得群組內指定使用者資料
         /// </summary>
-        /// <param name="userid">指定使用者Id</param>
-        ///<param name="GroupidOrRoomId">群組或對話ID</param>
-        ///<param name="type">群組或對話</param>
+        /// <param name="userId">指定使用者Id</param>
+        /// <param name="groupIdOrRoomId">群組或對話ID</param>
+        /// <param name="type">群組或對話</param>
         /// <returns></returns>
         public Task<UserProfile> GetGroupMemberProfileAsync(string userId, string groupIdOrRoomId, SourceType type)
         {
@@ -331,12 +331,12 @@ namespace Libro.LineMessageApi
             {
                 throw new NotSupportedException("無法使用Source = User");
             }
-            // 取得群組或多人對話內成員檔案（非同步）
+            // 取得群組或多人對話內成員檔案
             return profileService.GetGroupMemberProfileAsync(userId, groupIdOrRoomId, type);
         }
 
-        /// <summary>取得大量使用者檔案</summary>
-        /// <param name="userids"></param>
+        /// <summary>取得大量使用者檔案。</summary>
+        /// <param name="userIds"></param>
         /// <returns></returns>
         public async Task<List<UserProfile>> GetUserProfilesAsync(List<string> userIds)
         {
@@ -374,8 +374,8 @@ namespace Libro.LineMessageApi
             }
         }
 
-        /// <summary>取得使用者上傳的檔案</summary>
-        /// <param name="message_id"></param>
+        /// <summary>取得使用者上傳的檔案。</summary>
+        /// <param name="messageId"></param>
         /// <returns></returns>
         public byte[] GetUserUploadContent(string messageId)
         {
@@ -383,17 +383,17 @@ namespace Libro.LineMessageApi
             return messageService.GetMessageContent(messageId);
         }
 
-        /// <summary>取得使用者上傳的檔案</summary>
-        /// <param name="message_id"></param>
+        /// <summary>取得使用者上傳的檔案。</summary>
+        /// <param name="messageId"></param>
         /// <returns></returns>
         public Task<byte[]> GetUserUploadContentAsync(string messageId)
         {
-            // 取得使用者上傳的檔案（非同步）
+            // 取得使用者上傳的檔案
             return messageService.GetMessageContentAsync(messageId);
         }
 
-        /// <summary>傳送訊息給多位使用者</summary>
-        /// <param name="ToId"></param>
+        /// <summary>傳送訊息給多位使用者。</summary>
+        /// <param name="toIds"></param>
         /// <param name="message"></param>
         /// <returns></returns>
         public string SendMulticastMessage(List<string> toIds, params Message[] message)
@@ -401,8 +401,8 @@ namespace Libro.LineMessageApi
             return messageService.SendMulticastMessage(toIds, message);
         }
 
-        /// <summary>傳送訊息給多位使用者</summary>
-        /// <param name="ToId"></param>
+        /// <summary>傳送訊息給多位使用者。</summary>
+        /// <param name="toIds"></param>
         /// <param name="message"></param>
         /// <returns></returns>
         public Task<string> SendMulticastMessageAsync(List<string> toIds, params Message[] message)
@@ -410,7 +410,7 @@ namespace Libro.LineMessageApi
             return messageService.SendMulticastMessageAsync(toIds, message);
         }
 
-        /// <summary>主動傳送訊息</summary>
+        /// <summary>主動傳送訊息。</summary>
         /// <param name="ToId">id</param>
         /// <param name="message">訊息</param>
         /// <returns></returns>
@@ -419,7 +419,7 @@ namespace Libro.LineMessageApi
             return messageService.SendPushMessage(ToId, message);
         }
 
-        /// <summary>主動傳送訊息</summary>
+        /// <summary>主動傳送訊息。</summary>
         /// <param name="ToId">id</param>
         /// <param name="message">訊息</param>
         /// <returns></returns>
@@ -428,7 +428,7 @@ namespace Libro.LineMessageApi
             return messageService.SendPushMessageAsync(ToId, message);
         }
 
-        /// <summary>被動回復訊息</summary>
+        /// <summary>被動回覆訊息。</summary>
         /// <param name="replyToken"></param>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -437,7 +437,7 @@ namespace Libro.LineMessageApi
             return messageService.SendReplyMessage(replyToken, message);
         }
 
-        /// <summary>被動回復訊息</summary>
+        /// <summary>被動回覆訊息。</summary>
         /// <param name="replyToken"></param>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -446,409 +446,409 @@ namespace Libro.LineMessageApi
             return messageService.SendReplyMessageAsync(replyToken, message);
         }
 
-        /// <summary>發送 Broadcast 訊息</summary>
+        /// <summary>發送 Broadcast 訊息。</summary>
         public bool SendBroadcastMessage(BroadcastMessage message)
         {
             return broadcastService.SendBroadcast(message);
         }
 
-        /// <summary>發送 Broadcast 訊息（非同步）</summary>
+        /// <summary>發送 Broadcast 訊息。</summary>
         public Task<bool> SendBroadcastMessageAsync(BroadcastMessage message)
         {
             return broadcastService.SendBroadcastAsync(message);
         }
 
-        /// <summary>發送 Narrowcast 訊息</summary>
+        /// <summary>發送 Narrowcast 訊息。</summary>
         public bool SendNarrowcastMessage(NarrowcastMessage message)
         {
             return broadcastService.SendNarrowcast(message);
         }
 
-        /// <summary>發送 Narrowcast 訊息（非同步）</summary>
+        /// <summary>發送 Narrowcast 訊息。</summary>
         public Task<bool> SendNarrowcastMessageAsync(NarrowcastMessage message)
         {
             return broadcastService.SendNarrowcastAsync(message);
         }
 
-        /// <summary>取得 Narrowcast 進度</summary>
+        /// <summary>取得 Narrowcast 進度。</summary>
         public Types.NarrowcastProgressResponse GetNarrowcastProgress(string requestId)
         {
             return broadcastService.GetNarrowcastProgress(requestId);
         }
 
-        /// <summary>取得 Narrowcast 進度（非同步）</summary>
+        /// <summary>取得 Narrowcast 進度。</summary>
         public Task<Types.NarrowcastProgressResponse> GetNarrowcastProgressAsync(string requestId)
         {
             return broadcastService.GetNarrowcastProgressAsync(requestId);
         }
 
-        /// <summary>驗證 Reply 訊息</summary>
+        /// <summary>驗證 Reply 訊息。</summary>
         public bool ValidateReplyMessage(ReplyMessage message)
         {
             return messageValidationService.ValidateReply(message);
         }
 
-        /// <summary>驗證 Reply 訊息（非同步）</summary>
+        /// <summary>驗證 Reply 訊息。</summary>
         public Task<bool> ValidateReplyMessageAsync(ReplyMessage message)
         {
             return messageValidationService.ValidateReplyAsync(message);
         }
 
-        /// <summary>驗證 Push 訊息</summary>
+        /// <summary>驗證 Push 訊息。</summary>
         public bool ValidatePushMessage(PushMessage message)
         {
             return messageValidationService.ValidatePush(message);
         }
 
-        /// <summary>驗證 Push 訊息（非同步）</summary>
+        /// <summary>驗證 Push 訊息。</summary>
         public Task<bool> ValidatePushMessageAsync(PushMessage message)
         {
             return messageValidationService.ValidatePushAsync(message);
         }
 
-        /// <summary>驗證 Multicast 訊息</summary>
+        /// <summary>驗證 Multicast 訊息。</summary>
         public bool ValidateMulticastMessage(MulticastMessage message)
         {
             return messageValidationService.ValidateMulticast(message);
         }
 
-        /// <summary>驗證 Multicast 訊息（非同步）</summary>
+        /// <summary>驗證 Multicast 訊息。</summary>
         public Task<bool> ValidateMulticastMessageAsync(MulticastMessage message)
         {
             return messageValidationService.ValidateMulticastAsync(message);
         }
 
-        /// <summary>驗證 Broadcast 訊息</summary>
+        /// <summary>驗證 Broadcast 訊息。</summary>
         public bool ValidateBroadcastMessage(BroadcastMessage message)
         {
             return messageValidationService.ValidateBroadcast(message);
         }
 
-        /// <summary>驗證 Broadcast 訊息（非同步）</summary>
+        /// <summary>驗證 Broadcast 訊息。</summary>
         public Task<bool> ValidateBroadcastMessageAsync(BroadcastMessage message)
         {
             return messageValidationService.ValidateBroadcastAsync(message);
         }
 
-        /// <summary>驗證 Narrowcast 訊息</summary>
+        /// <summary>驗證 Narrowcast 訊息。</summary>
         public bool ValidateNarrowcastMessage(NarrowcastMessage message)
         {
             return messageValidationService.ValidateNarrowcast(message);
         }
 
-        /// <summary>驗證 Narrowcast 訊息（非同步）</summary>
+        /// <summary>驗證 Narrowcast 訊息。</summary>
         public Task<bool> ValidateNarrowcastMessageAsync(NarrowcastMessage message)
         {
             return messageValidationService.ValidateNarrowcastAsync(message);
         }
 
-        /// <summary>建立 Rich Menu</summary>
+        /// <summary>建立 Rich Menu。</summary>
         public Types.RichMenuIdResponse CreateRichMenu(object richMenu)
         {
             return richMenuService.CreateRichMenu(richMenu);
         }
 
-        /// <summary>建立 Rich Menu（非同步）</summary>
+        /// <summary>建立 Rich Menu。</summary>
         public Task<Types.RichMenuIdResponse> CreateRichMenuAsync(object richMenu)
         {
             return richMenuService.CreateRichMenuAsync(richMenu);
         }
 
-        /// <summary>取得 Rich Menu</summary>
+        /// <summary>取得 Rich Menu。</summary>
         public Types.RichMenuResponse GetRichMenu(string richMenuId)
         {
             return richMenuService.GetRichMenu(richMenuId);
         }
 
-        /// <summary>取得 Rich Menu（非同步）</summary>
+        /// <summary>取得 Rich Menu。</summary>
         public Task<Types.RichMenuResponse> GetRichMenuAsync(string richMenuId)
         {
             return richMenuService.GetRichMenuAsync(richMenuId);
         }
 
-        /// <summary>刪除 Rich Menu</summary>
+        /// <summary>刪除 Rich Menu。</summary>
         public bool DeleteRichMenu(string richMenuId)
         {
             return richMenuService.DeleteRichMenu(richMenuId);
         }
 
-        /// <summary>刪除 Rich Menu（非同步）</summary>
+        /// <summary>刪除 Rich Menu。</summary>
         public Task<bool> DeleteRichMenuAsync(string richMenuId)
         {
             return richMenuService.DeleteRichMenuAsync(richMenuId);
         }
 
-        /// <summary>取得 Rich Menu 清單</summary>
+        /// <summary>取得 Rich Menu 清單。</summary>
         public Types.RichMenuListResponse GetRichMenuList()
         {
             return richMenuService.GetRichMenuList();
         }
 
-        /// <summary>取得 Rich Menu 清單（非同步）</summary>
+        /// <summary>取得 Rich Menu 清單。</summary>
         public Task<Types.RichMenuListResponse> GetRichMenuListAsync()
         {
             return richMenuService.GetRichMenuListAsync();
         }
 
-        /// <summary>上傳 Rich Menu 圖片</summary>
+        /// <summary>上傳 Rich Menu 圖片。</summary>
         public bool UploadRichMenuImage(string richMenuId, string contentType, byte[] content)
         {
             return richMenuService.UploadRichMenuImage(richMenuId, contentType, content);
         }
 
-        /// <summary>上傳 Rich Menu 圖片（非同步）</summary>
+        /// <summary>上傳 Rich Menu 圖片。</summary>
         public Task<bool> UploadRichMenuImageAsync(string richMenuId, string contentType, byte[] content)
         {
             return richMenuService.UploadRichMenuImageAsync(richMenuId, contentType, content);
         }
 
-        /// <summary>下載 Rich Menu 圖片</summary>
+        /// <summary>下載 Rich Menu 圖片。</summary>
         public byte[] DownloadRichMenuImage(string richMenuId)
         {
             return richMenuService.DownloadRichMenuImage(richMenuId);
         }
 
-        /// <summary>下載 Rich Menu 圖片（非同步）</summary>
+        /// <summary>下載 Rich Menu 圖片。</summary>
         public Task<byte[]> DownloadRichMenuImageAsync(string richMenuId)
         {
             return richMenuService.DownloadRichMenuImageAsync(richMenuId);
         }
 
-        /// <summary>設定預設 Rich Menu</summary>
+        /// <summary>設定預設 Rich Menu。</summary>
         public bool SetDefaultRichMenu(string richMenuId)
         {
             return richMenuService.SetDefaultRichMenu(richMenuId);
         }
 
-        /// <summary>設定預設 Rich Menu（非同步）</summary>
+        /// <summary>設定預設 Rich Menu。</summary>
         public Task<bool> SetDefaultRichMenuAsync(string richMenuId)
         {
             return richMenuService.SetDefaultRichMenuAsync(richMenuId);
         }
 
-        /// <summary>取得預設 Rich Menu ID</summary>
+        /// <summary>取得預設 Rich Menu ID。</summary>
         public Types.RichMenuIdResponse GetDefaultRichMenuId()
         {
             return richMenuService.GetDefaultRichMenuId();
         }
 
-        /// <summary>取得預設 Rich Menu ID（非同步）</summary>
+        /// <summary>取得預設 Rich Menu ID。</summary>
         public Task<Types.RichMenuIdResponse> GetDefaultRichMenuIdAsync()
         {
             return richMenuService.GetDefaultRichMenuIdAsync();
         }
 
-        /// <summary>取消預設 Rich Menu</summary>
+        /// <summary>取消預設 Rich Menu。</summary>
         public bool CancelDefaultRichMenu()
         {
             return richMenuService.CancelDefaultRichMenu();
         }
 
-        /// <summary>取消預設 Rich Menu（非同步）</summary>
+        /// <summary>取消預設 Rich Menu。</summary>
         public Task<bool> CancelDefaultRichMenuAsync()
         {
             return richMenuService.CancelDefaultRichMenuAsync();
         }
 
-        /// <summary>綁定使用者 Rich Menu</summary>
+        /// <summary>綁定使用者 Rich Menu。</summary>
         public bool LinkUserRichMenu(string userId, string richMenuId)
         {
             return richMenuService.LinkUserRichMenu(userId, richMenuId);
         }
 
-        /// <summary>綁定使用者 Rich Menu（非同步）</summary>
+        /// <summary>綁定使用者 Rich Menu。</summary>
         public Task<bool> LinkUserRichMenuAsync(string userId, string richMenuId)
         {
             return richMenuService.LinkUserRichMenuAsync(userId, richMenuId);
         }
 
-        /// <summary>解除使用者 Rich Menu</summary>
+        /// <summary>解除使用者 Rich Menu。</summary>
         public bool UnlinkUserRichMenu(string userId)
         {
             return richMenuService.UnlinkUserRichMenu(userId);
         }
 
-        /// <summary>解除使用者 Rich Menu（非同步）</summary>
+        /// <summary>解除使用者 Rich Menu。</summary>
         public Task<bool> UnlinkUserRichMenuAsync(string userId)
         {
             return richMenuService.UnlinkUserRichMenuAsync(userId);
         }
 
-        /// <summary>批次綁定 Rich Menu</summary>
+        /// <summary>批次綁定 Rich Menu。</summary>
         public bool BulkLinkRichMenu(Types.RichMenuBulkLinkRequest request)
         {
             return richMenuService.BulkLinkRichMenu(request);
         }
 
-        /// <summary>批次綁定 Rich Menu（非同步）</summary>
+        /// <summary>批次綁定 Rich Menu。</summary>
         public Task<bool> BulkLinkRichMenuAsync(Types.RichMenuBulkLinkRequest request)
         {
             return richMenuService.BulkLinkRichMenuAsync(request);
         }
 
-        /// <summary>批次解除綁定 Rich Menu</summary>
+        /// <summary>批次解除綁定 Rich Menu。</summary>
         public bool BulkUnlinkRichMenu(Types.RichMenuBulkUnlinkRequest request)
         {
             return richMenuService.BulkUnlinkRichMenu(request);
         }
 
-        /// <summary>批次解除綁定 Rich Menu（非同步）</summary>
+        /// <summary>批次解除綁定 Rich Menu。</summary>
         public Task<bool> BulkUnlinkRichMenuAsync(Types.RichMenuBulkUnlinkRequest request)
         {
             return richMenuService.BulkUnlinkRichMenuAsync(request);
         }
 
-        /// <summary>建立 Rich Menu Alias</summary>
+        /// <summary>建立 Rich Menu Alias。</summary>
         public bool CreateRichMenuAlias(Types.RichMenuAliasRequest request)
         {
             return richMenuService.CreateRichMenuAlias(request);
         }
 
-        /// <summary>建立 Rich Menu Alias（非同步）</summary>
+        /// <summary>建立 Rich Menu Alias。</summary>
         public Task<bool> CreateRichMenuAliasAsync(Types.RichMenuAliasRequest request)
         {
             return richMenuService.CreateRichMenuAliasAsync(request);
         }
 
-        /// <summary>更新 Rich Menu Alias</summary>
+        /// <summary>更新 Rich Menu Alias。</summary>
         public bool UpdateRichMenuAlias(string aliasId, Types.RichMenuAliasRequest request)
         {
             return richMenuService.UpdateRichMenuAlias(aliasId, request);
         }
 
-        /// <summary>更新 Rich Menu Alias（非同步）</summary>
+        /// <summary>更新 Rich Menu Alias。</summary>
         public Task<bool> UpdateRichMenuAliasAsync(string aliasId, Types.RichMenuAliasRequest request)
         {
             return richMenuService.UpdateRichMenuAliasAsync(aliasId, request);
         }
 
-        /// <summary>取得 Rich Menu Alias</summary>
+        /// <summary>取得 Rich Menu Alias。</summary>
         public Types.RichMenuAliasResponse GetRichMenuAlias(string aliasId)
         {
             return richMenuService.GetRichMenuAlias(aliasId);
         }
 
-        /// <summary>取得 Rich Menu Alias（非同步）</summary>
+        /// <summary>取得 Rich Menu Alias。</summary>
         public Task<Types.RichMenuAliasResponse> GetRichMenuAliasAsync(string aliasId)
         {
             return richMenuService.GetRichMenuAliasAsync(aliasId);
         }
 
-        /// <summary>取得 Rich Menu Alias 清單</summary>
+        /// <summary>取得 Rich Menu Alias 清單。</summary>
         public Types.RichMenuAliasListResponse GetRichMenuAliasList()
         {
             return richMenuService.GetRichMenuAliasList();
         }
 
-        /// <summary>取得 Rich Menu Alias 清單（非同步）</summary>
+        /// <summary>取得 Rich Menu Alias 清單。</summary>
         public Task<Types.RichMenuAliasListResponse> GetRichMenuAliasListAsync()
         {
             return richMenuService.GetRichMenuAliasListAsync();
         }
 
-        /// <summary>刪除 Rich Menu Alias</summary>
+        /// <summary>刪除 Rich Menu Alias。</summary>
         public bool DeleteRichMenuAlias(string aliasId)
         {
             return richMenuService.DeleteRichMenuAlias(aliasId);
         }
 
-        /// <summary>刪除 Rich Menu Alias（非同步）</summary>
+        /// <summary>刪除 Rich Menu Alias。</summary>
         public Task<bool> DeleteRichMenuAliasAsync(string aliasId)
         {
             return richMenuService.DeleteRichMenuAliasAsync(aliasId);
         }
 
-        /// <summary>取得訊息投遞統計</summary>
+        /// <summary>取得訊息投遞統計。</summary>
         public Types.MessageDeliveryInsightResponse GetMessageDeliveryInsight(string date)
         {
             return insightService.GetMessageDelivery(date);
         }
 
-        /// <summary>取得訊息投遞統計（非同步）</summary>
+        /// <summary>取得訊息投遞統計。</summary>
         public Task<Types.MessageDeliveryInsightResponse> GetMessageDeliveryInsightAsync(string date)
         {
             return insightService.GetMessageDeliveryAsync(date);
         }
 
-        /// <summary>取得追蹤者統計</summary>
+        /// <summary>取得追蹤者統計。</summary>
         public Types.FollowerInsightResponse GetFollowerInsight()
         {
             return insightService.GetFollowers();
         }
 
-        /// <summary>取得追蹤者統計（非同步）</summary>
+        /// <summary>取得追蹤者統計。</summary>
         public Task<Types.FollowerInsightResponse> GetFollowerInsightAsync()
         {
             return insightService.GetFollowersAsync();
         }
 
-        /// <summary>取得人口統計</summary>
+        /// <summary>取得人口統計。</summary>
         public Types.DemographicInsightResponse GetDemographicInsight()
         {
             return insightService.GetDemographic();
         }
 
-        /// <summary>取得人口統計（非同步）</summary>
+        /// <summary>取得人口統計。</summary>
         public Task<Types.DemographicInsightResponse> GetDemographicInsightAsync()
         {
             return insightService.GetDemographicAsync();
         }
 
-        /// <summary>上傳 Audience 群組</summary>
+        /// <summary>上傳 Audience 群組。</summary>
         public Types.AudienceGroupUploadResponse UploadAudienceGroup(object request)
         {
             return audienceService.UploadAudienceGroup(request);
         }
 
-        /// <summary>上傳 Audience 群組（非同步）</summary>
+        /// <summary>上傳 Audience 群組。</summary>
         public Task<Types.AudienceGroupUploadResponse> UploadAudienceGroupAsync(object request)
         {
             return audienceService.UploadAudienceGroupAsync(request);
         }
 
-        /// <summary>取得 Audience 群組狀態</summary>
+        /// <summary>取得 Audience 群組狀態。</summary>
         public Types.AudienceGroupStatusResponse GetAudienceGroupStatus(long audienceGroupId)
         {
             return audienceService.GetAudienceGroupStatus(audienceGroupId);
         }
 
-        /// <summary>取得 Audience 群組狀態（非同步）</summary>
+        /// <summary>取得 Audience 群組狀態。</summary>
         public Task<Types.AudienceGroupStatusResponse> GetAudienceGroupStatusAsync(long audienceGroupId)
         {
             return audienceService.GetAudienceGroupStatusAsync(audienceGroupId);
         }
 
-        /// <summary>刪除 Audience 群組</summary>
+        /// <summary>刪除 Audience 群組。</summary>
         public bool DeleteAudienceGroup(long audienceGroupId)
         {
             return audienceService.DeleteAudienceGroup(audienceGroupId);
         }
 
-        /// <summary>刪除 Audience 群組（非同步）</summary>
+        /// <summary>刪除 Audience 群組。</summary>
         public Task<bool> DeleteAudienceGroupAsync(long audienceGroupId)
         {
             return audienceService.DeleteAudienceGroupAsync(audienceGroupId);
         }
 
-        /// <summary>取得 Audience 群組清單</summary>
+        /// <summary>取得 Audience 群組清單。</summary>
         public Types.AudienceGroupListResponse GetAudienceGroupList()
         {
             return audienceService.GetAudienceGroupList();
         }
 
-        /// <summary>取得 Audience 群組清單（非同步）</summary>
+        /// <summary>取得 Audience 群組清單。</summary>
         public Task<Types.AudienceGroupListResponse> GetAudienceGroupListAsync()
         {
             return audienceService.GetAudienceGroupListAsync();
         }
 
-        /// <summary>取得 Account Link Token</summary>
+        /// <summary>取得 Account Link Token。</summary>
         public Types.LinkTokenResponse IssueLinkToken(string userId)
         {
             return accountLinkService.IssueLinkToken(userId);
         }
 
-        /// <summary>取得 Account Link Token（非同步）</summary>
+        /// <summary>取得 Account Link Token。</summary>
         public Task<Types.LinkTokenResponse> IssueLinkTokenAsync(string userId)
         {
             return accountLinkService.IssueLinkTokenAsync(userId);
@@ -983,4 +983,3 @@ namespace Libro.LineMessageApi
         }
     }
 }
-

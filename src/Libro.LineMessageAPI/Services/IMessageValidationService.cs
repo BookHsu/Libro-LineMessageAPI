@@ -14,7 +14,7 @@ namespace Libro.LineMessageApi.Services
         bool ValidateReply(ReplyMessage message);
 
         /// <summary>
-        /// 驗證 Reply 訊息（非同步）
+        /// 驗證 Reply 訊息
         /// </summary>
         Task<bool> ValidateReplyAsync(ReplyMessage message);
 
@@ -24,7 +24,7 @@ namespace Libro.LineMessageApi.Services
         bool ValidatePush(PushMessage message);
 
         /// <summary>
-        /// 驗證 Push 訊息（非同步）
+        /// 驗證 Push 訊息
         /// </summary>
         Task<bool> ValidatePushAsync(PushMessage message);
 
@@ -34,7 +34,7 @@ namespace Libro.LineMessageApi.Services
         bool ValidateMulticast(MulticastMessage message);
 
         /// <summary>
-        /// 驗證 Multicast 訊息（非同步）
+        /// 驗證 Multicast 訊息
         /// </summary>
         Task<bool> ValidateMulticastAsync(MulticastMessage message);
 
@@ -44,7 +44,7 @@ namespace Libro.LineMessageApi.Services
         bool ValidateBroadcast(BroadcastMessage message);
 
         /// <summary>
-        /// 驗證 Broadcast 訊息（非同步）
+        /// 驗證 Broadcast 訊息
         /// </summary>
         Task<bool> ValidateBroadcastAsync(BroadcastMessage message);
 
@@ -54,7 +54,7 @@ namespace Libro.LineMessageApi.Services
         bool ValidateNarrowcast(NarrowcastMessage message);
 
         /// <summary>
-        /// 驗證 Narrowcast 訊息（非同步）
+        /// 驗證 Narrowcast 訊息
         /// </summary>
         Task<bool> ValidateNarrowcastAsync(NarrowcastMessage message);
     }
