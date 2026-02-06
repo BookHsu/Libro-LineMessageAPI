@@ -15,7 +15,7 @@ namespace Libro.LineMessageApi.Services
         bool SendBroadcast(BroadcastMessage message);
 
         /// <summary>
-        /// 發送 Broadcast（非同步）
+        /// 發送 Broadcast
         /// </summary>
         Task<bool> SendBroadcastAsync(BroadcastMessage message);
 
@@ -25,7 +25,7 @@ namespace Libro.LineMessageApi.Services
         bool SendNarrowcast(NarrowcastMessage message);
 
         /// <summary>
-        /// 發送 Narrowcast（非同步）
+        /// 發送 Narrowcast
         /// </summary>
         Task<bool> SendNarrowcastAsync(NarrowcastMessage message);
 
@@ -35,7 +35,7 @@ namespace Libro.LineMessageApi.Services
         NarrowcastProgressResponse GetNarrowcastProgress(string requestId);
 
         /// <summary>
-        /// 取得 Narrowcast 進度（非同步）
+        /// 取得 Narrowcast 進度
         /// </summary>
         Task<NarrowcastProgressResponse> GetNarrowcastProgressAsync(string requestId);
     }

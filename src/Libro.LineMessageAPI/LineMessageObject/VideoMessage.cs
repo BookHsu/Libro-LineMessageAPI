@@ -3,20 +3,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Libro.LineMessageApi.LineMessageObject
 {
-    /// <summary>影片訊息</summary>
+    /// <summary>影片訊息。</summary>
     public class VideoMessage : Message
     {
         private string _originalContentUrl;
 
         private string _previewImageUrl;
 
-        /// <summary></summary>
+        /// <summary>
+        /// 初始化 VideoMessage 的新執行個體。
+        /// </summary>
         public VideoMessage()
         {
             base.type = SendMessageType.video;
         }
 
-        /// <summary>影片網址 長度不可超過1000需以https開頭，格式限制mp4檔案大小不可超過10mb，影片長度不可超過一分鐘</summary>
+        /// <summary>影片網址（長度不可超過 1000，需以 HTTPS 開頭；格式為 MP4，檔案大小不可超過 10 MB，影片長度不可超過 1 分鐘）。</summary>
         [StringLength(1000, ErrorMessage = "網址過長")]
         public string originalContentUrl
         {
@@ -35,7 +37,7 @@ namespace Libro.LineMessageApi.LineMessageObject
             }
         } 
 
-        /// <summary>預覽圖片 長度不可超過1000需以https開頭，格式限制jpeg檔案大小不可超過1mb，240*240</summary>
+        /// <summary>預覽圖片網址（長度不可超過 1000，需以 HTTPS 開頭；格式為 JPEG，檔案大小不可超過 1 MB，建議尺寸 240x240）。</summary>
         [StringLength(1000, ErrorMessage = "網址過長")]
         public string previewImageUrl
         {

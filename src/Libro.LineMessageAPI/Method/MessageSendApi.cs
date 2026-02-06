@@ -35,6 +35,7 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal MessageSendApi(
             IJsonSerializer serializer,
             IHttpClientProvider httpClientProvider,
@@ -89,7 +90,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 根據傳入種類發送訊息（非同步）
+        /// 根據傳入種類發送訊息
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="type">發送種類</param>

@@ -18,7 +18,7 @@ namespace Libro.LineMessageApi.Method
         private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
-        /// 建立 Broadcast API
+        /// 初始化 <see cref="BroadcastApi"/> 執行個體。
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
@@ -28,10 +28,11 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 建立 Broadcast API
+        /// 初始化 <see cref="BroadcastApi"/> 執行個體。
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal BroadcastApi(
             IJsonSerializer serializer,
             IHttpClientProvider httpClientProvider,
@@ -70,7 +71,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 發送 Broadcast（非同步）
+        /// 發送 Broadcast
         /// </summary>
         internal async Task<bool> SendBroadcastAsync(string channelAccessToken, BroadcastMessage message)
         {
@@ -119,7 +120,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 發送 Narrowcast（非同步）
+        /// 發送 Narrowcast
         /// </summary>
         internal async Task<bool> SendNarrowcastAsync(string channelAccessToken, NarrowcastMessage message)
         {
@@ -166,7 +167,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Narrowcast 進度（非同步）
+        /// 取得 Narrowcast 進度
         /// </summary>
         internal async Task<NarrowcastProgressResponse> GetNarrowcastProgressAsync(string channelAccessToken, string requestId)
         {
@@ -188,4 +189,3 @@ namespace Libro.LineMessageApi.Method
         }
     }
 }
-

@@ -1,0 +1,49 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../..",
+          "files": [
+            "src/Libro.LineMessageAPI/Libro.LineMessageAPI.csproj",
+            "src/Libro.LineMessageAPI.Extensions/Libro.LineMessageAPI.Extensions.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "zh-TW/**.md",
+          "zh-TW/**.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "zh-TW/images/**"
+        ]
+      }
+    ],
+    "dest": "_site/zh-TW",
+    "template": [
+      "default"
+    ],
+    "globalMetadata": {
+      "_appTitle": "Libro.LineMessageAPI 文件 (zh-TW)"
+    }
+  }
+}

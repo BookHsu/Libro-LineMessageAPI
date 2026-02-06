@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Libro.LineMessageApi.Services
 {
     /// <summary>
-    /// Webhook Endpoint 管理服務
+    /// Webhook 端點 管理服務
     /// </summary>
     internal class WebhookEndpointService : IWebhookEndpointService
     {
@@ -13,14 +13,14 @@ namespace Libro.LineMessageApi.Services
         private readonly WebhookEndpointApi api;
 
         /// <summary>
-        /// 建立 Webhook Endpoint 管理服務
+        /// 建立 Webhook 端點 管理服務
         /// </summary>
         /// <param name="context">API Context</param>
         internal WebhookEndpointService(LineApiContext context)
         {
             // 保存 Context 以使用 Token/序列化器/HttpClientProvider
             this.context = context;
-            // 建立 Webhook Endpoint API
+            // 建立 Webhook 端點 API
             api = new WebhookEndpointApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 

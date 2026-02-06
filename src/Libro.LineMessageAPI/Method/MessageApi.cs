@@ -33,7 +33,7 @@ namespace Libro.LineMessageApi.Method
             messageSendApi = new MessageSendApi(serializer, provider, adapterFactory);
         }
 
-        /// <summary>取得使用者傳送的圖片、影片、聲音、檔案</summary>
+        /// <summary>取得使用者傳送的圖片、影片、聲音、檔案。</summary>
         /// <param name="channelAccessToken"></param> 
         /// <param name="messageId"></param>
         /// <returns></returns>
@@ -43,17 +43,17 @@ namespace Libro.LineMessageApi.Method
             return messageContentApi.GetUserUploadData(channelAccessToken, messageId);
         }
 
-        /// <summary>取得使用者傳送的圖片、影片、聲音、檔案</summary>
+        /// <summary>取得使用者傳送的圖片、影片、聲音、檔案。</summary>
         /// <param name="channelAccessToken"></param>
         /// <param name="messageId"></param>
         /// <returns></returns>
         internal Task<byte[]> GetUserUploadDataAsync(string channelAccessToken, string messageId)
         {
-            // 透過訊息內容 API 取得檔案（非同步）
+            // 透過訊息內容 API 取得檔案
             return messageContentApi.GetUserUploadDataAsync(channelAccessToken, messageId);
         }
 
-        /// <summary>取得使用者檔案</summary>
+        /// <summary>取得使用者檔案。</summary>
         /// <param name="channelAccessToken"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -63,13 +63,13 @@ namespace Libro.LineMessageApi.Method
             return profileApi.GetUserProfile(channelAccessToken, userId);
         }
 
-        /// <summary>取得使用者檔案</summary>
+        /// <summary>取得使用者檔案。</summary>
         /// <param name="channelAccessToken"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
         internal Task<UserProfile> GetUserProfileAsync(string channelAccessToken, string userId)
         {
-            // 透過檔案 API 取得使用者檔案（非同步）
+            // 透過檔案 API 取得使用者檔案
             return profileApi.GetUserProfileAsync(channelAccessToken, userId);
         }
 
@@ -79,6 +79,7 @@ namespace Libro.LineMessageApi.Method
         /// <param name="channelAccessToken"></param>
         /// <param name="userId"></param>
         /// <param name="groupId"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         internal UserProfile GetGroupMemberProfile(string channelAccessToken, string userId, string groupId, SourceType type)
         {
@@ -92,15 +93,16 @@ namespace Libro.LineMessageApi.Method
         /// <param name="channelAccessToken"></param>
         /// <param name="userId"></param>
         /// <param name="groupId"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         internal Task<UserProfile> GetGroupMemberProfileAsync(string channelAccessToken, string userId, string groupId, SourceType type)
         {
-            // 透過檔案 API 取得成員檔案（非同步）
+            // 透過檔案 API 取得成員檔案
             return profileApi.GetGroupMemberProfileAsync(channelAccessToken, userId, groupId, type);
         }
 
-        /// <summary>離開群組或對話</summary>
-        /// <param name="ChannelAccessToken"></param>
+        /// <summary>離開群組或對話。</summary>
+        /// <param name="channelAccessToken"></param>
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -110,19 +112,19 @@ namespace Libro.LineMessageApi.Method
             return groupApi.LeaveRoomOrGroup(channelAccessToken, id, type);
         }
 
-        /// <summary>離開群組或對話</summary>
-        /// <param name="ChannelAccessToken"></param>
+        /// <summary>離開群組或對話。</summary>
+        /// <param name="channelAccessToken"></param>
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         internal Task<bool> LeaveRoomOrGroupAsync(string channelAccessToken, string id, SourceType type)
         {
-            // 透過群組 API 離開群組或多人對話（非同步）
+            // 透過群組 API 離開群組或多人對話
             return groupApi.LeaveRoomOrGroupAsync(channelAccessToken, id, type);
         }
 
-        /// <summary>根據傳入種類發送訊息</summary>
-        /// <param name="ChannelAccessToken"></param>
+        /// <summary>根據傳入種類發送訊息。</summary>
+        /// <param name="channelAccessToken"></param>
         /// <param name="type"></param>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -132,14 +134,14 @@ namespace Libro.LineMessageApi.Method
             return messageSendApi.SendMessageAction(channelAccessToken, type, message);
         }
 
-        /// <summary>根據傳入種類發送訊息</summary>
-        /// <param name="ChannelAccessToken"></param>
+        /// <summary>根據傳入種類發送訊息。</summary>
+        /// <param name="channelAccessToken"></param>
         /// <param name="type"></param>
         /// <param name="message"></param>
         /// <returns></returns>
         internal Task<string> SendMessageActionAsync(string channelAccessToken, PostMessageType type, SendLineMessage message)
         {
-            // 透過訊息發送 API 發送訊息（非同步）
+            // 透過訊息發送 API 發送訊息
             return messageSendApi.SendMessageActionAsync(channelAccessToken, type, message);
         }
     }

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Libro.LineMessageAPI.Extensions</name>
+  </assembly>
+  <members>
+    <member name="T:Libro.LineMessageApi.Extensions.ServiceCollectionExtensions">
+      <summary>Provides extension methods for registering LINE SDK services.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Extensions.ServiceCollectionExtensions.AddLineSdk(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>Registers LINE SDK services.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Extensions.ServiceCollectionExtensions.AddLineSdk(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>Registers LINE SDK services.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Extensions.ServiceCollectionExtensions.AddLineSdk(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Libro.LineMessageApi.LineSdkBuilder})">
+      <summary>Registers LINE SDK services.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Extensions.ServiceCollectionExtensions.AddLineSdk(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{Libro.LineMessageApi.LineSdkBuilder},System.String)">
+      <summary>Registers LINE SDK services.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Extensions.ServiceCollectionExtensions.AddLineSdk(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Libro.LineMessageApi.LineChannelOptions},System.Action{Libro.LineMessageApi.LineSdkBuilder})">
+      <summary>Registers LINE SDK services.</summary>
+    </member>
+  </members>
+</doc>

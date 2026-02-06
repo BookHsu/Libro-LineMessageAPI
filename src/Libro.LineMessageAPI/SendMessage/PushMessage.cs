@@ -3,16 +3,20 @@ using System;
 
 namespace Libro.LineMessageApi.SendMessage
 {
-    /// <summary>主動推播訊息</summary>
+    /// <summary>主動推播訊息。</summary>
     public class PushMessage : SendLineMessage
     {
-        /// <summary></summary>
+        /// <summary>
+        /// 初始化 PushMessage 的新執行個體。
+        /// </summary>
         public PushMessage(string ToId) : base()
         {
             to = ToId;
         }
 
-        /// <summary></summary>
+        /// <summary>
+        /// 初始化 PushMessage 的新執行個體。
+        /// </summary>
         public PushMessage(string ToId, params Message[] msg) : this(ToId)
         {
             if (msg.Length <= 5)
@@ -25,7 +29,7 @@ namespace Libro.LineMessageApi.SendMessage
             }
         }
 
-        /// <summary>to id</summary>
+        /// <summary>接收者 ID。</summary>
         public string to { get; set; }
     }
 }

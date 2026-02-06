@@ -2,50 +2,56 @@ using System.Text.Json.Serialization;
 
 namespace Libro.LineMessageApi.LineMessageObject
 {
-    /// <summary>用於imagempa 與 template物件</summary>
+    /// <summary>用於imagempa 與 template物件。</summary>
     public class LineAction
     {
-        /// <summary></summary>
+        /// <summary>
+        /// 初始化 LineAction 的新執行個體。
+        /// </summary>
         public LineAction()
         {
             area = new Area();
         }
 
-        /// <summary></summary>
+        /// <summary>
+        /// 初始化 LineAction 的新執行個體。
+        /// </summary>
         /// <param name="actionType"></param>
         public LineAction(ActionType actionType) 
         {
             type = actionType;
         }
 
-        /// <summary>imagemap</summary>
+        /// <summary>imagemap。</summary>
         public Area area { get; set; }
 
-        /// <summary>Template</summary>
+        /// <summary>樣板。</summary>
         public string data { get; set; }
 
-        /// <summary>Postback 留言</summary>
+        /// <summary>Postback 留言。</summary>
         [JsonPropertyName("displayText")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string displayText { get; set; }
 
-        /// <summary>Template</summary>
+        /// <summary>樣板。</summary>
         public string label { get; set; }
 
-        /// <summary>連結網址 imagemap</summary>
+        /// <summary>連結網址 imagemap。</summary>
         public string linkUri { get; set; }
 
-        /// <summary>imagemap Template</summary>
+        /// <summary>imagemap 樣板。</summary>
         public string text { get; set; }
 
-        /// <summary></summary>
+        /// <summary>
+        /// 取得或設定 type。
+        /// </summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ActionType type { get; set; }
 
-        /// <summary>Template</summary>
+        /// <summary>樣板。</summary>
         public string uri { get; set; }
 
-        /// <summary>Datetime Picker</summary>
+        /// <summary>DateTime Picker。</summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public DateTimePickerType mode { get; set; }
 

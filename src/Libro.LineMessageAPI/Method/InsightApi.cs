@@ -16,7 +16,7 @@ namespace Libro.LineMessageApi.Method
         private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
-        /// 建立 Insights API
+        /// 初始化 <see cref="InsightApi"/> 執行個體。
         /// </summary>
         internal InsightApi(IJsonSerializer serializer, HttpClient httpClient = null)
             : this(serializer, new DefaultHttpClientProvider(httpClient), null)
@@ -24,7 +24,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 建立 Insights API
+        /// 初始化 <see cref="InsightApi"/> 執行個體。
         /// </summary>
         internal InsightApi(
             IJsonSerializer serializer,

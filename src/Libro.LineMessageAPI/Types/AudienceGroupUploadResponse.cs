@@ -8,7 +8,7 @@ namespace Libro.LineMessageApi.Types
     public class AudienceGroupUploadResponse
     {
         /// <summary>
-        /// Audience Group ID
+        /// Audience 群組 ID
         /// </summary>
         [JsonPropertyName("audienceGroupId")]
         public long? audienceGroupId { get; set; }

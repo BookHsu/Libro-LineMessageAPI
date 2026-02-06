@@ -16,7 +16,7 @@ namespace Libro.LineMessageApi.Method
         private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
-        /// 建立 Bot API
+        /// 初始化 <see cref="BotApi"/> 執行個體。
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
@@ -26,10 +26,11 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 建立 Bot API
+        /// 初始化 <see cref="BotApi"/> 執行個體。
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal BotApi(
             IJsonSerializer serializer,
             IHttpClientProvider httpClientProvider,
@@ -43,7 +44,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Bot 基本資訊
+        /// 取得 Bot 資訊
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <returns>Bot 資訊</returns>
@@ -69,7 +70,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Bot 基本資訊（非同步）
+        /// 取得 Bot 資訊
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <returns>Bot 資訊</returns>
@@ -117,7 +118,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得群組摘要（非同步）
+        /// 取得群組摘要
         /// </summary>
         internal async Task<GroupSummary> GetGroupSummaryAsync(string channelAccessToken, string groupId)
         {
@@ -162,7 +163,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得多人對話摘要（非同步）
+        /// 取得多人對話摘要
         /// </summary>
         internal async Task<RoomSummary> GetRoomSummaryAsync(string channelAccessToken, string roomId)
         {
@@ -207,7 +208,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得群組成員 ID 清單（非同步）
+        /// 取得群組成員 ID 清單
         /// </summary>
         internal async Task<MemberIdsResponse> GetGroupMemberIdsAsync(string channelAccessToken, string groupId)
         {
@@ -252,7 +253,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得多人對話成員 ID 清單（非同步）
+        /// 取得多人對話成員 ID 清單
         /// </summary>
         internal async Task<MemberIdsResponse> GetRoomMemberIdsAsync(string channelAccessToken, string roomId)
         {
@@ -297,7 +298,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得群組成員數量（非同步）
+        /// 取得群組成員數量
         /// </summary>
         internal async Task<MemberCountResponse> GetGroupMemberCountAsync(string channelAccessToken, string groupId)
         {
@@ -342,7 +343,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得多人對話成員數量（非同步）
+        /// 取得多人對話成員數量
         /// </summary>
         internal async Task<MemberCountResponse> GetRoomMemberCountAsync(string channelAccessToken, string roomId)
         {
@@ -364,4 +365,3 @@ namespace Libro.LineMessageApi.Method
         }
     }
 }
-

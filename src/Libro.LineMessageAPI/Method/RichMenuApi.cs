@@ -18,7 +18,7 @@ namespace Libro.LineMessageApi.Method
         private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
-        /// 建立 Rich Menu API
+        /// 初始化 <see cref="RichMenuApi"/> 執行個體。
         /// </summary>
         internal RichMenuApi(IJsonSerializer serializer, HttpClient httpClient = null)
             : this(serializer, new DefaultHttpClientProvider(httpClient), null)
@@ -26,7 +26,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 建立 Rich Menu API
+        /// 初始化 <see cref="RichMenuApi"/> 執行個體。
         /// </summary>
         internal RichMenuApi(
             IJsonSerializer serializer,
@@ -67,7 +67,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 建立 Rich Menu（非同步）
+        /// 建立 Rich Menu
         /// </summary>
         internal async Task<RichMenuIdResponse> CreateRichMenuAsync(string channelAccessToken, object richMenu)
         {
@@ -115,7 +115,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Rich Menu（非同步）
+        /// 取得 Rich Menu
         /// </summary>
         internal async Task<RichMenuResponse> GetRichMenuAsync(string channelAccessToken, string richMenuId)
         {
@@ -160,7 +160,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 刪除 Rich Menu（非同步）
+        /// 刪除 Rich Menu
         /// </summary>
         internal async Task<bool> DeleteRichMenuAsync(string channelAccessToken, string richMenuId)
         {
@@ -205,7 +205,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Rich Menu 清單（非同步）
+        /// 取得 Rich Menu 清單
         /// </summary>
         internal async Task<RichMenuListResponse> GetRichMenuListAsync(string channelAccessToken)
         {
@@ -252,7 +252,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 上傳 Rich Menu 圖片（非同步）
+        /// 上傳 Rich Menu 圖片
         /// </summary>
         internal async Task<bool> UploadRichMenuImageAsync(string channelAccessToken, string richMenuId, string contentType, byte[] content)
         {
@@ -298,7 +298,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 下載 Rich Menu 圖片（非同步）
+        /// 下載 Rich Menu 圖片
         /// </summary>
         internal async Task<byte[]> DownloadRichMenuImageAsync(string channelAccessToken, string richMenuId)
         {
@@ -343,7 +343,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 設定預設 Rich Menu（非同步）
+        /// 設定預設 Rich Menu
         /// </summary>
         internal async Task<bool> SetDefaultRichMenuAsync(string channelAccessToken, string richMenuId)
         {
@@ -389,7 +389,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得預設 Rich Menu ID（非同步）
+        /// 取得預設 Rich Menu ID
         /// </summary>
         internal async Task<RichMenuIdResponse> GetDefaultRichMenuIdAsync(string channelAccessToken)
         {
@@ -434,7 +434,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取消預設 Rich Menu（非同步）
+        /// 取消預設 Rich Menu
         /// </summary>
         internal async Task<bool> CancelDefaultRichMenuAsync(string channelAccessToken)
         {
@@ -480,7 +480,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 綁定使用者 Rich Menu（非同步）
+        /// 綁定使用者 Rich Menu
         /// </summary>
         internal async Task<bool> LinkUserRichMenuAsync(string channelAccessToken, string userId, string richMenuId)
         {
@@ -526,7 +526,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 解除使用者 Rich Menu（非同步）
+        /// 解除使用者 Rich Menu
         /// </summary>
         internal async Task<bool> UnlinkUserRichMenuAsync(string channelAccessToken, string userId)
         {
@@ -573,7 +573,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 批次綁定 Rich Menu（非同步）
+        /// 批次綁定 Rich Menu
         /// </summary>
         internal async Task<bool> BulkLinkRichMenuAsync(string channelAccessToken, RichMenuBulkLinkRequest request)
         {
@@ -622,7 +622,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 批次解除綁定 Rich Menu（非同步）
+        /// 批次解除綁定 Rich Menu
         /// </summary>
         internal async Task<bool> BulkUnlinkRichMenuAsync(string channelAccessToken, RichMenuBulkUnlinkRequest request)
         {
@@ -671,7 +671,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 建立 Rich Menu Alias（非同步）
+        /// 建立 Rich Menu Alias
         /// </summary>
         internal async Task<bool> CreateRichMenuAliasAsync(string channelAccessToken, RichMenuAliasRequest request)
         {
@@ -720,7 +720,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 更新 Rich Menu Alias（非同步）
+        /// 更新 Rich Menu Alias
         /// </summary>
         internal async Task<bool> UpdateRichMenuAliasAsync(string channelAccessToken, string aliasId, RichMenuAliasRequest request)
         {
@@ -767,7 +767,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Rich Menu Alias（非同步）
+        /// 取得 Rich Menu Alias
         /// </summary>
         internal async Task<RichMenuAliasResponse> GetRichMenuAliasAsync(string channelAccessToken, string aliasId)
         {
@@ -812,7 +812,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得 Rich Menu Alias 清單（非同步）
+        /// 取得 Rich Menu Alias 清單
         /// </summary>
         internal async Task<RichMenuAliasListResponse> GetRichMenuAliasListAsync(string channelAccessToken)
         {
@@ -857,7 +857,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 刪除 Rich Menu Alias（非同步）
+        /// 刪除 Rich Menu Alias
         /// </summary>
         internal async Task<bool> DeleteRichMenuAliasAsync(string channelAccessToken, string aliasId)
         {
@@ -879,4 +879,3 @@ namespace Libro.LineMessageApi.Method
         }
     }
 }
-

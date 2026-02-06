@@ -30,6 +30,7 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
+        /// <param name="syncAdapterFactory">同步 HttpClient 轉接器工廠</param>
         internal ProfileApi(
             IJsonSerializer serializer,
             IHttpClientProvider httpClientProvider,
@@ -70,7 +71,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得使用者檔案（非同步）
+        /// 取得使用者檔案
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="userId">使用者 ID</param>
@@ -125,7 +126,7 @@ namespace Libro.LineMessageApi.Method
         }
 
         /// <summary>
-        /// 取得群組或對話內成員檔案（非同步）
+        /// 取得群組或對話內成員檔案
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="userId">使用者 ID</param>

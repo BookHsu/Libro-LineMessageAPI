@@ -31,7 +31,13 @@ jobs:
         run: dotnet pack src/Libro.LineMessageAPI/Libro.LineMessageAPI.csproj -c Release -o artifacts --no-build --include-symbols --include-source
 
       - name: Pack NuGet Extensions
-        run: dotnet pack src/Libro.LineMessageAPI.Extensions/Libro.LineMessageAPI.Extensions.csproj -c Release -o artifacts --no-build --include-symbols --include-source
+        run: dotnet pack src/Libro.LineMessageAPI.Extensions/Libro.LineMessageAPI.Extensions.csproj -c Release -o artifacts --no-build --include-symbols --include-source
+
+      - name: Generate en-US XML Language Pack Sources
+        run: pwsh scripts/generate-en-us-xml.ps1 -Configuration Release
+
+      - name: Pack NuGet en-US Language
+        run: dotnet pack src/Libro.LineMessageAPI.Language.en-US/Libro.LineMessageAPI.Language.en-US.csproj -c Release -o artifacts --no-build
       - name: Publish NuGet
         run: |
           Get-ChildItem artifacts -Filter *.nupkg | ForEach-Object {
@@ -60,6 +66,7 @@ jobs:
           path: |
             src/Libro.LineMessageAPI/bin/Release/**
             src/Libro.LineMessageAPI.Extensions/bin/Release/**
+            src/Libro.LineMessageAPI.Language.en-US/bin/Release/**
             artifacts/*.nupkg
             artifacts/*.snupkg
 

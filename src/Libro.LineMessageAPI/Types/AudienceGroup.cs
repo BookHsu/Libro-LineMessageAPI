@@ -3,35 +3,35 @@ using System.Text.Json.Serialization;
 namespace Libro.LineMessageApi.Types
 {
     /// <summary>
-    /// Audience Group 資料
+    /// Audience 群組 資料
     /// </summary>
     public class AudienceGroup
     {
-        /// <summary>Audience Group ID</summary>
+        /// <summary>Audience 群組 ID。</summary>
         [JsonPropertyName("audienceGroupId")]
         public long? audienceGroupId { get; set; }
 
-        /// <summary>群組類型</summary>
+        /// <summary>群組類型。</summary>
         [JsonPropertyName("type")]
         public string type { get; set; }
 
-        /// <summary>描述</summary>
+        /// <summary>描述。</summary>
         [JsonPropertyName("description")]
         public string description { get; set; }
 
-        /// <summary>狀態</summary>
+        /// <summary>狀態。</summary>
         [JsonPropertyName("status")]
         public string status { get; set; }
 
-        /// <summary>失敗原因</summary>
+        /// <summary>失敗原因。</summary>
         [JsonPropertyName("failedType")]
         public string failedType { get; set; }
 
-        /// <summary>請求 ID</summary>
+        /// <summary>請求 ID。</summary>
         [JsonPropertyName("requestId")]
         public string requestId { get; set; }
 
-        /// <summary>群組人數</summary>
+        /// <summary>群組人數。</summary>
         [JsonPropertyName("audienceGroupCount")]
         public long? audienceGroupCount { get; set; }
 
@@ -39,11 +39,11 @@ namespace Libro.LineMessageApi.Types
         [JsonPropertyName("created")]
         public long? created { get; set; }
 
-        /// <summary>權限</summary>
+        /// <summary>權限。</summary>
         [JsonPropertyName("permission")]
         public string permission { get; set; }
 
-        /// <summary>是否為 IFA Audience</summary>
+        /// <summary>是否為 IFA Audience。</summary>
         [JsonPropertyName("isIfaAudience")]
         public bool? isIfaAudience { get; set; }
     }

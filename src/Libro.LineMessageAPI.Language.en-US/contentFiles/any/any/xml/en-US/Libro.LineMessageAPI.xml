@@ -1,0 +1,3037 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Libro.LineMessageAPI</name>
+  </assembly>
+  <members>
+    <member name="T:Libro.LineMessageApi.Http.DefaultHttpClientProvider">
+      <summary>Defines the type for default HTTP client provider.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.DefaultHttpClientProvider.#ctor(System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (預設提供者).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.DefaultHttpClientProvider.GetClient(System.String,System.Boolean@)">
+      <inheritdoc />
+      <summary>Retrieves an HTTP client instance.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Http.DefaultHttpClientSyncAdapterFactory">
+      <summary>Defines the type for default HTTP client sync adapter factory.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.DefaultHttpClientSyncAdapterFactory.Create(System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (同步 HTTP 呼叫轉接器).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Http.HttpClientSyncAdapter">
+      <summary>Defines the type for HTTP client sync adapter.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.HttpClientSyncAdapter.#ctor(System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.HttpClientSyncAdapter.GetString(System.String)">
+      <summary>Retrieves response content as a string.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.HttpClientSyncAdapter.GetByteArray(System.String)">
+      <summary>Retrieves response content as a byte array.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.HttpClientSyncAdapter.Post(System.String,System.Net.Http.HttpContent)">
+      <summary>Sends a POST request to the API endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.HttpClientSyncAdapter.Put(System.String,System.Net.Http.HttpContent)">
+      <summary>Sends a PUT request to the API endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.HttpClientSyncAdapter.Delete(System.String)">
+      <summary>Deletes the resource.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Http.IHttpClientProvider">
+      <summary>Defines the contract for HTTP client provider.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientProvider.GetClient(System.String,System.Boolean@)">
+      <summary>Retrieves the requested data (已設定完成的 HttpClient).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Http.IHttpClientSyncAdapter">
+      <summary>Defines the contract for HTTP client sync adapter.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientSyncAdapter.GetString(System.String)">
+      <summary>Retrieves response content as a string.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientSyncAdapter.GetByteArray(System.String)">
+      <summary>Retrieves response content as a byte array.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientSyncAdapter.Post(System.String,System.Net.Http.HttpContent)">
+      <summary>Sends a POST request to the API endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientSyncAdapter.Put(System.String,System.Net.Http.HttpContent)">
+      <summary>Sends a PUT request to the API endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientSyncAdapter.Delete(System.String)">
+      <summary>Deletes the resource.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory">
+      <summary>Defines the contract for HTTP client sync adapter factory.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory.Create(System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (同步 HTTP 呼叫轉接器).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineChannel">
+      <summary>Defines the type for line channel.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.VaridateSignature(System.Net.Http.HttpRequestMessage,System.String)">
+      <summary>Validates the requested data (是否 Line 伺服器傳來的訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetWebhookEndpoint">
+      <summary>Retrieves the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetWebhookEndpointAsync">
+      <summary>Retrieves the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SetWebhookEndpoint(Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <summary>Updates the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SetWebhookEndpointAsync(Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <summary>Updates the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.TestWebhookEndpoint">
+      <summary>Tests the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.TestWebhookEndpointAsync">
+      <summary>Tests the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetBotInfo">
+      <summary>Retrieves the requested data (Bot 資訊).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetBotInfoAsync">
+      <summary>Retrieves the requested data (Bot 資訊).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupSummary(System.String)">
+      <summary>Retrieves the requested data (群組摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupSummaryAsync(System.String)">
+      <summary>Retrieves the requested data (群組摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRoomSummary(System.String)">
+      <summary>Retrieves the requested data (多人對話摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRoomSummaryAsync(System.String)">
+      <summary>Retrieves the requested data (多人對話摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupMemberIds(System.String)">
+      <summary>Retrieves the requested data (群組成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupMemberIdsAsync(System.String)">
+      <summary>Retrieves the requested data (群組成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRoomMemberIds(System.String)">
+      <summary>Retrieves the requested data (多人對話成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRoomMemberIdsAsync(System.String)">
+      <summary>Retrieves the requested data (多人對話成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupMemberCount(System.String)">
+      <summary>Retrieves the requested data (group member count量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupMemberCountAsync(System.String)">
+      <summary>Retrieves the requested data (group member count量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRoomMemberCount(System.String)">
+      <summary>Retrieves the requested data (多人對話成員數量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRoomMemberCountAsync(System.String)">
+      <summary>Retrieves the requested data (多人對話成員數量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.#ctor(System.String)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.#ctor(System.String,Libro.LineMessageApi.Serialization.IJsonSerializer)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.#ctor(System.String,Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.#ctor(System.String,Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient,Libro.LineMessageApi.Http.IHttpClientProvider)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.#ctor(System.String,Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineChannel.channelAccessToken">
+      <summary>channelAccessToken。.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.LeaveRoomOrGroup(System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.LeaveRoomOrGroupAsync(System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetUserProfile(System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetUserProfileAsync(System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetUserProfiles(System.Collections.Generic.List{System.String})">
+      <summary>Retrieves the requested data (大量使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupMemberProfile(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組內指定user data).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetGroupMemberProfileAsync(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組內指定user data).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetUserProfilesAsync(System.Collections.Generic.List{System.String})">
+      <summary>Retrieves the requested data (大量使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetUserUploadContent(System.String)">
+      <summary>Retrieves the requested data (使用者上傳的檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetUserUploadContentAsync(System.String)">
+      <summary>Retrieves the requested data (使用者上傳的檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendMulticastMessage(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends the requested data (訊息給多位使用者).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendMulticastMessageAsync(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends the requested data (訊息給多位使用者).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendPushMessage(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendPushMessageAsync(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendReplyMessage(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendReplyMessageAsync(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendBroadcastMessage(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Sends the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendBroadcastMessageAsync(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Sends the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendNarrowcastMessage(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Sends the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendNarrowcastMessageAsync(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Sends the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetNarrowcastProgress(System.String)">
+      <summary>Retrieves the requested data (Narrowcast 進度).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetNarrowcastProgressAsync(System.String)">
+      <summary>Retrieves the requested data (Narrowcast 進度).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateReplyMessage(Libro.LineMessageApi.SendMessage.ReplyMessage)">
+      <summary>Validates the requested data (Reply 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateReplyMessageAsync(Libro.LineMessageApi.SendMessage.ReplyMessage)">
+      <summary>Validates the requested data (Reply 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidatePushMessage(Libro.LineMessageApi.SendMessage.PushMessage)">
+      <summary>Validates the requested data (Push 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidatePushMessageAsync(Libro.LineMessageApi.SendMessage.PushMessage)">
+      <summary>Validates the requested data (Push 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateMulticastMessage(Libro.LineMessageApi.SendMessage.MulticastMessage)">
+      <summary>Validates the requested data (Multicast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateMulticastMessageAsync(Libro.LineMessageApi.SendMessage.MulticastMessage)">
+      <summary>Validates the requested data (Multicast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateBroadcastMessage(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Validates the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateBroadcastMessageAsync(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Validates the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateNarrowcastMessage(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Validates the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.ValidateNarrowcastMessageAsync(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Validates the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.CreateRichMenu(System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.CreateRichMenuAsync(System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenu(System.String)">
+      <summary>Retrieves the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuAsync(System.String)">
+      <summary>Retrieves the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DeleteRichMenu(System.String)">
+      <summary>Deletes the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DeleteRichMenuAsync(System.String)">
+      <summary>Deletes the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuList">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuListAsync">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UploadRichMenuImage(System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UploadRichMenuImageAsync(System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DownloadRichMenuImage(System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DownloadRichMenuImageAsync(System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SetDefaultRichMenu(System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SetDefaultRichMenuAsync(System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetDefaultRichMenuId">
+      <summary>Retrieves the requested data (預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetDefaultRichMenuIdAsync">
+      <summary>Retrieves the requested data (預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.CancelDefaultRichMenu">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.CancelDefaultRichMenuAsync">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.LinkUserRichMenu(System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.LinkUserRichMenuAsync(System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UnlinkUserRichMenu(System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UnlinkUserRichMenuAsync(System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.BulkLinkRichMenu(Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.BulkLinkRichMenuAsync(Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.BulkUnlinkRichMenu(Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.BulkUnlinkRichMenuAsync(Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.CreateRichMenuAlias(Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.CreateRichMenuAliasAsync(Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UpdateRichMenuAlias(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UpdateRichMenuAliasAsync(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuAlias(System.String)">
+      <summary>Retrieves the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuAliasAsync(System.String)">
+      <summary>Retrieves the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuAliasList">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetRichMenuAliasListAsync">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DeleteRichMenuAlias(System.String)">
+      <summary>Deletes the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DeleteRichMenuAliasAsync(System.String)">
+      <summary>Deletes the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetMessageDeliveryInsight(System.String)">
+      <summary>Retrieves the requested data (訊息投遞統計).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetMessageDeliveryInsightAsync(System.String)">
+      <summary>Retrieves the requested data (訊息投遞統計).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetFollowerInsight">
+      <summary>Retrieves the requested data (追蹤者統計).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetFollowerInsightAsync">
+      <summary>Retrieves the requested data (追蹤者統計).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetDemographicInsight">
+      <summary>Retrieves the requested data (人口統計).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetDemographicInsightAsync">
+      <summary>Retrieves the requested data (人口統計).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UploadAudienceGroup(System.Object)">
+      <summary>Uploads the requested data (Audience 群組).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.UploadAudienceGroupAsync(System.Object)">
+      <summary>Uploads the requested data (Audience 群組).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetAudienceGroupStatus(System.Int64)">
+      <summary>Retrieves the requested data (Audience 群組狀態).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetAudienceGroupStatusAsync(System.Int64)">
+      <summary>Retrieves the requested data (Audience 群組狀態).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DeleteAudienceGroup(System.Int64)">
+      <summary>Deletes the requested data (Audience 群組).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.DeleteAudienceGroupAsync(System.Int64)">
+      <summary>Deletes the requested data (Audience 群組).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetAudienceGroupList">
+      <summary>Retrieves the requested data (Audience 群組清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.GetAudienceGroupListAsync">
+      <summary>Retrieves the requested data (Audience 群組清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.IssueLinkToken(System.String)">
+      <summary>Retrieves the Account Link Token.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.IssueLinkTokenAsync(System.String)">
+      <summary>Retrieves the Account Link Token.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Leave_Room_Or_Group(System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Leave_Room_Or_GroupAsync(System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_User_Data(System.String)">
+      <summary>Retrieves the requested data (使用者檔案（已過時，請改用 GetUserProfile）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_User_DataAsync(System.String)">
+      <summary>Retrieves the requested data (使用者檔案（已過時，請改用 GetUserProfileAsync）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_User_datas(System.Collections.Generic.List{System.String})">
+      <summary>Retrieves the requested data (大量使用者檔案（已過時，請改用 GetUserProfiles）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_User_datasAsync(System.Collections.Generic.List{System.String})">
+      <summary>Retrieves the requested data (大量使用者檔案（已過時，請改用 GetUserProfilesAsync）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_Group_UserProfile(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或對話內指定user data（已過時，請改用 GetGroupMemberProfile）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_Group_UserProfileAsync(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或對話內指定user data（已過時，請改用 GetGroupMemberProfileAsync）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_User_Upload_To_Bot(System.String)">
+      <summary>Retrieves the requested data (使用者上傳的檔案（已過時，請改用 GetUserUploadContent）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.Get_User_Upload_To_BotAsync(System.String)">
+      <summary>Retrieves the requested data (使用者上傳的檔案（已過時，請改用 GetUserUploadContentAsync）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendMuticastMessage(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends the requested data (訊息給多位使用者（已過時，請改用 SendMulticastMessage）).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineChannel.SendMuticastMessageAsync(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends the requested data (訊息給多位使用者（已過時，請改用 SendMulticastMessageAsync）).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineChannelOptions">
+      <summary>Specifies configuration options for line channel.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.LineChannelOptions.SectionName">
+      <summary>Stores the section name value.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineChannelOptions.ChannelAccessToken">
+      <summary>Channel Access Token.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineChannelOptions.ChannelSecret">
+      <summary>Channel Secret.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.AudioMessage">
+      <summary>Defines the data model for audio message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.AudioMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.AudioMessage.duration">
+      <summary>Specifies the duration.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.AudioMessage.originalContentUrl">
+      <summary>Specifies the original content url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.Area">
+      <summary>Represents Area.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Area.height">
+      <summary>Specifies the the height.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Area.width">
+      <summary>Specifies the the width.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Area.x">
+      <summary>Specifies the the x.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Area.y">
+      <summary>Specifies the the y.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.BaseSize">
+      <summary>Represents BaseSize.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.BaseSize.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.BaseSize.height">
+      <summary>Specifies the the height.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.BaseSize.width">
+      <summary>Specifies the the width.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.ImagemapMessage">
+      <summary>Defines the data model for imagemap message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.ImagemapMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.ImagemapMessage.actions">
+      <summary>Specifies the the actions.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.ImagemapMessage.altText">
+      <summary>Specifies the alt text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.ImagemapMessage.baseSize">
+      <summary>Specifies the the baseSize.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.ImagemapMessage.baseUrl">
+      <summary>Specifies the base url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.ImageMessage">
+      <summary>Defines the data model for image message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.ImageMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.ImageMessage.originalContentUrl">
+      <summary>Specifies the original content url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.ImageMessage.previewImageUrl">
+      <summary>Specifies the preview image url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.LineAction">
+      <summary>Defines the type for line action.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.LineAction.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.LineAction.#ctor(Libro.LineMessageApi.ActionType)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.area">
+      <summary>imagemap。.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.data">
+      <summary>Specifies the data.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.displayText">
+      <summary>Specifies the display text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.label">
+      <summary>Specifies the label.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.linkUri">
+      <summary>Links the requested data (網址 imagemap).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.text">
+      <summary>Specifies the text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.type">
+      <summary>Specifies the the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.uri">
+      <summary>Specifies the uri.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.mode">
+      <summary>DateTime Picker。.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.initial">
+      <summary>Specifies the initial.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.max">
+      <summary>Specifies the max.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LineAction.min">
+      <summary>Specifies the min.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.LocationMessage">
+      <summary>Defines the data model for location message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.LocationMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LocationMessage.address">
+      <summary>Specifies the address.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LocationMessage.latitude">
+      <summary>Specifies the latitude.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LocationMessage.longitude">
+      <summary>Specifies the longitude.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.LocationMessage.title">
+      <summary>Specifies the title.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.Message">
+      <summary>Defines the data model for message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Message.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.StickerMessage">
+      <summary>Defines the data model for sticker message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.StickerMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.StickerMessage.#ctor(System.Int32,System.Int32)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.StickerMessage.#ctor(System.String,System.String)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.StickerMessage.packageId">
+      <summary>Sends the requested data (貼圖 對應https://devdocs.line.me/files/sticker_list.pdf 中的STKPKGID).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.StickerMessage.stickerId">
+      <summary>Sends the requested data (貼圖 對應https://devdocs.line.me/files/sticker_list.pdf 中的STKGID).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.Template">
+      <summary>Represents 樣板.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.Template.#ctor">
+      <summary>Initializes a new instance of Template.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.Template.#ctor(Libro.LineMessageApi.TemplateType)">
+      <summary>Initializes a new instance of Template.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Template.actions">
+      <summary>Specifies the actions.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Template.columns">
+      <summary>Specifies the columns.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Template.text">
+      <summary>Specifies the text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Template.thumbnailImageUrl">
+      <summary>Specifies the thumbnail image url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Template.title">
+      <summary>Specifies the title.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.Template.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.TemplateMessage">
+      <summary>Represents 樣板Message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.TemplateMessage.#ctor">
+      <summary>Initializes a new instance of TemplateMessage.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.TemplateMessage.#ctor(Libro.LineMessageApi.TemplateType)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TemplateMessage.altText">
+      <summary>Specifies the alt text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TemplateMessage.template">
+      <summary>Specifies the template.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.TextMessage">
+      <summary>Defines the data model for text message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.TextMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.TextMessage.#ctor(System.String)">
+      <summary>Initializes a new instance of TextMessage.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TextMessage.text">
+      <summary>Specifies the text.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.TmplateColumn">
+      <summary>Represents TmplateColumn class.</summary>
+      <summary>
+            表示 TmplateColumn 類別。
+            </summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.TmplateColumn.#ctor">
+      <summary>Initializes a new instance of TmplateColumn.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TmplateColumn.actions">
+      <summary>Specifies the actions.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TmplateColumn.text">
+      <summary>Specifies the text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TmplateColumn.thumbnailImageUrl">
+      <summary>Specifies the thumbnail image url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.TmplateColumn.title">
+      <summary>Specifies the title.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineMessageObject.VideoMessage">
+      <summary>Defines the data model for video message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineMessageObject.VideoMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.VideoMessage.originalContentUrl">
+      <summary>Specifies the original content url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineMessageObject.VideoMessage.previewImageUrl">
+      <summary>Specifies the preview image url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.ErrorDetail">
+      <summary>Defines the type for error detail.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.ErrorDetail.message">
+      <summary>Specifies the message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.ErrorDetail.property">
+      <summary>Specifies the property.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineBeacon">
+      <summary>Defines the type for line beacon.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineBeacon.dm">
+      <summary>Device message。.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineBeacon.hwid">
+      <summary>Hardware ID。.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineBeacon.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineErrorResponse">
+      <summary>Defines the data model for line error response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineErrorResponse.details">
+      <summary>Specifies the details.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineErrorResponse.message">
+      <summary>Specifies the message.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineEvents">
+      <summary>Defines the type for line events.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.mode">
+      <summary>Specifies the mode.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.timestamp">
+      <summary>Specifies the timestamp.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.source">
+      <summary>Specifies the source.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.webhookEventId">
+      <summary>Specifies the webhook event ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.deliveryContext">
+      <summary>Specifies the delivery context.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.replyToken">
+      <summary>Specifies the reply token.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.message">
+      <summary>Specifies the message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.postback">
+      <summary>Specifies the postback.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.beacon">
+      <summary>Specifies the beacon.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.link">
+      <summary>Specifies the link.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.joined">
+      <summary>Specifies the joined.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.left">
+      <summary>Specifies the left.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.things">
+      <summary>Specifies the things.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.unsend">
+      <summary>Specifies the unsend.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEvents.videoPlayComplete">
+      <summary>Specifies the video play complete.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineMessage">
+      <summary>Defines the data model for line message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.id">
+      <summary>Specifies the ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.text">
+      <summary>Specifies the text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.emojis">
+      <summary>Specifies the emojis.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.mention">
+      <summary>Specifies the mention.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.quoteToken">
+      <summary>Specifies the quote token.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.quotedMessageId">
+      <summary>Specifies the quoted message ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.contentProvider">
+      <summary>Specifies the content provider.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.imageSet">
+      <summary>Specifies the image set.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.duration">
+      <summary>Specifies the duration.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.fileName">
+      <summary>Specifies the file name.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.fileSize">
+      <summary>Specifies the file size.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.title">
+      <summary>Specifies the title.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.address">
+      <summary>Specifies the address.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.latitude">
+      <summary>Specifies the latitude.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.longitude">
+      <summary>Specifies the longitude.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.packageId">
+      <summary>Specifies the package ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.stickerId">
+      <summary>Specifies the sticker ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.stickerResourceType">
+      <summary>Specifies the sticker resource type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessage.keywords">
+      <summary>Specifies the keywords.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineParams">
+      <summary>Defines the type for line params.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineParams.datetime">
+      <summary>Specifies the datetime.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineParams.date">
+      <summary>Specifies the date.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineParams.time">
+      <summary>Specifies the time.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LinePostBack">
+      <summary>Defines the type for line post back.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LinePostBack.data">
+      <summary>Specifies the data.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LinePostBack.Params">
+      <summary>Specifies the params.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineReceivedMsg">
+      <summary>Defines the type for line received msg.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineReceivedMsg.destination">
+      <summary>Specifies the destination.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineReceivedMsg.events">
+      <summary>Specifies the events.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineSource">
+      <summary>Defines the type for line source.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineSource.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineSource.userId">
+      <summary>Specifies the user ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineSource.groupId">
+      <summary>Specifies the group ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineSource.roomId">
+      <summary>Specifies the room ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineDeliveryContext">
+      <summary>Defines the data model for line delivery context.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineDeliveryContext.isRedelivery">
+      <summary>Indicates whether the requested data (重送事件).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineAccountLink">
+      <summary>Defines the type for line account link.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineAccountLink.result">
+      <summary>Specifies the result.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineAccountLink.nonce">
+      <summary>Nonce。.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineUnsend">
+      <summary>Defines the type for line unsend.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineUnsend.messageId">
+      <summary>Specifies the message ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineVideoPlayComplete">
+      <summary>Defines the type for line video play complete.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineVideoPlayComplete.trackingId">
+      <summary>Specifies the tracking ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineMembers">
+      <summary>Defines the type for line members.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMembers.members">
+      <summary>Specifies the members.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineMember">
+      <summary>Defines the type for line member.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMember.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMember.userId">
+      <summary>Specifies the user ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineThings">
+      <summary>Defines the type for line things.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThings.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThings.deviceId">
+      <summary>Specifies the device ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThings.result">
+      <summary>Specifies the result.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineThingsResult">
+      <summary>Defines the data model for line things result.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThingsResult.scenarioResult">
+      <summary>Specifies the scenario result.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThingsResult.actionResults">
+      <summary>Specifies the action results.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineThingsScenarioResult">
+      <summary>Defines the data model for line things scenario result.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThingsScenarioResult.scenarioId">
+      <summary>Specifies the scenario ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThingsScenarioResult.revision">
+      <summary>Specifies the revision.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineThingsActionResult">
+      <summary>Defines the data model for line things action result.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThingsActionResult.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineThingsActionResult.data">
+      <summary>Specifies the data.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineEmoji">
+      <summary>Defines the type for line emoji.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEmoji.index">
+      <summary>Specifies the index.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEmoji.length">
+      <summary>Specifies the length.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEmoji.productId">
+      <summary>Specifies the product ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineEmoji.emojiId">
+      <summary>Specifies the emoji ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineMention">
+      <summary>Defines the type for line mention.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMention.mentionees">
+      <summary>Specifies the mentionees.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineMentionee">
+      <summary>Defines the type for line mentionee.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMentionee.index">
+      <summary>Specifies the index.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMentionee.length">
+      <summary>Specifies the length.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMentionee.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMentionee.userId">
+      <summary>Specifies the user ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineMessageContentProvider">
+      <summary>Defines the type for line message content provider.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessageContentProvider.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessageContentProvider.originalContentUrl">
+      <summary>Specifies the original content url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineMessageContentProvider.previewImageUrl">
+      <summary>Specifies the preview image url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.LineImageSet">
+      <summary>Defines the type for line image set.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineImageSet.id">
+      <summary>Specifies the ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineImageSet.index">
+      <summary>Specifies the index.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.LineImageSet.total">
+      <summary>Specifies the total.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineReceivedObject.UserProfile">
+      <summary>Defines the data model for user profile.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.UserProfile.displayName">
+      <summary>Specifies the display name.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.UserProfile.pictureUrl">
+      <summary>Specifies the picture url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.UserProfile.statusMessage">
+      <summary>Specifies the status message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.UserProfile.language">
+      <summary>Specifies the language.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineReceivedObject.UserProfile.userId">
+      <summary>Specifies the user ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineSdk">
+      <summary>Defines the type for LINE SDK.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Webhook">
+      <summary>Specifies the webhook.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.WebhookEndpoints">
+      <summary>Specifies the webhook endpoints.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Bot">
+      <summary>Specifies the bot.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Broadcast">
+      <summary>Specifies the broadcast.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.MessageValidation">
+      <summary>Specifies the message validation.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.RichMenu">
+      <summary>Specifies the rich menu.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Insight">
+      <summary>Specifies the insight.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Audience">
+      <summary>Specifies the audience.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.AccountLink">
+      <summary>Specifies the account link.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Messages">
+      <summary>Specifies the messages.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Profiles">
+      <summary>Specifies the profiles.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.LineSdk.Groups">
+      <summary>Specifies the groups.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdk.#ctor(Libro.LineMessageApi.Services.IWebhookService,Libro.LineMessageApi.Services.IWebhookEndpointService,Libro.LineMessageApi.Services.IBotService,Libro.LineMessageApi.Services.IBroadcastService,Libro.LineMessageApi.Services.IMessageValidationService,Libro.LineMessageApi.Services.IRichMenuService,Libro.LineMessageApi.Services.IInsightService,Libro.LineMessageApi.Services.IAudienceService,Libro.LineMessageApi.Services.IAccountLinkService,Libro.LineMessageApi.Services.IMessageService,Libro.LineMessageApi.Services.IProfileService,Libro.LineMessageApi.Services.IGroupService)">
+      <summary>Creates the LineSdk.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.LineSdkBuilder">
+      <summary>Builds and configures LINE SDK.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.#ctor(System.String)">
+      <summary>Creates the Builder.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.WithSerializer(Libro.LineMessageApi.Serialization.IJsonSerializer)">
+      <summary>Configures the serializer.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.WithHttpClient(System.Net.Http.HttpClient)">
+      <summary>Configures the HTTP client.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.WithHttpClientProvider(Libro.LineMessageApi.Http.IHttpClientProvider)">
+      <summary>Configures the HTTP client provider.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.WithHttpClientSyncAdapterFactory(Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Configures the HTTP client sync adapter factory.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseWebhook">
+      <summary>Enables the webhook.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.DisableWebhook">
+      <summary>Disables the webhook.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseWebhookEndpoints">
+      <summary>Enables the webhook endpoints.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseBot">
+      <summary>Enables the bot.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseBroadcast">
+      <summary>Enables the broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseMessageValidation">
+      <summary>Enables the message validation.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseRichMenu">
+      <summary>Enables the rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseInsight">
+      <summary>Enables the insight.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseAudience">
+      <summary>Enables the audience.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseAccountLink">
+      <summary>Enables the account link.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseMessages">
+      <summary>Enables the messages.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseProfiles">
+      <summary>Enables the profiles.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.UseGroups">
+      <summary>Enables the groups.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.LineSdkBuilder.Build">
+      <summary>Creates the LineSdk.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.AccountLinkApi">
+      <summary>Account Link API.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.AudienceApi">
+      <summary>Audience API.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.BotApi">
+      <summary>Provides API operations for bot.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetBotInfo(System.String)">
+      <summary>Retrieves the requested data (Bot 資訊).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetBotInfoAsync(System.String)">
+      <summary>Retrieves the requested data (Bot 資訊).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetGroupSummary(System.String,System.String)">
+      <summary>Retrieves the requested data (群組摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetGroupSummaryAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (群組摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetRoomSummary(System.String,System.String)">
+      <summary>Retrieves the requested data (多人對話摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetRoomSummaryAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (多人對話摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetGroupMemberIds(System.String,System.String)">
+      <summary>Retrieves the requested data (群組成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetGroupMemberIdsAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (群組成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetRoomMemberIds(System.String,System.String)">
+      <summary>Retrieves the requested data (多人對話成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetRoomMemberIdsAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (多人對話成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetGroupMemberCount(System.String,System.String)">
+      <summary>Retrieves the requested data (group member count量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetGroupMemberCountAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (group member count量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetRoomMemberCount(System.String,System.String)">
+      <summary>Retrieves the requested data (多人對話成員數量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BotApi.GetRoomMemberCountAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (多人對話成員數量).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.BroadcastApi">
+      <summary>Broadcast / Narrowcast API.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.SendBroadcast(System.String,Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Sends the Broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.SendBroadcastAsync(System.String,Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Sends the Broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.SendNarrowcast(System.String,Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Sends the Narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.SendNarrowcastAsync(System.String,Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Sends the Narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.GetNarrowcastProgress(System.String,System.String)">
+      <summary>Retrieves the requested data (Narrowcast 進度).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.BroadcastApi.GetNarrowcastProgressAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (Narrowcast 進度).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.GroupApi">
+      <summary>Provides API operations for group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.GroupApi.#ctor(System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (群組 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.GroupApi.#ctor(Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Creates the requested data (群組 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.GroupApi.LeaveRoomOrGroup(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.GroupApi.LeaveRoomOrGroupAsync(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.InsightApi">
+      <summary>Insights API.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.InsightApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.InsightApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.MessageApi">
+      <summary>Provides API operations for message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.GetUserUploadData(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者傳送的圖片、影片、聲音、檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.GetUserUploadDataAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者傳送的圖片、影片、聲音、檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.GetUserProfile(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.GetUserProfileAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.GetGroupMemberProfile(System.String,System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或對話內指定成員的使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.GetGroupMemberProfileAsync(System.String,System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組內指定成員的使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.LeaveRoomOrGroup(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.LeaveRoomOrGroupAsync(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.SendMessageAction(System.String,Libro.LineMessageApi.PostMessageType,Libro.LineMessageApi.SendMessage.SendLineMessage)">
+      <summary>Sends a message action.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageApi.SendMessageActionAsync(System.String,Libro.LineMessageApi.PostMessageType,Libro.LineMessageApi.SendMessage.SendLineMessage)">
+      <summary>Sends a message action.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.MessageContentApi">
+      <summary>Provides API operations for message content.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageContentApi.#ctor(System.Net.Http.HttpClient)">
+      <summary>Creates the message content API.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageContentApi.#ctor(Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Creates the message content API.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageContentApi.GetUserUploadData(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者傳送的圖片、影片、聲音、檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageContentApi.GetUserUploadDataAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者傳送的圖片、影片、聲音、檔案).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.MessageSendApi">
+      <summary>Provides API operations for message send.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageSendApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (訊息發送 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageSendApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Creates the requested data (訊息發送 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageSendApi.SendMessageAction(System.String,Libro.LineMessageApi.PostMessageType,Libro.LineMessageApi.SendMessage.SendLineMessage)">
+      <summary>Sends a message action.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageSendApi.SendMessageActionAsync(System.String,Libro.LineMessageApi.PostMessageType,Libro.LineMessageApi.SendMessage.SendLineMessage)">
+      <summary>Sends a message action.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.MessageValidationApi">
+      <summary>Provides API operations for message validation.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageValidationApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (訊息驗證 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageValidationApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Creates the requested data (訊息驗證 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageValidationApi.Validate(System.String,System.String,Libro.LineMessageApi.SendMessage.SendLineMessage)">
+      <summary>Validates the requested data (訊息格式).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.MessageValidationApi.ValidateAsync(System.String,System.String,Libro.LineMessageApi.SendMessage.SendLineMessage)">
+      <summary>Validates the requested data (訊息格式).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.ProfileApi">
+      <summary>Provides API operations for profile.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.ProfileApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Creates the requested data (檔案 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.ProfileApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Creates the requested data (檔案 API).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.ProfileApi.GetUserProfile(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.ProfileApi.GetUserProfileAsync(System.String,System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.ProfileApi.GetGroupMemberProfile(System.String,System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或對話內成員檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.ProfileApi.GetGroupMemberProfileAsync(System.String,System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或對話內成員檔案).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.RichMenuApi">
+      <summary>Rich Menu API.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.CreateRichMenu(System.String,System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.CreateRichMenuAsync(System.String,System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenu(System.String,System.String)">
+      <summary>Retrieves the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuAsync(System.String,System.String)">
+      <summary>Retrieves the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.DeleteRichMenu(System.String,System.String)">
+      <summary>Deletes the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.DeleteRichMenuAsync(System.String,System.String)">
+      <summary>Deletes the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuList(System.String)">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuListAsync(System.String)">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.UploadRichMenuImage(System.String,System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.UploadRichMenuImageAsync(System.String,System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.DownloadRichMenuImage(System.String,System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.DownloadRichMenuImageAsync(System.String,System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.SetDefaultRichMenu(System.String,System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.SetDefaultRichMenuAsync(System.String,System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetDefaultRichMenuId(System.String)">
+      <summary>Retrieves the requested data (預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetDefaultRichMenuIdAsync(System.String)">
+      <summary>Retrieves the requested data (預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.CancelDefaultRichMenu(System.String)">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.CancelDefaultRichMenuAsync(System.String)">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.LinkUserRichMenu(System.String,System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.LinkUserRichMenuAsync(System.String,System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.UnlinkUserRichMenu(System.String,System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.UnlinkUserRichMenuAsync(System.String,System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.BulkLinkRichMenu(System.String,Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.BulkLinkRichMenuAsync(System.String,Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.BulkUnlinkRichMenu(System.String,Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.BulkUnlinkRichMenuAsync(System.String,Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.CreateRichMenuAlias(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.CreateRichMenuAliasAsync(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.UpdateRichMenuAlias(System.String,System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.UpdateRichMenuAliasAsync(System.String,System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuAlias(System.String,System.String)">
+      <summary>Retrieves the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuAliasAsync(System.String,System.String)">
+      <summary>Retrieves the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuAliasList(System.String)">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.GetRichMenuAliasListAsync(System.String)">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.DeleteRichMenuAlias(System.String,System.String)">
+      <summary>Deletes the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.RichMenuApi.DeleteRichMenuAliasAsync(System.String,System.String)">
+      <summary>Deletes the Rich Menu Alias.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Method.WebhookEndpointApi">
+      <summary>Provides API operations for webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.#ctor(Libro.LineMessageApi.Serialization.IJsonSerializer,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.GetWebhookEndpoint(System.String)">
+      <summary>Retrieves the requested data (目前的 webhook endpoint設定).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.GetWebhookEndpointAsync(System.String)">
+      <summary>Retrieves the requested data (目前的 webhook endpoint設定).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.SetWebhookEndpoint(System.String,Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <summary>Updates the requested data (webhook endpoint設定).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.SetWebhookEndpointAsync(System.String,Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <summary>Updates the requested data (webhook endpoint設定).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.TestWebhookEndpoint(System.String)">
+      <summary>Checks the webhook endpoint configuration.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Method.WebhookEndpointApi.TestWebhookEndpointAsync(System.String)">
+      <summary>Checks the webhook endpoint configuration.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.BroadcastMessage">
+      <summary>Defines the data model for broadcast message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.BroadcastMessage.notificationDisabled">
+      <summary>Indicates whether the requested data (關閉通知).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.BroadcastMessage.#ctor(Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Creates the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.MulticastMessage">
+      <summary>Sends the requested data (訊息給大量使用者).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.MulticastMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.MulticastMessage.to">
+      <summary>Specifies the to.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.NarrowcastMessage">
+      <summary>Defines the data model for narrowcast message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.NarrowcastMessage.recipient">
+      <summary>Specifies the recipient.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.NarrowcastMessage.notificationDisabled">
+      <summary>Indicates whether the requested data (關閉通知).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.NarrowcastMessage.#ctor(Libro.LineMessageApi.SendMessage.NarrowcastRecipient,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Creates the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.NarrowcastRecipient">
+      <summary>Defines the type for narrowcast recipient.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.NarrowcastRecipient.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.NarrowcastRecipient.audienceGroupId">
+      <summary>Specifies the audience group ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.PushMessage">
+      <summary>Defines the data model for push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.PushMessage.#ctor(System.String)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.PushMessage.#ctor(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.PushMessage.to">
+      <summary>Specifies the to.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.ReplyMessage">
+      <summary>Defines the data model for reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.ReplyMessage.#ctor(System.String)">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.ReplyMessage.#ctor(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.ReplyMessage.replyToken">
+      <summary>Specifies the reply token.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessage.SendLineMessage">
+      <summary>Represents SendLineMessage.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.SendMessage.SendLineMessage.#ctor">
+      <summary>Initializes a new instance.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.SendMessage.SendLineMessage.messages">
+      <summary>Sends the requested data (訊息 最多 5 則).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Serialization.FlexibleBoolConverter">
+      <summary>Allows boolean values to be read from string or number tokens.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Serialization.FlexibleBoolConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+      <summary>Reads the content.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Serialization.FlexibleBoolConverter.Write(System.Text.Json.Utf8JsonWriter,System.Boolean,System.Text.Json.JsonSerializerOptions)">
+      <summary>Writes the content.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Serialization.IJsonSerializer">
+      <summary>Defines the contract for JSON serializer.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Serialization.IJsonSerializer.Serialize``1(``0)">
+      <summary>Serializes value.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Serialization.IJsonSerializer.Deserialize``1(System.String)">
+      <summary>Deserializes value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Serialization.SystemTextJsonSerializer">
+      <summary>Defines the type for system text JSON serializer.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Serialization.SystemTextJsonSerializer.Serialize``1(``0)">
+      <inheritdoc />
+      <summary>Serializes value.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Serialization.SystemTextJsonSerializer.Deserialize``1(System.String)">
+      <inheritdoc />
+      <summary>Deserializes value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.AccountLinkService">
+      <summary>Provides service operations for account link.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AccountLinkService.IssueLinkToken(System.String)">
+      <summary>Issues a link token.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AccountLinkService.IssueLinkTokenAsync(System.String)">
+      <summary>Issues a link token.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.AudienceService">
+      <summary>Provides service operations for audience.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.UploadAudienceGroup(System.Object)">
+      <summary>Uploads the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.UploadAudienceGroupAsync(System.Object)">
+      <summary>Uploads the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.GetAudienceGroupStatus(System.Int64)">
+      <summary>Retrieves the requested data (audience group狀態).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.GetAudienceGroupStatusAsync(System.Int64)">
+      <summary>Retrieves the requested data (audience group狀態).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.DeleteAudienceGroup(System.Int64)">
+      <summary>Deletes the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.DeleteAudienceGroupAsync(System.Int64)">
+      <summary>Deletes the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.GetAudienceGroupList">
+      <summary>Retrieves the requested data (audience group清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.AudienceService.GetAudienceGroupListAsync">
+      <summary>Retrieves the requested data (audience group清單).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.BotService">
+      <summary>Provides service operations for bot.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (Bot 服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetBotInfo">
+      <inheritdoc />
+      <summary>Retrieves bot profile information.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetBotInfoAsync">
+      <inheritdoc />
+      <summary>Retrieves bot profile information.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetGroupSummary(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the group summary.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetGroupSummaryAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the group summary.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetRoomSummary(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the room summary.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetRoomSummaryAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the room summary.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetGroupMemberIds(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the group member IDs.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetGroupMemberIdsAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the group member IDs.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetRoomMemberIds(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the room member IDs.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetRoomMemberIdsAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the room member IDs.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetGroupMemberCount(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the group member count.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetGroupMemberCountAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the group member count.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetRoomMemberCount(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the room member count.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BotService.GetRoomMemberCountAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the room member count.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.BroadcastService">
+      <summary>Provides service operations for broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (Broadcast 服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.SendBroadcast(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <inheritdoc />
+      <summary>Sends a broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.SendBroadcastAsync(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <inheritdoc />
+      <summary>Sends a broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.SendNarrowcast(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <inheritdoc />
+      <summary>Sends a narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.SendNarrowcastAsync(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <inheritdoc />
+      <summary>Sends a narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.GetNarrowcastProgress(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the narrowcast progress.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.BroadcastService.GetNarrowcastProgressAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the narrowcast progress.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.GroupService">
+      <summary>Provides service operations for group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.GroupService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (群組服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.GroupService.LeaveRoomOrGroup(System.String,Libro.LineMessageApi.SourceType)">
+      <inheritdoc />
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.GroupService.LeaveRoomOrGroupAsync(System.String,Libro.LineMessageApi.SourceType)">
+      <inheritdoc />
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IAccountLinkService">
+      <summary>Defines the contract for account link service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAccountLinkService.IssueLinkToken(System.String)">
+      <summary>Issues a link token.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAccountLinkService.IssueLinkTokenAsync(System.String)">
+      <summary>Issues a link token.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IAudienceService">
+      <summary>Defines the contract for audience service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.UploadAudienceGroup(System.Object)">
+      <summary>Uploads the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.UploadAudienceGroupAsync(System.Object)">
+      <summary>Uploads the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.GetAudienceGroupStatus(System.Int64)">
+      <summary>Retrieves the requested data (audience group狀態).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.GetAudienceGroupStatusAsync(System.Int64)">
+      <summary>Retrieves the requested data (audience group狀態).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.DeleteAudienceGroup(System.Int64)">
+      <summary>Deletes the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.DeleteAudienceGroupAsync(System.Int64)">
+      <summary>Deletes the audience group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.GetAudienceGroupList">
+      <summary>Retrieves the requested data (audience group清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IAudienceService.GetAudienceGroupListAsync">
+      <summary>Retrieves the requested data (audience group清單).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IBotService">
+      <summary>Defines the contract for bot service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetBotInfo">
+      <summary>Retrieves the requested data (Bot 資訊).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetBotInfoAsync">
+      <summary>Retrieves the requested data (Bot 資訊).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetGroupSummary(System.String)">
+      <summary>Retrieves the requested data (群組摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetGroupSummaryAsync(System.String)">
+      <summary>Retrieves the requested data (群組摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetRoomSummary(System.String)">
+      <summary>Retrieves the requested data (多人對話摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetRoomSummaryAsync(System.String)">
+      <summary>Retrieves the requested data (多人對話摘要).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetGroupMemberIds(System.String)">
+      <summary>Retrieves the requested data (群組成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetGroupMemberIdsAsync(System.String)">
+      <summary>Retrieves the requested data (群組成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetRoomMemberIds(System.String)">
+      <summary>Retrieves the requested data (多人對話成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetRoomMemberIdsAsync(System.String)">
+      <summary>Retrieves the requested data (多人對話成員 ID 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetGroupMemberCount(System.String)">
+      <summary>Retrieves the requested data (group member count量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetGroupMemberCountAsync(System.String)">
+      <summary>Retrieves the requested data (group member count量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetRoomMemberCount(System.String)">
+      <summary>Retrieves the requested data (多人對話成員數量).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBotService.GetRoomMemberCountAsync(System.String)">
+      <summary>Retrieves the requested data (多人對話成員數量).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IBroadcastService">
+      <summary>Defines the contract for broadcast service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBroadcastService.SendBroadcast(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Sends the Broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBroadcastService.SendBroadcastAsync(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Sends the Broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBroadcastService.SendNarrowcast(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Sends the Narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBroadcastService.SendNarrowcastAsync(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Sends the Narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBroadcastService.GetNarrowcastProgress(System.String)">
+      <summary>Retrieves the requested data (Narrowcast 進度).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IBroadcastService.GetNarrowcastProgressAsync(System.String)">
+      <summary>Retrieves the requested data (Narrowcast 進度).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IGroupService">
+      <summary>Defines the contract for group service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IGroupService.LeaveRoomOrGroup(System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IGroupService.LeaveRoomOrGroupAsync(System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Leaves a room or group.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IInsightService">
+      <summary>Defines the contract for insight service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IInsightService.GetMessageDelivery(System.String)">
+      <summary>Retrieves the requested data (訊息投遞統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IInsightService.GetMessageDeliveryAsync(System.String)">
+      <summary>Retrieves the requested data (訊息投遞統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IInsightService.GetFollowers">
+      <summary>Retrieves the requested data (追蹤者統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IInsightService.GetFollowersAsync">
+      <summary>Retrieves the requested data (追蹤者統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IInsightService.GetDemographic">
+      <summary>Retrieves the requested data (人口統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IInsightService.GetDemographicAsync">
+      <summary>Retrieves the requested data (人口統計資料).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IMessageService">
+      <summary>Defines the contract for message service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.GetMessageContent(System.String)">
+      <summary>Retrieves the requested data (使用者上傳的檔案內容).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.GetMessageContentAsync(System.String)">
+      <summary>Retrieves the requested data (使用者上傳的檔案內容).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.SendReplyMessage(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.SendReplyMessageAsync(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.SendPushMessage(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.SendPushMessageAsync(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.SendMulticastMessage(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a multicast message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageService.SendMulticastMessageAsync(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <summary>Sends a multicast message.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IMessageValidationService">
+      <summary>Defines the contract for message validation service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateReply(Libro.LineMessageApi.SendMessage.ReplyMessage)">
+      <summary>Validates the requested data (Reply 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateReplyAsync(Libro.LineMessageApi.SendMessage.ReplyMessage)">
+      <summary>Validates the requested data (Reply 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidatePush(Libro.LineMessageApi.SendMessage.PushMessage)">
+      <summary>Validates the requested data (Push 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidatePushAsync(Libro.LineMessageApi.SendMessage.PushMessage)">
+      <summary>Validates the requested data (Push 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateMulticast(Libro.LineMessageApi.SendMessage.MulticastMessage)">
+      <summary>Validates the requested data (Multicast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateMulticastAsync(Libro.LineMessageApi.SendMessage.MulticastMessage)">
+      <summary>Validates the requested data (Multicast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateBroadcast(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Validates the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateBroadcastAsync(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <summary>Validates the requested data (Broadcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateNarrowcast(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Validates the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IMessageValidationService.ValidateNarrowcastAsync(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <summary>Validates the requested data (Narrowcast 訊息).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.InsightService">
+      <summary>Provides service operations for insight.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.InsightService.GetMessageDelivery(System.String)">
+      <summary>Retrieves the requested data (訊息投遞統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.InsightService.GetMessageDeliveryAsync(System.String)">
+      <summary>Retrieves the requested data (訊息投遞統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.InsightService.GetFollowers">
+      <summary>Retrieves the requested data (追蹤者統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.InsightService.GetFollowersAsync">
+      <summary>Retrieves the requested data (追蹤者統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.InsightService.GetDemographic">
+      <summary>Retrieves the requested data (人口統計資料).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.InsightService.GetDemographicAsync">
+      <summary>Retrieves the requested data (人口統計資料).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IProfileService">
+      <summary>Defines the contract for profile service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IProfileService.GetUserProfile(System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IProfileService.GetUserProfileAsync(System.String)">
+      <summary>Retrieves the requested data (使用者檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IProfileService.GetGroupMemberProfile(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或多人對話成員檔案).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IProfileService.GetGroupMemberProfileAsync(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <summary>Retrieves the requested data (群組或多人對話成員檔案).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IRichMenuService">
+      <summary>Defines the contract for rich menu service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.CreateRichMenu(System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.CreateRichMenuAsync(System.Object)">
+      <summary>Creates a rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenu(System.String)">
+      <summary>Retrieves the rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuAsync(System.String)">
+      <summary>Retrieves the rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.DeleteRichMenu(System.String)">
+      <summary>Deletes the requested data (指定的 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.DeleteRichMenuAsync(System.String)">
+      <summary>Deletes the rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuList">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuListAsync">
+      <summary>Retrieves the rich menu list.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.UploadRichMenuImage(System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.UploadRichMenuImageAsync(System.String,System.String,System.Byte[])">
+      <summary>Uploads the rich menu image.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.DownloadRichMenuImage(System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片內容).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.DownloadRichMenuImageAsync(System.String)">
+      <summary>Downloads the rich menu image.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.SetDefaultRichMenu(System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.SetDefaultRichMenuAsync(System.String)">
+      <summary>Sets the default rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetDefaultRichMenuId">
+      <summary>Retrieves the requested data (目前預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetDefaultRichMenuIdAsync">
+      <summary>Retrieves the default rich menu ID.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.CancelDefaultRichMenu">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.CancelDefaultRichMenuAsync">
+      <summary>Cancels the default rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.LinkUserRichMenu(System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.LinkUserRichMenuAsync(System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.UnlinkUserRichMenu(System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.UnlinkUserRichMenuAsync(System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.BulkLinkRichMenu(Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.BulkLinkRichMenuAsync(Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.BulkUnlinkRichMenu(Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.BulkUnlinkRichMenuAsync(Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.CreateRichMenuAlias(Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.CreateRichMenuAliasAsync(Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates a rich menu alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.UpdateRichMenuAlias(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the requested data (指定的 Rich Menu Alias).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.UpdateRichMenuAliasAsync(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the rich menu alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuAlias(System.String)">
+      <summary>Retrieves the rich menu alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuAliasAsync(System.String)">
+      <summary>Retrieves the rich menu alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuAliasList">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.GetRichMenuAliasListAsync">
+      <summary>Retrieves the rich menu alias list.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.DeleteRichMenuAlias(System.String)">
+      <summary>Deletes the requested data (指定的 Rich Menu Alias).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IRichMenuService.DeleteRichMenuAliasAsync(System.String)">
+      <summary>Deletes the rich menu alias.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IWebhookEndpointService">
+      <summary>Defines the contract for webhook endpoint service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookEndpointService.GetWebhookEndpoint">
+      <summary>Retrieves the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookEndpointService.GetWebhookEndpointAsync">
+      <summary>Retrieves the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookEndpointService.SetWebhookEndpoint(Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <summary>Updates the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookEndpointService.SetWebhookEndpointAsync(Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <summary>Updates the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookEndpointService.TestWebhookEndpoint">
+      <summary>Tests the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookEndpointService.TestWebhookEndpointAsync">
+      <summary>Tests the webhook endpoint.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.IWebhookService">
+      <summary>Defines the contract for webhook service.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.IWebhookService.ValidateSignature(System.Net.Http.HttpRequestMessage,System.String)">
+      <summary>Validates the requested data (是否 LINE 伺服器webhook signature).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.LineApiContext">
+      <summary>Defines the data model for line API context.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Services.LineApiContext.ChannelAccessToken">
+      <summary>Channel Access Token.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Services.LineApiContext.Serializer">
+      <summary>Specifies the serializer.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Services.LineApiContext.HttpClient">
+      <summary>Specifies the HTTP client.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Services.LineApiContext.HttpClientProvider">
+      <summary>Specifies the HTTP client provider.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Services.LineApiContext.SyncAdapterFactory">
+      <summary>Sync HttpClient adapter factory.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.LineApiContext.#ctor(System.String,Libro.LineMessageApi.Serialization.IJsonSerializer,System.Net.Http.HttpClient,Libro.LineMessageApi.Http.IHttpClientProvider,Libro.LineMessageApi.Http.IHttpClientSyncAdapterFactory)">
+      <summary>Creates the API Context.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.MessageService">
+      <summary>Provides service operations for message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (訊息服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.GetMessageContent(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the message content.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.GetMessageContentAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the message content.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.SendReplyMessage(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <inheritdoc />
+      <summary>Sends a reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.SendReplyMessageAsync(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <inheritdoc />
+      <summary>Sends a reply message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.SendPushMessage(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <inheritdoc />
+      <summary>Sends a push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.SendPushMessageAsync(System.String,Libro.LineMessageApi.LineMessageObject.Message[])">
+      <inheritdoc />
+      <summary>Sends a push message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.SendMulticastMessage(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <inheritdoc />
+      <summary>Sends a multicast message.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageService.SendMulticastMessageAsync(System.Collections.Generic.List{System.String},Libro.LineMessageApi.LineMessageObject.Message[])">
+      <inheritdoc />
+      <summary>Sends a multicast message.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.MessageValidationService">
+      <summary>Provides service operations for message validation.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (訊息驗證服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateReply(Libro.LineMessageApi.SendMessage.ReplyMessage)">
+      <inheritdoc />
+      <summary>Validates the reply.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateReplyAsync(Libro.LineMessageApi.SendMessage.ReplyMessage)">
+      <inheritdoc />
+      <summary>Validates the reply.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidatePush(Libro.LineMessageApi.SendMessage.PushMessage)">
+      <inheritdoc />
+      <summary>Validates the push.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidatePushAsync(Libro.LineMessageApi.SendMessage.PushMessage)">
+      <inheritdoc />
+      <summary>Validates the push.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateMulticast(Libro.LineMessageApi.SendMessage.MulticastMessage)">
+      <inheritdoc />
+      <summary>Validates the multicast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateMulticastAsync(Libro.LineMessageApi.SendMessage.MulticastMessage)">
+      <inheritdoc />
+      <summary>Validates the multicast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateBroadcast(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <inheritdoc />
+      <summary>Validates the broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateBroadcastAsync(Libro.LineMessageApi.SendMessage.BroadcastMessage)">
+      <inheritdoc />
+      <summary>Validates the broadcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateNarrowcast(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <inheritdoc />
+      <summary>Validates the narrowcast.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.MessageValidationService.ValidateNarrowcastAsync(Libro.LineMessageApi.SendMessage.NarrowcastMessage)">
+      <inheritdoc />
+      <summary>Validates the narrowcast.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.ProfileService">
+      <summary>Provides service operations for profile.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.ProfileService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (檔案服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.ProfileService.GetUserProfile(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the user profile.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.ProfileService.GetUserProfileAsync(System.String)">
+      <inheritdoc />
+      <summary>Retrieves the user profile.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.ProfileService.GetGroupMemberProfile(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <inheritdoc />
+      <summary>Retrieves the group member profile.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.ProfileService.GetGroupMemberProfileAsync(System.String,System.String,Libro.LineMessageApi.SourceType)">
+      <inheritdoc />
+      <summary>Retrieves the group member profile.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.RichMenuService">
+      <summary>Provides service operations for rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (Rich Menu 服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.CreateRichMenu(System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.CreateRichMenuAsync(System.Object)">
+      <summary>Creates the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenu(System.String)">
+      <summary>Retrieves the rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuAsync(System.String)">
+      <summary>Retrieves the rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.DeleteRichMenu(System.String)">
+      <summary>Deletes the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.DeleteRichMenuAsync(System.String)">
+      <summary>Deletes the Rich Menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuList">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuListAsync">
+      <summary>Retrieves the requested data (Rich Menu 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.UploadRichMenuImage(System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.UploadRichMenuImageAsync(System.String,System.String,System.Byte[])">
+      <summary>Uploads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.DownloadRichMenuImage(System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.DownloadRichMenuImageAsync(System.String)">
+      <summary>Downloads the requested data (Rich Menu 圖片).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.SetDefaultRichMenu(System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.SetDefaultRichMenuAsync(System.String)">
+      <summary>Sets the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetDefaultRichMenuId">
+      <summary>Retrieves the requested data (預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetDefaultRichMenuIdAsync">
+      <summary>Retrieves the requested data (預設 Rich Menu ID).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.CancelDefaultRichMenu">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.CancelDefaultRichMenuAsync">
+      <summary>Cancels the requested data (預設 Rich Menu).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.LinkUserRichMenu(System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.LinkUserRichMenuAsync(System.String,System.String)">
+      <summary>Links the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.UnlinkUserRichMenu(System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.UnlinkUserRichMenuAsync(System.String)">
+      <summary>Unlinks the user rich menu.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.BulkLinkRichMenu(Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.BulkLinkRichMenuAsync(Libro.LineMessageApi.Types.RichMenuBulkLinkRequest)">
+      <summary>Links a rich menu to multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.BulkUnlinkRichMenu(Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.BulkUnlinkRichMenuAsync(Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest)">
+      <summary>Unlinks a rich menu from multiple users.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.CreateRichMenuAlias(Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.CreateRichMenuAliasAsync(Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Creates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.UpdateRichMenuAlias(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.UpdateRichMenuAliasAsync(System.String,Libro.LineMessageApi.Types.RichMenuAliasRequest)">
+      <summary>Updates the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuAlias(System.String)">
+      <summary>Retrieves the rich menu alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuAliasAsync(System.String)">
+      <summary>Retrieves the rich menu alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuAliasList">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.GetRichMenuAliasListAsync">
+      <summary>Retrieves the requested data (Rich Menu Alias 清單).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.DeleteRichMenuAlias(System.String)">
+      <summary>Deletes the Rich Menu Alias.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.RichMenuService.DeleteRichMenuAliasAsync(System.String)">
+      <summary>Deletes the Rich Menu Alias.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.WebhookEndpointService">
+      <summary>Provides service operations for webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.#ctor(Libro.LineMessageApi.Services.LineApiContext)">
+      <summary>Creates the requested data (webhook endpoint 管理服務).</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.GetWebhookEndpoint">
+      <inheritdoc />
+      <summary>Retrieves the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.GetWebhookEndpointAsync">
+      <inheritdoc />
+      <summary>Retrieves the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.SetWebhookEndpoint(Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <inheritdoc />
+      <summary>Sets the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.SetWebhookEndpointAsync(Libro.LineMessageApi.Types.WebhookEndpointRequest)">
+      <inheritdoc />
+      <summary>Sets the webhook endpoint.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.TestWebhookEndpoint">
+      <inheritdoc />
+      <summary>Checks the webhook endpoint configuration.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookEndpointService.TestWebhookEndpointAsync">
+      <inheritdoc />
+      <summary>Checks the webhook endpoint configuration.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Services.WebhookService">
+      <summary>Provides service operations for webhook.</summary>
+    </member>
+    <member name="M:Libro.LineMessageApi.Services.WebhookService.ValidateSignature(System.Net.Http.HttpRequestMessage,System.String)">
+      <summary>Validates the requested data (是否 LINE 伺服器webhook signature).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.AudienceGroup">
+      <summary>Defines the type for audience group.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.audienceGroupId">
+      <summary>Specifies the audience group ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.description">
+      <summary>Specifies the description.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.status">
+      <summary>Specifies the status.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.failedType">
+      <summary>Specifies the failed type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.requestId">
+      <summary>Specifies the request ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.audienceGroupCount">
+      <summary>Specifies the audience group count.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.created">
+      <summary>Creates the requested data (時間（Unix time in milliseconds）).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.permission">
+      <summary>Specifies the permission.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroup.isIfaAudience">
+      <summary>Indicates whether the IFA Audience.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.AudienceGroupListResponse">
+      <summary>Defines the data model for audience group list response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroupListResponse.audienceGroups">
+      <summary>Specifies the audience groups.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroupListResponse.hasNextPage">
+      <summary>Indicates whether the requested data (有下一頁).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroupListResponse.totalCount">
+      <summary>Specifies the total count.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.AudienceGroupStatusResponse">
+      <summary>Defines the data model for audience group status response.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.AudienceGroupUploadResponse">
+      <summary>Defines the data model for audience group upload response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroupUploadResponse.audienceGroupId">
+      <summary>Specifies the audience group ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.AudienceGroupUploadResponse.uploadId">
+      <summary>Uploads the ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.BotInfo">
+      <summary>Defines the type for bot information.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.userId">
+      <summary>Specifies the user ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.basicId">
+      <summary>Specifies the basic ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.premiumId">
+      <summary>LINE Premium ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.displayName">
+      <summary>Specifies the display name.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.pictureUrl">
+      <summary>Specifies the picture url.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.chatMode">
+      <summary>Specifies the chat mode.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.BotInfo.markAsReadMode">
+      <summary>Specifies the mark as read mode.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.DemographicInsightResponse">
+      <summary>Defines the data model for demographic insight response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicInsightResponse.available">
+      <summary>Indicates whether the requested data (可取得資料).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicInsightResponse.genders">
+      <summary>Specifies the genders.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicInsightResponse.ages">
+      <summary>Specifies the ages.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicInsightResponse.areas">
+      <summary>Specifies the areas.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicInsightResponse.appTypes">
+      <summary>Specifies the app types.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicInsightResponse.subscriptionPeriods">
+      <summary>Specifies the subscription periods.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.DemographicGender">
+      <summary>Defines the type for demographic gender.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicGender.gender">
+      <summary>Specifies the gender.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicGender.percentage">
+      <summary>Specifies the percentage.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.DemographicAge">
+      <summary>Defines the type for demographic age.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicAge.age">
+      <summary>Specifies the age.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicAge.percentage">
+      <summary>Specifies the percentage.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.DemographicArea">
+      <summary>Defines the type for demographic area.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicArea.area">
+      <summary>Specifies the area.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicArea.percentage">
+      <summary>Specifies the percentage.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.DemographicAppType">
+      <summary>Defines the type for demographic app type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicAppType.appType">
+      <summary>Specifies the app type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicAppType.percentage">
+      <summary>Specifies the percentage.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.DemographicSubscriptionPeriod">
+      <summary>Defines the type for demographic subscription period.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicSubscriptionPeriod.subscriptionPeriod">
+      <summary>Specifies the subscription period.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.DemographicSubscriptionPeriod.percentage">
+      <summary>Specifies the percentage.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.FollowerInsightResponse">
+      <summary>Defines the data model for follower insight response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.FollowerInsightResponse.status">
+      <summary>Specifies the status.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.FollowerInsightResponse.followers">
+      <summary>Specifies the followers.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.FollowerInsightResponse.targetedReaches">
+      <summary>Specifies the targeted reaches.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.FollowerInsightResponse.blocks">
+      <summary>Specifies the blocks.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.GroupSummary">
+      <summary>Defines the data model for group summary.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.GroupSummary.groupId">
+      <summary>Specifies the group ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.GroupSummary.groupName">
+      <summary>Specifies the group name.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.GroupSummary.pictureUrl">
+      <summary>Specifies the picture url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.LinkTokenResponse">
+      <summary>Links the requested data (Token 回應).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.LinkTokenResponse.linkToken">
+      <summary>Link Token.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.MemberCountResponse">
+      <summary>Defines the data model for member count response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MemberCountResponse.count">
+      <summary>Specifies the count.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.MemberIdsResponse">
+      <summary>Defines the data model for member IDs response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MemberIdsResponse.memberIds">
+      <summary>Specifies the member IDs.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MemberIdsResponse.next">
+      <summary>Specifies the next.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse">
+      <summary>Defines the data model for message delivery insight response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.status">
+      <summary>Specifies the status.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.broadcast">
+      <summary>Specifies the broadcast.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.targeting">
+      <summary>Specifies the targeting.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.stepMessage">
+      <summary>Specifies the step message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.autoResponse">
+      <summary>Specifies the auto response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.welcomeResponse">
+      <summary>Specifies the welcome response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.chat">
+      <summary>Specifies the chat.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.apiBroadcast">
+      <summary>Specifies the API broadcast.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.apiPush">
+      <summary>Specifies the API push.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.apiMulticast">
+      <summary>Specifies the API multicast.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.apiNarrowcast">
+      <summary>Specifies the API narrowcast.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.apiReply">
+      <summary>Specifies the API reply.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.ccAutoReply">
+      <summary>Specifies the cc auto reply.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.ccManualReply">
+      <summary>Specifies the cc manual reply.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.pnpNoticeMessage">
+      <summary>Specifies the pnp notice message.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.pnpCallToLine">
+      <summary>Specifies the pnp call to line.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.MessageDeliveryInsightResponse.thirdPartyChatTool">
+      <summary>Specifies the third party chat tool.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.NarrowcastProgressResponse">
+      <summary>Defines the data model for narrowcast progress response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.phase">
+      <summary>Specifies the phase.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.successCount">
+      <summary>Specifies the success count.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.failureCount">
+      <summary>Specifies the failure count.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.targetCount">
+      <summary>Specifies the target count.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.failedDescription">
+      <summary>Specifies the failed description.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.errorCode">
+      <summary>Specifies the error code.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.acceptedTime">
+      <summary>Specifies the accepted time.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.NarrowcastProgressResponse.completedTime">
+      <summary>Specifies the completed time.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuAliasListResponse">
+      <summary>Defines the data model for rich menu alias list response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAliasListResponse.aliases">
+      <summary>Specifies the aliases.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuAliasRequest">
+      <summary>Defines the data model for rich menu alias request.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAliasRequest.richMenuAliasId">
+      <summary>Alias ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAliasRequest.richMenuId">
+      <summary>Rich Menu ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuAliasResponse">
+      <summary>Defines the data model for rich menu alias response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAliasResponse.richMenuAliasId">
+      <summary>Alias ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAliasResponse.richMenuId">
+      <summary>Rich Menu ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuBulkLinkRequest">
+      <summary>Defines the data model for rich menu bulk link request.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBulkLinkRequest.richMenuId">
+      <summary>Rich Menu ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBulkLinkRequest.userIds">
+      <summary>Specifies the user IDs.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest">
+      <summary>Defines the data model for rich menu bulk unlink request.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBulkUnlinkRequest.userIds">
+      <summary>Specifies the user IDs.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuIdResponse">
+      <summary>Defines the data model for rich menu ID response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuIdResponse.richMenuId">
+      <summary>Rich Menu ID.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuListResponse">
+      <summary>Defines the data model for rich menu list response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuListResponse.richmenus">
+      <summary>Specifies the richmenus.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuResponse">
+      <summary>Defines the data model for rich menu response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuResponse.richMenuId">
+      <summary>Rich Menu ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuResponse.name">
+      <summary>Specifies the name.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuResponse.selected">
+      <summary>Indicates whether the requested data (選取).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuResponse.chatBarText">
+      <summary>Specifies the chat bar text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuResponse.size">
+      <summary>Specifies the size.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuResponse.areas">
+      <summary>Specifies the areas.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuSize">
+      <summary>Defines the type for rich menu size.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuSize.width">
+      <summary>Specifies the width.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuSize.height">
+      <summary>Specifies the height.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuArea">
+      <summary>Defines the type for rich menu area.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuArea.bounds">
+      <summary>Specifies the bounds.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuArea.action">
+      <summary>Specifies the action.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuBounds">
+      <summary>Defines the type for rich menu bounds.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBounds.x">
+      <summary>Specifies the x.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBounds.y">
+      <summary>Specifies the y.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBounds.width">
+      <summary>Specifies the width.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuBounds.height">
+      <summary>Specifies the height.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RichMenuAction">
+      <summary>Defines the type for rich menu action.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.type">
+      <summary>Specifies the type.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.label">
+      <summary>Specifies the label.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.text">
+      <summary>Specifies the text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.uri">
+      <summary>URI。.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.data">
+      <summary>Postback data。.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.displayText">
+      <summary>Specifies the display text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.inputOption">
+      <summary>Specifies the input option.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.fillInText">
+      <summary>Specifies the fill in text.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RichMenuAction.richMenuAliasId">
+      <summary>Rich Menu Alias ID。.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.RoomSummary">
+      <summary>Defines the data model for room summary.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RoomSummary.roomId">
+      <summary>Specifies the room ID.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RoomSummary.roomName">
+      <summary>Specifies the room name.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.RoomSummary.pictureUrl">
+      <summary>Specifies the picture url.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.WebhookEndpointRequest">
+      <summary>Defines the data model for webhook endpoint request.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookEndpointRequest.endpoint">
+      <summary>Specifies the endpoint.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookEndpointRequest.active">
+      <summary>Indicates whether the requested data (啟用).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.WebhookEndpointResponse">
+      <summary>Defines the data model for webhook endpoint response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookEndpointResponse.endpoint">
+      <summary>Specifies the endpoint.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookEndpointResponse.active">
+      <summary>Indicates whether the requested data (啟用).</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.Types.WebhookTestResponse">
+      <summary>Defines the data model for webhook test response.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookTestResponse.success">
+      <summary>Indicates whether the requested data (成功).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookTestResponse.timestamp">
+      <summary>Tests the requested data (時間（RFC3339）).</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookTestResponse.statusCode">
+      <summary>Specifies the status code.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookTestResponse.reason">
+      <summary>Specifies the reason.</summary>
+    </member>
+    <member name="P:Libro.LineMessageApi.Types.WebhookTestResponse.detail">
+      <summary>Specifies the detail.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.ActionType">
+      <summary>Defines the type for action type.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.ActionType.uri">
+      <summary>Stores the uri value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.ActionType.message">
+      <summary>Stores the message value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.ActionType.postback">
+      <summary>Stores the postback value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.ActionType.datetimepicker">
+      <summary>DateTime Picker Action。.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.BeaconType">
+      <summary>Represents BeaconType enum.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.BeaconType.enter">
+      <summary>Stores the enter value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.BeaconType.leave">
+      <summary>Stores the leave value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.BeaconType.banner">
+      <summary>Stores the banner value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.BeaconType.stay">
+      <summary>Stores the stay value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.EventType">
+      <summary>Defines the type for event type.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.message">
+      <summary>Stores the message value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.follow">
+      <summary>Stores the follow value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.unfollow">
+      <summary>Deletes the requested data (或封鎖好友).</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.join">
+      <summary>Stores the join value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.leave">
+      <summary>Stores the leave value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.memberJoined">
+      <summary>Stores the member joined value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.memberLeft">
+      <summary>Stores the member left value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.postback">
+      <summary>Sends the requested data (樣板訊息後使用者動作推播，可以使用reply message回復).</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.videoPlayComplete">
+      <summary>Stores the video play complete value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.beacon">
+      <summary>Stores the beacon value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.accountLink">
+      <summary>Stores the account link value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.things">
+      <summary>Stores the things value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.EventType.unsend">
+      <summary>Stores the unsend value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.MessageType">
+      <summary>Defines the type for message type.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.text">
+      <summary>Stores the text value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.image">
+      <summary>Stores the image value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.video">
+      <summary>Stores the video value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.audio">
+      <summary>Stores the audio value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.file">
+      <summary>Stores the file value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.location">
+      <summary>Stores the location value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MessageType.sticker">
+      <summary>Stores the sticker value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.PostMessageType">
+      <summary>Represents PostMessageType enum.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.PostMessageType.Reply">
+      <summary>Stores the reply value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.PostMessageType.Push">
+      <summary>Stores the push value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.PostMessageType.Multicast">
+      <summary>Stores the multicast value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SendMessageType">
+      <summary>Sends the requested data (訊息類型).</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.text">
+      <summary>Stores the text value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.image">
+      <summary>Stores the image value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.video">
+      <summary>Stores the video value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.audio">
+      <summary>Stores the audio value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.location">
+      <summary>Stores the location value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.sticker">
+      <summary>Stores the sticker value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.imagemap">
+      <summary>Stores the imagemap value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SendMessageType.template">
+      <summary>Stores the template value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.SourceType">
+      <summary>Defines the type for source type.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SourceType.user">
+      <summary>Stores the user value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SourceType.group">
+      <summary>Stores the group value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.SourceType.room">
+      <summary>Stores the room value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.TemplateType">
+      <summary>Represents 樣板Type enum.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.TemplateType.buttons">
+      <summary>Stores the buttons value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.TemplateType.confirm">
+      <summary>Stores the confirm value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.TemplateType.carousel">
+      <summary>Stores the carousel value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.DateTimePickerType">
+      <summary>Defines the type for date time picker type.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.DateTimePickerType.date">
+      <summary>date mode.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.DateTimePickerType.time">
+      <summary>time mode.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.DateTimePickerType.datetime">
+      <summary>datetime mode.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.ChatMode">
+      <summary>Defines the type for chat mode.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.ChatMode.chat">
+      <summary>Stores the chat value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.ChatMode.bot">
+      <summary>Stores the bot value.</summary>
+    </member>
+    <member name="T:Libro.LineMessageApi.MarkAsReadMode">
+      <summary>Defines the type for mark as read mode.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MarkAsReadMode.auto">
+      <summary>Stores the auto value.</summary>
+    </member>
+    <member name="F:Libro.LineMessageApi.MarkAsReadMode.manual">
+      <summary>Stores the manual value.</summary>
+    </member>
+  </members>
+</doc>

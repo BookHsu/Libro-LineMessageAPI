@@ -39,7 +39,7 @@ namespace Libro.LineMessageApi.Services
         /// <inheritdoc />
         public Task<byte[]> GetMessageContentAsync(string messageId)
         {
-            // 取得使用者上傳的檔案（非同步）
+            // 取得使用者上傳的檔案
             return messageContentApi.GetUserUploadDataAsync(context.ChannelAccessToken, messageId);
         }
 
@@ -54,7 +54,7 @@ namespace Libro.LineMessageApi.Services
         /// <inheritdoc />
         public Task<string> SendReplyMessageAsync(string replyToken, params Message[] message)
         {
-            // 組合 Reply 訊息（非同步）
+            // 組合 Reply 訊息
             ReplyMessage model = new ReplyMessage(replyToken, message);
             return messageSendApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Reply, model);
         }
@@ -70,7 +70,7 @@ namespace Libro.LineMessageApi.Services
         /// <inheritdoc />
         public Task<string> SendPushMessageAsync(string toId, params Message[] message)
         {
-            // 組合 Push 訊息（非同步）
+            // 組合 Push 訊息
             PushMessage model = new PushMessage(toId, message);
             return messageSendApi.SendMessageActionAsync(context.ChannelAccessToken, PostMessageType.Push, model);
         }
@@ -90,7 +90,7 @@ namespace Libro.LineMessageApi.Services
         /// <inheritdoc />
         public Task<string> SendMulticastMessageAsync(List<string> toIds, params Message[] message)
         {
-            // 組合 Multicast 訊息（非同步）
+            // 組合 Multicast 訊息
             MulticastMessage model = new MulticastMessage
             {
                 to = toIds
