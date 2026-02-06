@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Libro.LineMessageAPI.ExampleApi.Services;
+using Libro.LineMessageApi;
 using Libro.LineMessageApi.LineMessageObject;
 using Libro.LineMessageApi.LineReceivedObject;
 using Microsoft.AspNetCore.Mvc;
