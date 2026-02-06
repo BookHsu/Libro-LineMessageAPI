@@ -1,4 +1,8 @@
 using System;
+using System.Net.Http;
+using System.Reflection;
+using Libro.LineMessageApi.Http;
+using Libro.LineMessageApi.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Libro.LineMessageApi.Tests
@@ -36,6 +40,33 @@ namespace Libro.LineMessageApi.Tests
             // SourceType 為 user 時應拋出例外
             Assert.ThrowsException<NotSupportedException>(() =>
                 channel.LeaveRoomOrGroupAsync("source-id", SourceType.user));
+        }
+
+        [TestMethod]
+        public void Constructor_Should_Use_Custom_SyncAdapterFactory()
+        {
+            var factory = new StubSyncAdapterFactory();
+            var channel = new LineChannel("token-value", null, null, null, factory);
+
+            var messageServiceField = typeof(LineChannel)
+                .GetField("messageService", BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(messageServiceField);
+
+            var messageService = (MessageService)messageServiceField.GetValue(channel);
+            var contextField = typeof(MessageService)
+                .GetField("context", BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(contextField);
+
+            var context = (LineApiContext)contextField.GetValue(messageService);
+            Assert.AreSame(factory, context.SyncAdapterFactory);
+        }
+
+        private sealed class StubSyncAdapterFactory : IHttpClientSyncAdapterFactory
+        {
+            public IHttpClientSyncAdapter Create(HttpClient client)
+            {
+                return new HttpClientSyncAdapter(client ?? new HttpClient());
+            }
         }
     }
 }

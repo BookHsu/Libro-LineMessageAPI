@@ -21,7 +21,7 @@ namespace Libro.LineMessageApi.Services
             // 保存 Context 以使用 Token/序列化器/HttpClientProvider
             this.context = context;
             // 建立 Webhook Endpoint API
-            api = new WebhookEndpointApi(context.Serializer, context.HttpClientProvider);
+            api = new WebhookEndpointApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         /// <inheritdoc />

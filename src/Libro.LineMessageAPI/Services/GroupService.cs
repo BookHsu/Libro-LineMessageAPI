@@ -21,7 +21,7 @@ namespace Libro.LineMessageApi.Services
             // 保存 Context 以使用 Token/序列化器/HttpClient
             this.context = context;
             // 建立群組 API（支援 HttpClient DI）
-            groupApi = new GroupApi(context.HttpClientProvider);
+            groupApi = new GroupApi(context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         /// <inheritdoc />

@@ -7,6 +7,7 @@ using Libro.LineMessageApi.SendMessage;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Libro.LineMessageApi
@@ -26,6 +27,7 @@ namespace Libro.LineMessageApi
         private readonly IInsightService insightService;
         private readonly IAudienceService audienceService;
         private readonly IAccountLinkService accountLinkService;
+        private static readonly IWebhookService SharedWebhookService = new WebhookService();
 
         /// <summary>驗證是否為 Line 伺服器傳來的訊息</summary>
         /// <param name="request">Request</param> 
@@ -34,8 +36,7 @@ namespace Libro.LineMessageApi
         public static bool VaridateSignature(HttpRequestMessage request, string ChannelSecret)
         {
             // 交由 Webhook 服務執行驗證
-            IWebhookService service = new WebhookService();
-            return service.ValidateSignature(request, ChannelSecret);
+            return SharedWebhookService.ValidateSignature(request, ChannelSecret);
         }
 
         /// <summary>取得 Webhook Endpoint</summary>
@@ -196,10 +197,21 @@ namespace Libro.LineMessageApi
 
         /// <summary>傳入 api 中的 ChannelAccessToken</summary>
         public LineChannel(string ChannelAccessToken, IJsonSerializer serializer, HttpClient httpClient, IHttpClientProvider httpClientProvider)
+            : this(ChannelAccessToken, serializer, httpClient, httpClientProvider, null)
+        {
+        }
+
+        /// <summary>傳入 api 中的 ChannelAccessToken</summary>
+        public LineChannel(
+            string ChannelAccessToken,
+            IJsonSerializer serializer,
+            HttpClient httpClient,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             channelAccessToken = ChannelAccessToken;
             // 建立共用 Context
-            var context = new LineApiContext(ChannelAccessToken, serializer, httpClient, httpClientProvider);
+            var context = new LineApiContext(ChannelAccessToken, serializer, httpClient, httpClientProvider, syncAdapterFactory);
             // 建立各模組服務
             messageService = new MessageService(context);
             profileService = new ProfileService(context);
@@ -277,7 +289,12 @@ namespace Libro.LineMessageApi
         /// <returns></returns>
         public List<UserProfile> GetUserProfiles(List<string> userIds)
         {
-            List<UserProfile> oModel = new List<UserProfile>();
+            if (userIds == null || userIds.Count == 0)
+            {
+                return new List<UserProfile>(0);
+            }
+
+            List<UserProfile> oModel = new List<UserProfile>(userIds.Count);
             foreach (var userId in userIds)
             {
                 oModel.Add(profileService.GetUserProfile(userId));
@@ -323,12 +340,38 @@ namespace Libro.LineMessageApi
         /// <returns></returns>
         public async Task<List<UserProfile>> GetUserProfilesAsync(List<string> userIds)
         {
-            List<UserProfile> oModel = new List<UserProfile>();
-            foreach (var userId in userIds)
+            if (userIds == null || userIds.Count == 0)
             {
-                oModel.Add(await profileService.GetUserProfileAsync(userId));
+                return new List<UserProfile>(0);
             }
-            return oModel;
+
+            const int maxConcurrency = 4;
+            var results = new UserProfile[userIds.Count];
+            using var semaphore = new SemaphoreSlim(maxConcurrency, maxConcurrency);
+            var tasks = new Task[userIds.Count];
+
+            for (int i = 0; i < userIds.Count; i++)
+            {
+                var index = i;
+                var userId = userIds[i];
+                tasks[i] = FetchProfileAsync(userId, index);
+            }
+
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+            return new List<UserProfile>(results);
+
+            async Task FetchProfileAsync(string userId, int index)
+            {
+                await semaphore.WaitAsync().ConfigureAwait(false);
+                try
+                {
+                    results[index] = await profileService.GetUserProfileAsync(userId).ConfigureAwait(false);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            }
         }
 
         /// <summary>取得使用者上傳的檔案</summary>

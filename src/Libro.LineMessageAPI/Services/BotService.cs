@@ -21,7 +21,7 @@ namespace Libro.LineMessageApi.Services
             // 保存 Context 以使用 Token/序列化器/HttpClientProvider
             this.context = context;
             // 建立 Bot API
-            api = new BotApi(context.Serializer, context.HttpClientProvider);
+            api = new BotApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         /// <inheritdoc />

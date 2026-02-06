@@ -14,6 +14,7 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立訊息驗證 API
@@ -21,7 +22,7 @@ namespace Libro.LineMessageApi.Method
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal MessageValidationApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -30,12 +31,16 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal MessageValidationApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal MessageValidationApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? new SystemTextJsonSerializer();
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -49,8 +54,9 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildValidateMessage(type);
                 var payload = serializer.Serialize(message);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(url, content).Result;
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
                 return result.IsSuccessStatusCode;
             }
             finally
@@ -73,8 +79,8 @@ namespace Libro.LineMessageApi.Method
             {
                 string url = LineApiEndpoints.BuildValidateMessage(type);
                 var payload = serializer.Serialize(message);
-                var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
+                using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
                 return result.IsSuccessStatusCode;
             }
             finally

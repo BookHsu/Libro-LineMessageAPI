@@ -1,7 +1,6 @@
 using System;
 using Libro.LineMessageAPI.ExampleApi.Models;
 using Libro.LineMessageAPI.ExampleApi.Services;
-using Libro.LineMessageApi;
 using Libro.LineMessageApi.Types;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,14 +14,16 @@ namespace Libro.LineMessageAPI.ExampleApi.Controllers
     public sealed class DashboardLineConfigController : ControllerBase
     {
         private readonly LineConfigStore store;
+        private readonly ILineSdkFactory sdkFactory;
 
         /// <summary>
         /// 建立控制器
         /// </summary>
         /// <param name="store">設定存放</param>
-        public DashboardLineConfigController(LineConfigStore store)
+        public DashboardLineConfigController(LineConfigStore store, ILineSdkFactory sdkFactory)
         {
             this.store = store;
+            this.sdkFactory = sdkFactory;
         }
 
         /// <summary>
@@ -106,10 +107,7 @@ namespace Libro.LineMessageAPI.ExampleApi.Controllers
 
             try
             {
-                var sdk = new LineSdkBuilder(config.ChannelAccessToken)
-                    .UseBot()
-                    .UseWebhookEndpoints()
-                    .Build();
+                var sdk = sdkFactory.CreateBotWebhookSdk(config.ChannelAccessToken);
 
                 response.BotInfo = sdk.Bot?.GetBotInfo();
 
@@ -155,10 +153,7 @@ namespace Libro.LineMessageAPI.ExampleApi.Controllers
 
             try
             {
-                var sdk = new LineSdkBuilder(config.ChannelAccessToken)
-                    .UseBot()
-                    .UseWebhookEndpoints()
-                    .Build();
+                var sdk = sdkFactory.CreateBotWebhookSdk(config.ChannelAccessToken);
 
                 return Ok(new LineConfigResponse
                 {

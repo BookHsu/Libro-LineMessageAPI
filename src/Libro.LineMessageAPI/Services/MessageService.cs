@@ -24,9 +24,9 @@ namespace Libro.LineMessageApi.Services
             // 保存 Context 以使用 Token/序列化器/HttpClient
             this.context = context;
             // 建立訊息內容 API（支援 HttpClient DI）
-            messageContentApi = new MessageContentApi(context.HttpClientProvider);
+            messageContentApi = new MessageContentApi(context.HttpClientProvider, context.SyncAdapterFactory);
             // 建立訊息發送 API（支援 HttpClient DI）
-            messageSendApi = new MessageSendApi(context.Serializer, context.HttpClientProvider);
+            messageSendApi = new MessageSendApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         /// <inheritdoc />

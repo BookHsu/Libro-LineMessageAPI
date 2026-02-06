@@ -30,13 +30,23 @@ namespace Libro.LineMessageApi.Services
         internal IHttpClientProvider HttpClientProvider { get; }
 
         /// <summary>
+        /// Sync HttpClient adapter factory
+        /// </summary>
+        internal IHttpClientSyncAdapterFactory SyncAdapterFactory { get; }
+
+        /// <summary>
         /// 建立 API Context
         /// </summary>
         /// <param name="channelAccessToken">Channel Access Token</param>
         /// <param name="serializer">序列化器</param>
         /// <param name="httpClient">HttpClient</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal LineApiContext(string channelAccessToken, IJsonSerializer serializer, HttpClient httpClient, IHttpClientProvider httpClientProvider = null)
+        internal LineApiContext(
+            string channelAccessToken,
+            IJsonSerializer serializer,
+            HttpClient httpClient,
+            IHttpClientProvider httpClientProvider = null,
+            IHttpClientSyncAdapterFactory syncAdapterFactory = null)
         {
             // 設定必要的 Token
             ChannelAccessToken = channelAccessToken;
@@ -46,6 +56,7 @@ namespace Libro.LineMessageApi.Services
             HttpClient = httpClient;
             // 若提供 HttpClientProvider，優先使用
             HttpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(httpClient);
+            SyncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
     }
 }

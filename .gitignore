@@ -279,3 +279,5 @@ examples/LineMessageApi.ExampleApi/Properties/launchSettings.json
 
 # Local wiki repo (keep untracked, sync via scripts/sync-wiki.ps1)
 LibroLineMessageApi.wiki/
+# Local-only docs/plans
+/docs/plans/

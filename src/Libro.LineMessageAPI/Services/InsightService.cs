@@ -15,7 +15,7 @@ namespace Libro.LineMessageApi.Services
         internal InsightService(LineApiContext context)
         {
             this.context = context;
-            api = new InsightApi(context.Serializer, context.HttpClientProvider);
+            api = new InsightApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         public MessageDeliveryInsightResponse GetMessageDelivery(string date)

@@ -22,6 +22,7 @@ builder.Services.Configure<LineChannelOptions>(
 
 // 註冊記憶體設定與事件存放
 builder.Services.AddSingleton<LineConfigStore>();
+builder.Services.AddSingleton<ILineSdkFactory, LineSdkFactory>();
 
 var app = builder.Build();
 

@@ -20,7 +20,7 @@ namespace Libro.LineMessageApi.Services
             // 保存 Context 以使用 Token/序列化器/HttpClientProvider
             this.context = context;
             // 建立 Rich Menu API
-            api = new RichMenuApi(context.Serializer, context.HttpClientProvider);
+            api = new RichMenuApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         public RichMenuIdResponse CreateRichMenu(object richMenu)

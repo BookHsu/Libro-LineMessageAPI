@@ -15,7 +15,7 @@ namespace Libro.LineMessageApi.Services
         internal AccountLinkService(LineApiContext context)
         {
             this.context = context;
-            api = new AccountLinkApi(context.Serializer, context.HttpClientProvider);
+            api = new AccountLinkApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         public LinkTokenResponse IssueLinkToken(string userId)

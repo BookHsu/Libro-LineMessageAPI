@@ -15,7 +15,7 @@ namespace Libro.LineMessageApi.Services
         internal AudienceService(LineApiContext context)
         {
             this.context = context;
-            api = new AudienceApi(context.Serializer, context.HttpClientProvider);
+            api = new AudienceApi(context.Serializer, context.HttpClientProvider, context.SyncAdapterFactory);
         }
 
         public AudienceGroupUploadResponse UploadAudienceGroup(object request)

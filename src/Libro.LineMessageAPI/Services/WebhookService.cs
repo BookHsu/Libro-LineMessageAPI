@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -32,11 +31,22 @@ namespace Libro.LineMessageApi.Services
             }
 
             // 讀取請求內容並計算簽章
-            var body = request.Content?.ReadAsStringAsync().Result ?? string.Empty;
-            var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(channelSecret));
-            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(body));
+            var bodyBytes = request.Content?.ReadAsByteArrayAsync().GetAwaiter().GetResult() ?? Array.Empty<byte>();
+            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(channelSecret));
+            var computeHash = hmac.ComputeHash(bodyBytes);
             var contentHash = Convert.ToBase64String(computeHash);
-            var headerHash = request.Headers.GetValues("X-Line-Signature").First();
+            if (!request.Headers.TryGetValues("X-Line-Signature", out var signatureValues))
+            {
+                return false;
+            }
+
+            using var enumerator = signatureValues.GetEnumerator();
+            if (!enumerator.MoveNext())
+            {
+                return false;
+            }
+
+            var headerHash = enumerator.Current;
             return contentHash == headerHash;
         }
     }

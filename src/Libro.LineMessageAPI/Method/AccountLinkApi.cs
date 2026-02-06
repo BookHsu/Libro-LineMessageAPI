@@ -13,16 +13,21 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         internal AccountLinkApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
-        internal AccountLinkApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal AccountLinkApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             this.serializer = serializer ?? new SystemTextJsonSerializer();
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         internal LinkTokenResponse IssueLinkToken(string channelAccessToken, string userId)
@@ -32,8 +37,10 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildLinkToken(userId);
-                var result = client.PostAsync(url, new StringContent("{}")).Result;
-                var body = result.Content.ReadAsStringAsync().Result;
+                using var content = new StringContent("{}");
+                var adapter = syncAdapterFactory.Create(client);
+                using var result = adapter.Post(url, content);
+                var body = result.Content.ReadAsStringSync();
                 return serializer.Deserialize<LinkTokenResponse>(body);
             }
             finally
@@ -52,8 +59,9 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string url = LineApiEndpoints.BuildLinkToken(userId);
-                var result = await client.PostAsync(url, new StringContent("{}"));
-                var body = await result.Content.ReadAsStringAsync();
+                using var content = new StringContent("{}");
+                using var result = await client.PostAsync(url, content).ConfigureAwait(false);
+                var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return serializer.Deserialize<LinkTokenResponse>(body);
             }
             finally

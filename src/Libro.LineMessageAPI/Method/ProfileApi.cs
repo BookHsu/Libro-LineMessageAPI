@@ -13,6 +13,7 @@ namespace Libro.LineMessageApi.Method
     {
         private readonly IJsonSerializer serializer;
         private readonly IHttpClientProvider httpClientProvider;
+        private readonly IHttpClientSyncAdapterFactory syncAdapterFactory;
 
         /// <summary>
         /// 建立檔案 API
@@ -20,7 +21,7 @@ namespace Libro.LineMessageApi.Method
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClient">外部注入的 HttpClient</param>
         internal ProfileApi(IJsonSerializer serializer, HttpClient httpClient = null)
-            : this(serializer, new DefaultHttpClientProvider(httpClient))
+            : this(serializer, new DefaultHttpClientProvider(httpClient), null)
         {
         }
 
@@ -29,12 +30,16 @@ namespace Libro.LineMessageApi.Method
         /// </summary>
         /// <param name="serializer">JSON 序列化器</param>
         /// <param name="httpClientProvider">HttpClient 提供者</param>
-        internal ProfileApi(IJsonSerializer serializer, IHttpClientProvider httpClientProvider)
+        internal ProfileApi(
+            IJsonSerializer serializer,
+            IHttpClientProvider httpClientProvider,
+            IHttpClientSyncAdapterFactory syncAdapterFactory)
         {
             // 設定序列化器（可透過 DI 注入）
             this.serializer = serializer ?? throw new System.ArgumentNullException(nameof(serializer));
             // 建立 HttpClient 提供者
             this.httpClientProvider = httpClientProvider ?? new DefaultHttpClientProvider(null);
+            this.syncAdapterFactory = syncAdapterFactory ?? new DefaultHttpClientSyncAdapterFactory();
         }
 
         /// <summary>
@@ -50,7 +55,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string strUrl = LineApiEndpoints.BuildUserProfile(userId);
-                var result = client.GetStringAsync(strUrl).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(strUrl);
                 return serializer.Deserialize<UserProfile>(result);
             }
             finally
@@ -76,7 +82,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string strUrl = LineApiEndpoints.BuildUserProfile(userId);
-                var result = await client.GetStringAsync(strUrl);
+                var result = await client.GetStringAsync(strUrl).ConfigureAwait(false);
                 return serializer.Deserialize<UserProfile>(result);
             }
             finally
@@ -104,7 +110,8 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string strUrl = LineApiEndpoints.BuildGroupMemberProfile(type, groupId, userId);
-                var result = client.GetStringAsync(strUrl).Result;
+                var adapter = syncAdapterFactory.Create(client);
+                var result = adapter.GetString(strUrl);
                 return serializer.Deserialize<UserProfile>(result);
             }
             finally
@@ -132,7 +139,7 @@ namespace Libro.LineMessageApi.Method
             try
             {
                 string strUrl = LineApiEndpoints.BuildGroupMemberProfile(type, groupId, userId);
-                var result = await client.GetStringAsync(strUrl);
+                var result = await client.GetStringAsync(strUrl).ConfigureAwait(false);
                 return serializer.Deserialize<UserProfile>(result);
             }
             finally
